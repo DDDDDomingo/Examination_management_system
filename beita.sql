@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2018-10-20 23:49:36
+Date: 2018-10-20 23:55:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -98,13 +98,13 @@ CREATE TABLE `exam_score` (
 DROP TABLE IF EXISTS `exam_session`;
 CREATE TABLE `exam_session` (
   `session_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '考试场次id',
-  `exam_tpe_id` int(11) NOT NULL COMMENT '考试类别表id',
+  `exam_type_id` int(11) NOT NULL COMMENT '考试类别表id',
   `session_place` varchar(255) NOT NULL COMMENT '考试场次地点',
   `session_time` datetime NOT NULL COMMENT '考试时间',
   `session_capacity` int(11) NOT NULL COMMENT '考场容量',
   PRIMARY KEY (`session_id`),
-  KEY `exam_tpe_id` (`exam_tpe_id`),
-  CONSTRAINT `exam_tpe_id` FOREIGN KEY (`exam_tpe_id`) REFERENCES `exam_type` (`exam_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `exam_type_id` (`exam_type_id`),
+  CONSTRAINT `exam_type_id` FOREIGN KEY (`exam_type_id`) REFERENCES `exam_type` (`exam_type_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
