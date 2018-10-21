@@ -7,13 +7,13 @@ import studio.beita.hdxg.beitasystem.model.domain.UserInfo;
 /**
  * @author ydq
  * @program: beitasystem
- * @Title: UserInfoDao
+ * @Title: LoginRegisterDao
  * @package: studio.beita.hdxg.beitasystem.repository
- * @description: 用户账号密码表接口
+ * @description: 登录注册模块接口
  **/
 @Mapper
 @Repository
-public interface UserInfoDao {
+public interface LoginRegisterDao {
     /*Dao顺序操作未增删改查*/
 
     /**
