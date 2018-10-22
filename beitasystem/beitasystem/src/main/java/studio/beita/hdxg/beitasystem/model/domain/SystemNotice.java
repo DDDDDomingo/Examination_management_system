@@ -31,6 +31,10 @@ public class SystemNotice implements Serializable {
         this.isRead = isRead;
     }
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
     public Integer getNoticeId() {
         return noticeId;
     }

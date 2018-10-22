@@ -42,7 +42,7 @@ public interface PersonalInformationDao {
     Integer changeUserDetails(Integer detailsId, String avatar, String phone, String address, String realName, String idCard);
 
     /**
-     * 管理员通过receiveId获取个人信息
+     * 管理员通过receiveId获取系统通知
      * @param receiveId
      * @return
      */

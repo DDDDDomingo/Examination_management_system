@@ -37,6 +37,10 @@ public class UserDetails implements Serializable {
         this.idCard = idCard;
     }
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
     public Integer getDetailsId() {
         return detailsId;
     }
