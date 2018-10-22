@@ -22,19 +22,19 @@ public class UserDetails implements Serializable {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String address;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String realname;
+    private String realName;
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String idcard;
+    private String idCard;
 
     public UserDetails(){}
 
-    public UserDetails(Integer detailsId,String avatar,String phone,String address,String realname,String idcard){
+    public UserDetails(Integer detailsId,String avatar,String phone,String address,String realName,String idCard){
         this.detailsId = detailsId;
         this.avatar = avatar;
         this.phone = phone;
         this.address = address;
-        this.realname = realname;
-        this.idcard = idcard;
+        this.realName = realName;
+        this.idCard = idCard;
     }
 
     public Integer getDetailsId() {
@@ -69,20 +69,20 @@ public class UserDetails implements Serializable {
         this.address = address;
     }
 
-    public String getRealname() {
-        return realname;
+    public String getRealName() {
+        return realName;
     }
 
-    public void setRealname(String realname) {
-        this.realname = realname;
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 
-    public String getIdcard() {
-        return idcard;
+    public String getIdCard() {
+        return idCard;
     }
 
-    public void setIdcard(String idcard) {
-        this.idcard = idcard;
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
     }
 
     @Override
@@ -92,8 +92,8 @@ public class UserDetails implements Serializable {
                 ", avatar='" + avatar + '\'' +
                 ", phone='" + phone + '\'' +
                 ", address='" + address + '\'' +
-                ", realname='" + realname + '\'' +
-                ", idcard='" + idcard + '\'' +
+                ", realName='" + realName + '\'' +
+                ", idCard='" + idCard + '\'' +
                 '}';
     }
 }
