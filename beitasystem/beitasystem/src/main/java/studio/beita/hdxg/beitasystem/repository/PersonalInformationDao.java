@@ -2,6 +2,7 @@ package studio.beita.hdxg.beitasystem.repository;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
+import studio.beita.hdxg.beitasystem.model.domain.UserInfo;
 
 /**
  * @author zr
@@ -13,21 +14,18 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface PersonalInformationDao {
-    /**
-     * 管理员查看自己权限/系统消息未写
-     */
 
     /**
-     * 管理员添加用户个人信息
+     * 系统添加用户个人信息
      * @param detailsId
      * @param avatar
      * @param phone
      * @param address
      * @param realname
-     * @param idcard
+     * @param idCard
      * @return
      */
-    Integer insertUserDetailsByUser(Integer detailsId, String avatar, String phone, String address, String realname, String idcard);
+    Integer insertUserDetailsByUser(Integer detailsId, String avatar, String phone, String address, String realname, String idCard);
 
     /**
      * 用户修改用户个人信息
@@ -40,4 +38,13 @@ public interface PersonalInformationDao {
      * @return
      */
     Integer changeUserDetails(Integer detailsId, String avatar, String phone, String address, String realname, String idcard);
+
+    /**
+     * 用户通过userId获取自己的个人信息
+     * @param userId
+     * @return
+     */
+    UserInfo getUserInfoById(Integer userId);
+
+    // TODO: 2018/10/21 管理员通过自己的ID获取自己的信息（这里的信息包括权限信息，任务信息）待定
 }
