@@ -10,6 +10,5 @@ package studio.beita.hdxg.beitasystem.service;
 
 public interface LoginRegisterService {
 
-    /*用户通过邮箱验证账号，Redis保存验证码，邮箱发送验证码*/
-
+    // TODO: 2018/10/22  用户通过邮箱验证账号，Redis保存验证码，邮箱发送验证码
 }
