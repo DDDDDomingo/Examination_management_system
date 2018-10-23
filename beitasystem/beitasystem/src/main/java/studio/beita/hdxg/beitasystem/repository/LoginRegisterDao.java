@@ -2,6 +2,7 @@ package studio.beita.hdxg.beitasystem.repository;
 
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
+import studio.beita.hdxg.beitasystem.model.domain.UserInfo;
 import studio.beita.hdxg.beitasystem.repository.provider.LoginRegisterDaoProvider;
 
 /**
@@ -25,8 +26,9 @@ public interface LoginRegisterDao {
      * @return
      */
     @InsertProvider(type = LoginRegisterDaoProvider.class, method = "insertUserByAdmin")
-    //@Options(keyProperty = "id", keyColumn = "xpsp_id", useGeneratedKeys = true)
     Integer insertUserByAdmin(@Param("userId") Integer userId, @Param("account") String account, @Param("password") String password, @Param("email") String email);
+
+    //@Options(keyProperty = "id", keyColumn = "xpsp_id", useGeneratedKeys = true)
 
     /**
      * 游客注册用户
@@ -48,7 +50,22 @@ public interface LoginRegisterDao {
      * @param oldPwd
      * @return
      */
-    Integer verifyAccount(Integer userId, String account, String oldPwd);
+    @Select("SELECT userinfo_id FROM user_info WHERE userinfo_id = #{userId} AND userinfo_account = #{account} AND userinfo_password=#{oldPwd}")
+    @Results(
+            id = "userVerify",
+            value = {
+                    @Result(id = true, property = "id", column = "userinfo_id")
+            }
+    )
+    UserInfo verifyAccount(Integer userId, String account, String oldPwd);
+
+    /**
+     * 系统验证账号是否已被使用
+     * @param account
+     * @return
+     */
+    @Select("SELECT userinfo_account FROM user_info WHERE userinfo_account = #{account}")
+    String isAccountUsed(String account);
 
     /**
      * 管理员/用户修改账号密码
@@ -57,6 +74,7 @@ public interface LoginRegisterDao {
      * @param newPwd
      * @return
      */
+    @Update("UPDATE user_info SET userinfo_password = #{newPwd} WHERE userinfo_id=#{userId} AND userinfo_password=#{newPwd}")
     Integer changePassword(Integer userId, String newPwd);
 
 

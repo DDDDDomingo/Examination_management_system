@@ -10,6 +10,10 @@ package studio.beita.hdxg.beitasystem.constant;
 
 public class ErrorCode {
 
+    /**
+     * loginRegisterController
+     */
+    public static final int USER_ACCOUNT_ISUSED = 1000;
 
     /**
      * 公有构造函数

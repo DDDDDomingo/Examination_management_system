@@ -9,6 +9,10 @@ package studio.beita.hdxg.beitasystem.constant;
  **/
 
 public class ResourceNameConstant {
+    /**
+     * loginRegisterController
+     */
+    public static final String ACCOUNT = "用户名";
 
     /**
      * 私有构造函数
