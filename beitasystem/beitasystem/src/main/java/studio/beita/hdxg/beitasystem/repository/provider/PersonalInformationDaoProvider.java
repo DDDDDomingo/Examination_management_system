@@ -71,7 +71,7 @@ public class PersonalInformationDaoProvider {
     }
 
     /**
-     * 用户修改用户个人信息
+     * 用户修改用户头像
      * @param piMap
      * @return
      */
@@ -88,7 +88,7 @@ public class PersonalInformationDaoProvider {
     }
 
     /**
-     * 用户修改用户个人信息
+     * 用户修改用户身份
      * @param piMap
      * @return
      */
@@ -107,7 +107,7 @@ public class PersonalInformationDaoProvider {
     }
 
     /**
-     * 用户修改用户个人信息
+     * 用户修改用户电话和地址
      * @param piMap
      * @return
      */
