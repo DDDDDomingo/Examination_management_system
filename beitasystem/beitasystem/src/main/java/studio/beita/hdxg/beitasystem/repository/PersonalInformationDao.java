@@ -45,6 +45,35 @@ public interface PersonalInformationDao {
     Integer changeUserDetails(Integer detailsId, String avatar, String phone, String address, String realName, String idCard);
 
     /**
+     * 用户修改用户头像
+     * @param detailsId
+     * @param avatar
+     * @return
+     */
+    @UpdateProvider(type = PersonalInformationDaoProvider.class, method = "changeUserAvatar")
+    Integer changeUserAvatar(Integer detailsId, String avatar);
+
+    /**
+     * 用户修改用户真实姓名和身份证
+     * @param detailsId
+     * @param realName
+     * @param idCard
+     * @return
+     */
+    @UpdateProvider(type = PersonalInformationDaoProvider.class, method = "changeUserIdentity")
+    Integer changeUserIdentity(Integer detailsId, String realName, String idCard);
+
+    /**
+     * 用户修改用户电话号码和地址
+     * @param detailsId
+     * @param phone
+     * @param address
+     * @return
+     */
+    @UpdateProvider(type = PersonalInformationDaoProvider.class, method = "changeUserPhoneAddress")
+    Integer changeUserPhoneAddress(Integer detailsId, String phone, String address);
+
+    /**
      * 用户通过userId获取自己的个人信息
      * @param userId
      * @return

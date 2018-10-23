@@ -45,6 +45,11 @@ public class PersonalInformationDaoProvider {
         }.toString();
     }
 
+    /**
+     * 用户修改用户个人信息
+     * @param piMap
+     * @return
+     */
     public String changeUserDetails(Map<String, Object> piMap) {
         Integer detailsId = (Integer) piMap.get("detailsId");
         String avatar = (String) piMap.get("avatar");
@@ -64,4 +69,60 @@ public class PersonalInformationDaoProvider {
             }
         }.toString();
     }
+
+    /**
+     * 用户修改用户个人信息
+     * @param piMap
+     * @return
+     */
+    public String changeUserAvatar(Map<String, Object> piMap) {
+        Integer detailsId = (Integer) piMap.get("detailsId");
+        String avatar = (String) piMap.get("avatar");
+        return new SQL() {
+            {
+                UPDATE("user_details");
+                SET("details_avatar='" + avatar + "'");
+                WHERE("details_id =" + detailsId);
+            }
+        }.toString();
+    }
+
+    /**
+     * 用户修改用户个人信息
+     * @param piMap
+     * @return
+     */
+    public String changeUserIdentity(Map<String, Object> piMap) {
+        Integer detailsId = (Integer) piMap.get("detailsId");
+        String realName = (String) piMap.get("realName");
+        String idCard = (String) piMap.get("idCard");
+        return new SQL() {
+            {
+                UPDATE("user_details");
+                SET("details_realname ='" + realName + "'");
+                SET("details_idcard ='" + idCard + "'");
+                WHERE("details_id =" + detailsId);
+            }
+        }.toString();
+    }
+
+    /**
+     * 用户修改用户个人信息
+     * @param piMap
+     * @return
+     */
+    public String changeUserPhoneAddress(Map<String, Object> piMap) {
+        Integer detailsId = (Integer) piMap.get("detailsId");
+        String phone = (String) piMap.get("phone");
+        String address = (String) piMap.get("address");
+        return new SQL() {
+            {
+                UPDATE("user_details");
+                SET("details_phone ='" + phone + "'");
+                SET("details_address ='" + address + "'");
+                WHERE("details_id =" + detailsId);
+            }
+        }.toString();
+    }
+
 }
