@@ -86,6 +86,7 @@ public interface PersonalInformationDao {
      * @param receiveId
      * @return
      */
+    @Select("SELECT notice_id, notice_sender_id, notice_receive_id, notice_content, notice_createtime, notice_isread FROM user_details WHERE notice_receive_id = #{receiveId} ORDER BY notice_createtime DESC")
     SystemNotice getSystemNoticeById(Integer receiveId);
 
     // TODO: 2018/10/21 管理员通过自己的ID获取自己的信息（这里的信息包括权限信息）待定

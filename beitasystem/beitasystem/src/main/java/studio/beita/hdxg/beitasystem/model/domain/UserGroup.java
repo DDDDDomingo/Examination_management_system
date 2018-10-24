@@ -3,8 +3,8 @@ package studio.beita.hdxg.beitasystem.model.domain;
 import java.io.Serializable;
 /**
  * @author zr
- * @program: UserGroup
- * @Title: UserInfo
+ * @program: beitasystem
+ * @Title: UserGroup
  * @package: studio.beita.hdxg.beitasystem.model.domain
  * @description: 用户组表实体类
  **/
