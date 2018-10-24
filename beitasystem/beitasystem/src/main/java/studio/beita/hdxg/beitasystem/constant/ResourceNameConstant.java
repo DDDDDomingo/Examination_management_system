@@ -12,12 +12,13 @@ public class ResourceNameConstant {
     /**
      * loginRegisterController
      */
-    public static final String ACCOUNT = "用户名";
+    public static final String ACCOUNT = "账号";
+    public static final String OLD_PASSWOD = "旧密码";
 
     /**
      * 私有构造函数
      */
-    private ResourceNameConstant(){
+    private ResourceNameConstant() {
 
     }
 }

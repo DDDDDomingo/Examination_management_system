@@ -17,14 +17,14 @@ public class LoginRegisterDaoProvider {
     /**
      * 管理员添加管理员账号
      *
-     * @param lrMap
+     * @param uiMap
      * @return
      */
-    public String insertUserByAdmin(Map<String, Object> lrMap) {
-        Integer userId = (Integer) lrMap.get("userId");
-        String account = (String) lrMap.get("account");
-        String password = (String) lrMap.get("password");
-        String email = (String) lrMap.get("email");
+    public String insertUserByAdmin(Map<String, Object> uiMap) {
+        Integer userId = (Integer) uiMap.get("userId");
+        String account = (String) uiMap.get("account");
+        String password = (String) uiMap.get("password");
+        String email = (String) uiMap.get("email");
         return new SQL() {
             {
                 INSERT_INTO("user_info");
@@ -33,6 +33,33 @@ public class LoginRegisterDaoProvider {
                 VALUES("userinfo_password", "#{password}");
                 if (email != null && !email.equals("")) {
                     VALUES("userinfo_email", "#{email}");
+                }
+            }
+        }.toString();
+    }
+
+    /**
+     * 用户登陆验证
+     *
+     * @param uiMap
+     * @return
+     */
+    public String assertLogin(Map<String, Object> uiMap) {
+        String account = (String) uiMap.get("account");
+        String email = (String) uiMap.get("email");
+        String password = (String) uiMap.get("password");
+        return new SQL() {
+            {
+                SELECT("userinfo_account");
+                FROM("user_info");
+                WHERE("userinfo_password=" + password);
+                if (account != null && !account.equals("")) {
+                    AND();
+                    WHERE("userinfo_account=" + account);
+                }
+                if (email != null && !email.equals("")) {
+                    AND();
+                    WHERE("userinfo_email=" + email);
                 }
             }
         }.toString();

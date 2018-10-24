@@ -43,6 +43,17 @@ public interface LoginRegisterDao {
     Integer register(Integer userId, String account, String password, String email);
 
     /**
+     * 验证用户登陆信息是否正确
+     *
+     * @param account
+     * @param email
+     * @param password
+     * @return
+     */
+    @InsertProvider(type = LoginRegisterDaoProvider.class, method = "assertLogin")
+    String assertLogin(@Param("account") String account, @Param("email") String email, @Param("password") String password);
+
+    /**
      * 系统通过账号和旧密码验证账号
      *
      * @param userId
@@ -57,10 +68,11 @@ public interface LoginRegisterDao {
                     @Result(id = true, property = "id", column = "userinfo_id")
             }
     )
-    UserInfo verifyAccount(Integer userId, String account, String oldPwd);
+    UserInfo assertOldPwd(Integer userId, String account, String oldPwd);
 
     /**
      * 系统验证账号是否已被使用
+     *
      * @param account
      * @return
      */

@@ -33,8 +33,14 @@ public class LoginRegisterServiceImpl implements LoginRegisterService {
     }
 
     @Override
-    public Optional<UserInfo> assertAccount(Integer userId, String account, String oldPwd) {
-        return Optional.ofNullable(loginRegisterDao.verifyAccount(userId, account, oldPwd));
+    public Optional<String> assertLogin(String account, String email, String password) {
+        // TODO: 2018/10/24 JWT 缓存
+        return Optional.ofNullable(loginRegisterDao.assertLogin(account, email, password));
+    }
+
+    @Override
+    public Optional<UserInfo> assertOldPwd(Integer userId, String account, String oldPwd) {
+        return Optional.ofNullable(loginRegisterDao.assertOldPwd(userId, account, oldPwd));
     }
 
     @Override

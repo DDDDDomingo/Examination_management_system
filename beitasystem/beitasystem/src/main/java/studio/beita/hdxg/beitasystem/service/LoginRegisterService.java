@@ -35,6 +35,15 @@ public interface LoginRegisterService {
     boolean register(String account, String password, String email);
 
     /**
+     * 用户通过账号登陆或者通过邮箱登陆
+     * @param account
+     * @param email
+     * @param password
+     * @return
+     */
+    Optional<String> assertLogin(String account, String email, String password);
+
+    /**
      * 系统通过账号和旧密码验证账号
      *
      * @param userId
@@ -42,7 +51,7 @@ public interface LoginRegisterService {
      * @param oldPwd
      * @return Optional用于检查
      */
-    Optional<UserInfo> assertAccount(Integer userId, String account, String oldPwd);
+    Optional<UserInfo> assertOldPwd(Integer userId, String account, String oldPwd);
 
     /**
      * 系统验证账号名是否已被使用
