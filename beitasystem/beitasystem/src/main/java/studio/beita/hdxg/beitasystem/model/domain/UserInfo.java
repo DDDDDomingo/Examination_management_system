@@ -40,32 +40,36 @@ public class UserInfo implements Serializable{
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public UserInfo setUserId(Integer userId) {
         this.userId = userId;
+        return this;
     }
 
     public String getAccount() {
         return account;
     }
 
-    public void setAccount(String account) {
+    public UserInfo setAccount(String account) {
         this.account = account;
+        return this;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public UserInfo setPassword(String password) {
         this.password = password;
+        return this;
     }
 
     public String getEamil() {
         return eamil;
     }
 
-    public void setEamil(String eamil) {
+    public UserInfo setEamil(String eamil) {
         this.eamil = eamil;
+        return this;
     }
 
     @Override

@@ -4,19 +4,19 @@ import java.io.Serializable;
 /**
  * @author zr
  * @program: beitasystem
- * @Title: PermissionId
+ * @Title: Permission
  * @package: studio.beita.hdxg.beitasystem.model.domain
  * @description: 权限表实体类
  **/
-public class PermissionId implements Serializable {
+public class Permission implements Serializable {
 
     private static final long serialVersionUID = -5380735667376589966L;
 
     private Integer permissionId;
     private String type;
 
-    public PermissionId(){}
-    public PermissionId(Integer permissionId,String type){
+    public Permission(){}
+    public Permission(Integer permissionId, String type){
         this.permissionId = permissionId;
         this.type = type;
     }
@@ -43,7 +43,7 @@ public class PermissionId implements Serializable {
 
     @Override
     public String toString() {
-        return "PermissionId{" +
+        return "Permission{" +
                 "permissionId=" + permissionId +
                 ", type='" + type + '\'' +
                 '}';

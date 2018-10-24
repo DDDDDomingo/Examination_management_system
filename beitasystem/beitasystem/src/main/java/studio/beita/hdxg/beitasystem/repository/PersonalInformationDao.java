@@ -3,9 +3,12 @@ package studio.beita.hdxg.beitasystem.repository;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
+import studio.beita.hdxg.beitasystem.model.domain.Permission;
 import studio.beita.hdxg.beitasystem.model.domain.SystemNotice;
 import studio.beita.hdxg.beitasystem.model.domain.UserInfo;
 import studio.beita.hdxg.beitasystem.repository.provider.PersonalInformationDaoProvider;
+
+import java.util.List;
 
 /**
  * @author zr
@@ -89,5 +92,25 @@ public interface PersonalInformationDao {
     @Select("SELECT notice_id, notice_sender_id, notice_receive_id, notice_content, notice_createtime, notice_isread FROM user_details WHERE notice_receive_id = #{receiveId} ORDER BY notice_createtime DESC")
     SystemNotice getSystemNoticeById(Integer receiveId);
 
-    // TODO: 2018/10/21 管理员通过自己的ID获取自己的信息（这里的信息包括权限信息）待定
+    /**
+     * 管理员通过ID获取自己的权限信息
+     * @param userId
+     * @return
+     */
+    List<Permission> getPermissionById(Integer userId);
+
+    /**
+     * 用户通过ID获取用户组中对应角色ID
+     * @param userId
+     * @return
+     */
+    Integer getUserRoleById(Integer userId);
+
+    /**
+     * 角色通过角色ID获取角色权限组中的权限信息ID
+     * @param userRoleId
+     * @return
+     */
+    List<Permission> getPermissionByUserRoleId(Integer userRoleId);
+    // TODO: 2018/10/24 确定权限信息的返回值
 }

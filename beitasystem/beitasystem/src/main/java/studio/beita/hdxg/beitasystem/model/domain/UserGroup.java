@@ -1,6 +1,8 @@
 package studio.beita.hdxg.beitasystem.model.domain;
 
 import java.io.Serializable;
+import java.util.List;
+
 /**
  * @author zr
  * @program: beitasystem
@@ -15,6 +17,8 @@ public class UserGroup implements Serializable {
 
     private Integer groupId;
     private String name;
+    private List<UserInfo> UserInfoList;
+    private List<UserRole> UserRoleList;
 
     public UserGroup(){}
     public UserGroup(Integer groupId, String name){
@@ -30,16 +34,36 @@ public class UserGroup implements Serializable {
         return groupId;
     }
 
-    public void setGroupId(Integer groupId) {
+    public UserGroup setGroupId(Integer groupId) {
         this.groupId = groupId;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public UserGroup setName(String name) {
         this.name = name;
+        return this;
+    }
+
+    public List<UserInfo> getUserInfoList() {
+        return UserInfoList;
+    }
+
+    public UserGroup setUserInfoList(List<UserInfo> userInfoList) {
+        UserInfoList = userInfoList;
+        return this;
+    }
+
+    public List<UserRole> getUserRoleList() {
+        return UserRoleList;
+    }
+
+    public UserGroup setUserRoleList(List<UserRole> userRoleList) {
+        UserRoleList = userRoleList;
+        return this;
     }
 
     @Override

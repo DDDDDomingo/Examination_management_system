@@ -1,6 +1,8 @@
 package studio.beita.hdxg.beitasystem.model.domain;
 
 import java.io.Serializable;
+import java.util.List;
+
 
 /**
  * @author zr
@@ -15,6 +17,7 @@ public class UserRole implements Serializable {
 
     private Integer roleId;
     private String name;
+    private List<Permission> permissionList;
 
     public UserRole(){}
 
@@ -31,16 +34,27 @@ public class UserRole implements Serializable {
         return roleId;
     }
 
-    public void setRoleId(Integer roleId) {
+    public UserRole setRoleId(Integer roleId) {
         this.roleId = roleId;
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public UserRole setName(String name) {
         this.name = name;
+        return this;
+    }
+
+    public List<Permission> getPermissionList() {
+        return permissionList;
+    }
+
+    public UserRole setPermissionList(List<Permission> permissionList) {
+        this.permissionList = permissionList;
+        return this;
     }
 
     @Override
