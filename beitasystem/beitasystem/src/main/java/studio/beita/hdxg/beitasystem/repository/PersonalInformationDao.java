@@ -97,20 +97,49 @@ public interface PersonalInformationDao {
      * @param userId
      * @return
      */
-    List<Permission> getPermissionById(Integer userId);
+    List<Permission> getPermissionByUserId(Integer userId);
 
     /**
      * 用户通过ID获取用户组中对应角色ID
      * @param userId
      * @return
      */
-    Integer getUserRoleById(Integer userId);
+    @Select("SELECT role_id FROM rel_ug_role WHERE userinfo_id = #{userinfoId}")
+    @Results(
+            id = "getroleId",
+            value = {
+                    @Result(property="roleId",column="role_id"),
+            }
+    )
+    Integer getUserRoleById(Integer userinfoId);
 
     /**
      * 角色通过角色ID获取角色权限组中的权限信息ID
      * @param userRoleId
      * @return
      */
-    List<Permission> getPermissionByUserRoleId(Integer userRoleId);
+    @Select("SELECT permission_id FROM rel_role_pm WHERE role_id = #{userRoleId}")
+    @Results(
+            id = "getPermissionId",
+            value = {
+                    @Result(property="PermissionId",column="permission_id"),
+            }
+    )
+    Integer getPermissionIdByUserRoleId(Integer userRoleId);
+
+    /**
+     * 通过权限ID访问权限信息
+     * @param PermissionId
+     * @return
+     */
+    @Select("SELECT permission_id, permission_type FROM permission WHERE permission_id = #{PermissionId}")
+    @Results(
+            id = "getPermission",
+            value = {
+                    @Result(id = true, property = "PermissionId", column = "permission_id"),
+                    @Result(property="permissionType",column="permission_type"),
+            }
+    )
+    List<Permission> getPermissionByPermissionId(Integer PermissionId);
     // TODO: 2018/10/24 确定权限信息的返回值
 }

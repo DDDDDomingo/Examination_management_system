@@ -17,8 +17,8 @@ public class UserGroup implements Serializable {
 
     private Integer groupId;
     private String name;
-    private List<UserInfo> UserInfoList;
-    private List<UserRole> UserRoleList;
+    private List<UserInfo> userInfoList;
+    private List<UserRole> userRoleList;
 
     public UserGroup(){}
     public UserGroup(Integer groupId, String name){
@@ -49,20 +49,20 @@ public class UserGroup implements Serializable {
     }
 
     public List<UserInfo> getUserInfoList() {
-        return UserInfoList;
+        return userInfoList;
     }
 
     public UserGroup setUserInfoList(List<UserInfo> userInfoList) {
-        UserInfoList = userInfoList;
+        userInfoList = userInfoList;
         return this;
     }
 
     public List<UserRole> getUserRoleList() {
-        return UserRoleList;
+        return userRoleList;
     }
 
     public UserGroup setUserRoleList(List<UserRole> userRoleList) {
-        UserRoleList = userRoleList;
+        userRoleList = userRoleList;
         return this;
     }
 
