@@ -3,9 +3,7 @@ package studio.beita.hdxg.beitasystem.repository;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
-import studio.beita.hdxg.beitasystem.model.domain.Permission;
-import studio.beita.hdxg.beitasystem.model.domain.SystemNotice;
-import studio.beita.hdxg.beitasystem.model.domain.UserInfo;
+import studio.beita.hdxg.beitasystem.model.domain.*;
 import studio.beita.hdxg.beitasystem.repository.provider.PersonalInformationDaoProvider;
 
 import java.util.List;
@@ -23,6 +21,7 @@ public interface PersonalInformationDao {
 
     /**
      * 系统添加用户个人信息
+     *
      * @param detailsId
      * @param avatar
      * @param phone
@@ -32,10 +31,11 @@ public interface PersonalInformationDao {
      * @return
      */
     @InsertProvider(type = PersonalInformationDaoProvider.class, method = "insertUserDetailsByUser")
-    Integer insertUserDetailsByUser(@Param("detailsId")Integer detailsId,@Param("avatar") String avatar,@Param("phone") String phone, @Param("address")String address, @Param("realName")String realName,@Param("idCard") String idCard);
+    Integer insertUserDetailsByUser(@Param("detailsId") Integer detailsId, @Param("avatar") String avatar, @Param("phone") String phone, @Param("address") String address, @Param("realName") String realName, @Param("idCard") String idCard);
 
     /**
      * 用户修改用户个人信息
+     *
      * @param detailsId
      * @param avatar
      * @param phone
@@ -49,6 +49,7 @@ public interface PersonalInformationDao {
 
     /**
      * 用户修改用户头像
+     *
      * @param detailsId
      * @param avatar
      * @return
@@ -58,6 +59,7 @@ public interface PersonalInformationDao {
 
     /**
      * 用户修改用户真实姓名和身份证
+     *
      * @param detailsId
      * @param realName
      * @param idCard
@@ -68,6 +70,7 @@ public interface PersonalInformationDao {
 
     /**
      * 用户修改用户电话号码和地址
+     *
      * @param detailsId
      * @param phone
      * @param address
@@ -78,6 +81,7 @@ public interface PersonalInformationDao {
 
     /**
      * 用户通过userId获取自己的个人信息
+     *
      * @param userId
      * @return
      */
@@ -86,60 +90,27 @@ public interface PersonalInformationDao {
 
     /**
      * 管理员通过receiveId获取系统通知
+     *
      * @param receiveId
      * @return
      */
     @Select("SELECT notice_id, notice_sender_id, notice_receive_id, notice_content, notice_createtime, notice_isread FROM user_details WHERE notice_receive_id = #{receiveId} ORDER BY notice_createtime DESC")
     SystemNotice getSystemNoticeById(Integer receiveId);
 
-    /**
-     * 管理员通过ID获取自己的权限信息
-     * @param userId
-     * @return
-     */
-    List<Permission> getPermissionByUserId(Integer userId);
 
-    /**
-     * 用户通过ID获取用户组中对应角色ID
-     * @param userId
-     * @return
-     */
-    @Select("SELECT role_id FROM rel_ug_role WHERE userinfo_id = #{userinfoId}")
+    @Select("SELECT group_id, group_name FROM user_group GROUP BY group_id DESC")
     @Results(
-            id = "getroleId",
+            id = "userGroupList",
             value = {
-                    @Result(property="roleId",column="role_id"),
+                    @Result(id = true, property = "groupId", column = "group_id"),
+                    @Result(property = "name", column = "group_name"),
+                    @Result(property = "userInfoIdList"),
+                    @Result(property = "userInfoList", column = "xmlu_avatar"),
+                    @Result(property = "userRoleIdList"),
+                    @Result(property = "userRoleList", column = "xmlu_avatar")
             }
     )
-    Integer getUserRoleById(Integer userinfoId);
+    List<UserGroup> getUserGroupList();
 
-    /**
-     * 角色通过角色ID获取角色权限组中的权限信息ID
-     * @param userRoleId
-     * @return
-     */
-    @Select("SELECT permission_id FROM rel_role_pm WHERE role_id = #{userRoleId}")
-    @Results(
-            id = "getPermissionId",
-            value = {
-                    @Result(property="PermissionId",column="permission_id"),
-            }
-    )
-    Integer getPermissionIdByUserRoleId(Integer userRoleId);
-
-    /**
-     * 通过权限ID访问权限信息
-     * @param PermissionId
-     * @return
-     */
-    @Select("SELECT permission_id, permission_type FROM permission WHERE permission_id = #{PermissionId}")
-    @Results(
-            id = "getPermission",
-            value = {
-                    @Result(id = true, property = "PermissionId", column = "permission_id"),
-                    @Result(property="permissionType",column="permission_type"),
-            }
-    )
-    List<Permission> getPermissionByPermissionId(Integer PermissionId);
     // TODO: 2018/10/24 确定权限信息的返回值
 }

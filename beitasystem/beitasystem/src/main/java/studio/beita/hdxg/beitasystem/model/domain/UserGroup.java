@@ -17,7 +17,9 @@ public class UserGroup implements Serializable {
 
     private Integer groupId;
     private String name;
+    private List<Integer> userInfoIdList;
     private List<UserInfo> userInfoList;
+    private List<Integer> userRoleIdList;
     private List<UserRole> userRoleList;
 
     public UserGroup(){}
@@ -34,36 +36,48 @@ public class UserGroup implements Serializable {
         return groupId;
     }
 
-    public UserGroup setGroupId(Integer groupId) {
+    public void setGroupId(Integer groupId) {
         this.groupId = groupId;
-        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public UserGroup setName(String name) {
+    public void setName(String name) {
         this.name = name;
-        return this;
+    }
+
+    public List<Integer> getUserInfoIdList() {
+        return userInfoIdList;
+    }
+
+    public void setUserInfoIdList(List<Integer> userInfoIdList) {
+        this.userInfoIdList = userInfoIdList;
     }
 
     public List<UserInfo> getUserInfoList() {
         return userInfoList;
     }
 
-    public UserGroup setUserInfoList(List<UserInfo> userInfoList) {
-        userInfoList = userInfoList;
-        return this;
+    public void setUserInfoList(List<UserInfo> userInfoList) {
+        this.userInfoList = userInfoList;
+    }
+
+    public List<Integer> getUserRoleIdList() {
+        return userRoleIdList;
+    }
+
+    public void setUserRoleIdList(List<Integer> userRoleIdList) {
+        this.userRoleIdList = userRoleIdList;
     }
 
     public List<UserRole> getUserRoleList() {
         return userRoleList;
     }
 
-    public UserGroup setUserRoleList(List<UserRole> userRoleList) {
-        userRoleList = userRoleList;
-        return this;
+    public void setUserRoleList(List<UserRole> userRoleList) {
+        this.userRoleList = userRoleList;
     }
 
     @Override
@@ -71,7 +85,10 @@ public class UserGroup implements Serializable {
         return "UserGroup{" +
                 "groupId=" + groupId +
                 ", name='" + name + '\'' +
+                ", userInfoIdList=" + userInfoIdList +
+                ", userInfoList=" + userInfoList +
+                ", userRoleIdList=" + userRoleIdList +
+                ", userRoleList=" + userRoleList +
                 '}';
     }
-
 }
