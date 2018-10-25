@@ -98,6 +98,10 @@ public interface PersonalInformationDao {
     SystemNotice getSystemNoticeById(Integer receiveId);
 
 
+    /**
+     * 获取用户组列表
+     * @return
+     */
     @Select("SELECT group_id, group_name FROM user_group GROUP BY group_id DESC")
     @Results(
             id = "userGroupList",
@@ -111,6 +115,16 @@ public interface PersonalInformationDao {
             }
     )
     List<UserGroup> getUserGroupList();
+
+    /**
+     * 根据用户ID获取权限信息
+     * @param userId
+     * @return
+     */
+    @Select("SELECT p.permission_id p.permission_type FROM user_info ui, rel_ui_ug ruu, user_group ug, rel_ug_role rur, user_role ur, rel_role_pm rrp, permission p " +
+            "WHERE ui.userinfo_id = #{userId} AND ui.userinfo_id = ruu.userinfo_id AND ruu.group_id = ug.group_id AND ug.group_id = rur.group_id " +
+            "AND rur.role_id = ur.role_id AND ur.role_id = rrp.role_id AND rrp.permission_id = p.permission_id")
+    List<Permission> getPermissionByuserId(Integer userId);
 
     // TODO: 2018/10/24 确定权限信息的返回值
 }
