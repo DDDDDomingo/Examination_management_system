@@ -86,7 +86,7 @@ public interface PersonalInformationDao {
      * @return
      */
     @Select("SELECT details_id, details_avatar, details_phone, details_address, details_realname, details_idcard FROM user_details WHERE details_id = #{userId}")
-    UserInfo getUserInfoById(Integer userId);
+    UserDetails getUserDetailsById(Integer userId);
 
     /**
      * 管理员通过receiveId获取系统通知
@@ -94,8 +94,9 @@ public interface PersonalInformationDao {
      * @param receiveId
      * @return
      */
-    @Select("SELECT notice_id, notice_sender_id, notice_receive_id, notice_content, notice_createtime, notice_isread FROM user_details WHERE notice_receive_id = #{receiveId} ORDER BY notice_createtime DESC")
-    SystemNotice getSystemNoticeById(Integer receiveId);
+    @Select("SELECT notice_id, notice_sender_id, notice_receive_id, notice_content, notice_createtime, notice_isread FROM user_details " +
+            "WHERE notice_receive_id = #{receiveId} ORDER BY notice_createtime DESC")
+    List<SystemNotice> getSystemNoticeById(Integer receiveId);
 
 
     /**
@@ -124,7 +125,6 @@ public interface PersonalInformationDao {
     @Select("SELECT p.permission_id p.permission_type FROM user_info ui, rel_ui_ug ruu, user_group ug, rel_ug_role rur, user_role ur, rel_role_pm rrp, permission p " +
             "WHERE ui.userinfo_id = #{userId} AND ui.userinfo_id = ruu.userinfo_id AND ruu.group_id = ug.group_id AND ug.group_id = rur.group_id " +
             "AND rur.role_id = ur.role_id AND ur.role_id = rrp.role_id AND rrp.permission_id = p.permission_id")
-    List<Permission> getPermissionByuserId(Integer userId);
+    List<Permission> getPermissionByUserId(Integer userId);
 
-    // TODO: 2018/10/24 确定权限信息的返回值
 }
