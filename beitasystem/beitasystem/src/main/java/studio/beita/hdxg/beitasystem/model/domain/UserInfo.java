@@ -16,7 +16,7 @@ public class UserInfo implements Serializable{
 
     private static final long serialVersionUID = -8410359363484960640L;
 
-    private Integer userId;
+    private String userId;
     private String account;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String password;
@@ -25,7 +25,7 @@ public class UserInfo implements Serializable{
     public UserInfo() {
     }
 
-    public UserInfo(Integer userId, String account, String password, String eamil) {
+    public UserInfo(String userId, String account, String password, String eamil) {
         this.userId = userId;
         this.account = account;
         this.password = password;
@@ -36,11 +36,11 @@ public class UserInfo implements Serializable{
         return serialVersionUID;
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public UserInfo setUserId(Integer userId) {
+    public UserInfo setUserId(String userId) {
         this.userId = userId;
         return this;
     }

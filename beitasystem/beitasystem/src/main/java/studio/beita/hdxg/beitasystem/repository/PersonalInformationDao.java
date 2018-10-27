@@ -18,7 +18,7 @@ import java.util.List;
 @Mapper
 @Repository
 public interface PersonalInformationDao {
-
+// TODO: 2018/10/27 修改int ID为String ID
     /**
      * 系统添加用户个人信息
      *
@@ -108,11 +108,7 @@ public interface PersonalInformationDao {
             id = "userGroupList",
             value = {
                     @Result(id = true, property = "groupId", column = "group_id"),
-                    @Result(property = "name", column = "group_name"),
-                    @Result(property = "userInfoIdList"),
-                    @Result(property = "userInfoList", column = "xmlu_avatar"),
-                    @Result(property = "userRoleIdList"),
-                    @Result(property = "userRoleList", column = "xmlu_avatar")
+                    @Result(property = "name", column = "group_name")
             }
     )
     List<UserGroup> getUserGroupList();

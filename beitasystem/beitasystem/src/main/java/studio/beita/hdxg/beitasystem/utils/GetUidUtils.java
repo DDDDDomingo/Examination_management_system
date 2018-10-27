@@ -18,7 +18,8 @@ public class GetUidUtils {
      * 根据日期生成UserId
      * @return
      */
-    public static int getNewUserId() {
+    public static String getNewUserId() {
+        // TODO: 2018/10/27 代码待美化 
         SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
         String time = sdf.format(new Date(System.currentTimeMillis()));
         /**
@@ -28,12 +29,14 @@ public class GetUidUtils {
         /**
          * 生成ID后缀
          */
-        long suffix = Math.abs(uuid.hashCode() % 100000000);
+        long suffix = Math.abs(uuid.hashCode() % 1000000);
         /**
          * 生成ID前缀
          */
-        long prefix = Long.parseLong(time) * 100000000;
-        return (int) (suffix + prefix);
+        long prefix = Long.parseLong(time) * 1000000;
+        String userId = String.valueOf(prefix + suffix);
+
+        return userId;
     }
 
 }

@@ -39,7 +39,7 @@ public class LoginRegisterServiceImpl implements LoginRegisterService {
     }
 
     @Override
-    public Optional<UserInfo> assertOldPwd(Integer userId, String account, String oldPwd) {
+    public Optional<UserInfo> assertOldPwd(String userId, String account, String oldPwd) {
         return Optional.ofNullable(loginRegisterDao.assertOldPwd(userId, account, oldPwd));
     }
 
@@ -49,13 +49,13 @@ public class LoginRegisterServiceImpl implements LoginRegisterService {
     }
 
     @Override
-    public Integer assertAccountByEmail(Integer userId, String email) {
+    public Integer assertAccountByEmail(String userId, String email) {
         // TODO: 2018/10/22  用户通过邮箱验证账号，Redis保存验证码，邮箱发送验证码
         return null;
     }
 
     @Override
-    public boolean changePassword(Integer userId, String newPwd) {
+    public boolean changePassword(String userId, String newPwd) {
         return loginRegisterDao.changePassword(userId, newPwd) > 0;
     }
 }

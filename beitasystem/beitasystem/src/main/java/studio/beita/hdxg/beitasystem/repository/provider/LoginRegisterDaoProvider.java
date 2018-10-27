@@ -21,7 +21,7 @@ public class LoginRegisterDaoProvider {
      * @return
      */
     public String insertUserByAdmin(Map<String, Object> uiMap) {
-        Integer userId = (Integer) uiMap.get("userId");
+        String userId = (String) uiMap.get("userId");
         String account = (String) uiMap.get("account");
         String password = (String) uiMap.get("password");
         String email = (String) uiMap.get("email");
@@ -52,14 +52,14 @@ public class LoginRegisterDaoProvider {
             {
                 SELECT("userinfo_account");
                 FROM("user_info");
-                WHERE("userinfo_password=" + password);
+                WHERE("userinfo_password='" + password + "'");
                 if (account != null && !account.equals("")) {
                     AND();
-                    WHERE("userinfo_account=" + account);
+                    WHERE("userinfo_account='" + account + "'");
                 }
                 if (email != null && !email.equals("")) {
                     AND();
-                    WHERE("userinfo_email=" + email);
+                    WHERE("userinfo_email='" + email + "'");
                 }
             }
         }.toString();

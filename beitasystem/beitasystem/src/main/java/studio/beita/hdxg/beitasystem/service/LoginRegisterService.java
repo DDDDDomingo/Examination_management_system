@@ -51,7 +51,7 @@ public interface LoginRegisterService {
      * @param oldPwd
      * @return Optional用于检查
      */
-    Optional<UserInfo> assertOldPwd(Integer userId, String account, String oldPwd);
+    Optional<UserInfo> assertOldPwd(String userId, String account, String oldPwd);
 
     /**
      * 系统验证账号名是否已被使用
@@ -68,7 +68,7 @@ public interface LoginRegisterService {
      * @param email
      * @return
      */
-    Integer assertAccountByEmail(Integer userId, String email);
+    Integer assertAccountByEmail(String userId, String email);
 
     /**
      * 修改用户的密码
@@ -77,6 +77,6 @@ public interface LoginRegisterService {
      * @param newPwd
      * @return
      */
-    boolean changePassword(Integer userId, String newPwd);
+    boolean changePassword(String userId, String newPwd);
 
 }

@@ -26,7 +26,7 @@ public interface LoginRegisterDao {
      * @return
      */
     @InsertProvider(type = LoginRegisterDaoProvider.class, method = "insertUserByAdmin")
-    Integer insertUserByAdmin(@Param("userId") Integer userId, @Param("account") String account, @Param("password") String password, @Param("email") String email);
+    Integer insertUserByAdmin(@Param("userId") String userId, @Param("account") String account, @Param("password") String password, @Param("email") String email);
 
     //@Options(keyProperty = "id", keyColumn = "xpsp_id", useGeneratedKeys = true)
 
@@ -40,7 +40,7 @@ public interface LoginRegisterDao {
      * @return
      */
     @Insert("INSERT INTO user_info (userinfo_id,userinfo_account,userinfo_password,userinfo_email) VALUES (#{userId},#{account},#{password},#{email})")
-    Integer register(Integer userId, String account, String password, String email);
+    Integer register(@Param("userId") String userId, @Param("account") String account, @Param("password") String password, @Param("email") String email);
 
     /**
      * 验证用户登陆信息是否正确
@@ -51,6 +51,7 @@ public interface LoginRegisterDao {
      * @return
      */
     @InsertProvider(type = LoginRegisterDaoProvider.class, method = "assertLogin")
+    @ResultType(String.class)
     String assertLogin(@Param("account") String account, @Param("email") String email, @Param("password") String password);
 
     /**
@@ -68,7 +69,7 @@ public interface LoginRegisterDao {
                     @Result(id = true, property = "id", column = "userinfo_id")
             }
     )
-    UserInfo assertOldPwd(Integer userId, String account, String oldPwd);
+    UserInfo assertOldPwd(String userId, String account, String oldPwd);
 
     /**
      * 系统验证账号是否已被使用
@@ -87,7 +88,7 @@ public interface LoginRegisterDao {
      * @return
      */
     @Update("UPDATE user_info SET userinfo_password = #{newPwd} WHERE userinfo_id=#{userId} AND userinfo_password=#{newPwd}")
-    Integer changePassword(Integer userId, String newPwd);
+    Integer changePassword(String userId, String newPwd);
 
 
 }

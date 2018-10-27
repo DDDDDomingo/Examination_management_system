@@ -15,9 +15,11 @@ import studio.beita.hdxg.beitasystem.constant.ResponseConstant;
 import studio.beita.hdxg.beitasystem.exception.LoginRegister.AccountIsUsedException;
 import studio.beita.hdxg.beitasystem.exception.LoginRegister.LoginErrorException;
 import studio.beita.hdxg.beitasystem.exception.LoginRegister.OldPasswordWrongException;
+import studio.beita.hdxg.beitasystem.model.domain.UserInfo;
 import studio.beita.hdxg.beitasystem.service.LoginRegisterService;
 
 import javax.annotation.Resource;
+import java.util.Optional;
 
 /**
  * @author ydq
@@ -43,9 +45,13 @@ public class LoginRegisterController {
     })
     @PostMapping("/admin/add")
     public ResponseEntity<?> insertUserByAdmin(String account, String password, String email) {
-        //验证账号是否已经被占用
-        assertAccountIsUsed(account);
-        //注册账号
+        //验证账号名是否已经被占用
+        Optional<String> userInfo = loginRegisterService.isAccountUsed(account);
+        if (userInfo.isPresent()) {
+            userInfo.orElseThrow(
+                    () -> new AccountIsUsedException());
+        }
+        //管理员注册账号
         loginRegisterService.insertUserByAdmin(account, password, email);
         return ResponseEntity.ok(ResponseConstant.ACCOUNT_REGISTER_SUCCESS);
 
@@ -59,8 +65,12 @@ public class LoginRegisterController {
     })
     @PostMapping("/user/register")
     public ResponseEntity<?> register(String account, String password, String email) {
-        //验证账号是否已经被占用
-        assertAccountIsUsed(account);
+        //验证账号名是否已经被占用
+        Optional<String> userInfo = loginRegisterService.isAccountUsed(account);
+        if (userInfo.isPresent()) {
+            userInfo.orElseThrow(
+                    () -> new AccountIsUsedException());
+        }
         //注册账号
         loginRegisterService.register(account, password, email);
         return ResponseEntity.ok(ResponseConstant.ACCOUNT_REGISTER_SUCCESS);
@@ -76,6 +86,7 @@ public class LoginRegisterController {
     public ResponseEntity<?> assertLogin(String account, String email, String password) {
         //验证登陆信息
         assertLoginAccount(account, email, password);
+        // TODO: 2018/10/27 添加JWT
         //登陆成功
         return ResponseEntity.ok(ResponseConstant.ASSERT_LOGIN_SUCCESS);
     }
@@ -97,18 +108,6 @@ public class LoginRegisterController {
     }
 
     /********************************** HELPER METHOD **********************************/
-
-    /**
-     * 验证账号名是否已经被占用
-     *
-     * @param account
-     */
-    private void assertAccountIsUsed(String account) {
-        loginRegisterService
-                .isAccountUsed(account)
-                .orElseThrow(
-                        () -> new AccountIsUsedException());
-    }
 
     /**
      * 修改密码验证账号是否正确

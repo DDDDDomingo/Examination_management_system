@@ -17,6 +17,7 @@ import java.util.Optional;
  **/
 
 public interface PersonalInformationService {
+// TODO: 2018/10/27 修改int ID为String ID
 
     /**
      * 系统添加用户个人信息

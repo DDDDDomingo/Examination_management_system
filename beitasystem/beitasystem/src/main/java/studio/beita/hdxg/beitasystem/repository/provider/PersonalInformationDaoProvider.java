@@ -12,6 +12,8 @@ import java.util.Map;
  * @description: 个人信息模块Dao层动态SQL语句
  **/
 public class PersonalInformationDaoProvider {
+    // TODO: 2018/10/27 修改int ID为String ID
+
     /**
      * 系统添加用户个人信息
      * @param piMap

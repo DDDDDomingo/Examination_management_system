@@ -15,7 +15,7 @@ public class UserDetails implements Serializable {
 
     private static final long serialVersionUID = 1845910154152320171L;
 
-    private Integer detailsId;
+    private String detailsId;
     private String avatar;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String phone;
@@ -28,7 +28,7 @@ public class UserDetails implements Serializable {
 
     public UserDetails(){}
 
-    public UserDetails(Integer detailsId,String avatar,String phone,String address,String realName,String idCard){
+    public UserDetails(String detailsId,String avatar,String phone,String address,String realName,String idCard){
         this.detailsId = detailsId;
         this.avatar = avatar;
         this.phone = phone;
@@ -41,11 +41,11 @@ public class UserDetails implements Serializable {
         return serialVersionUID;
     }
 
-    public Integer getDetailsId() {
+    public String getDetailsId() {
         return detailsId;
     }
 
-    public void setDetailsId(Integer detailsId) {
+    public void setDetailsId(String detailsId) {
         this.detailsId = detailsId;
     }
 
