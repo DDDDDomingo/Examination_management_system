@@ -31,7 +31,7 @@ public interface PersonalInformationDao {
      * @return
      */
     @InsertProvider(type = PersonalInformationDaoProvider.class, method = "insertUserDetailsByUser")
-    Integer insertUserDetailsByUser(@Param("detailsId") Integer detailsId, @Param("avatar") String avatar, @Param("phone") String phone, @Param("address") String address, @Param("realName") String realName, @Param("idCard") String idCard);
+    Integer insertUserDetailsByUser(@Param("detailsId") String detailsId, @Param("avatar") String avatar, @Param("phone") String phone, @Param("address") String address, @Param("realName") String realName, @Param("idCard") String idCard);
 
     /**
      * 用户修改用户个人信息
@@ -45,7 +45,7 @@ public interface PersonalInformationDao {
      * @return
      */
     @UpdateProvider(type = PersonalInformationDaoProvider.class, method = "changeUserDetails")
-    Integer changeUserDetails(Integer detailsId, String avatar, String phone, String address, String realName, String idCard);
+    Integer changeUserDetails(String detailsId, String avatar, String phone, String address, String realName, String idCard);
 
     /**
      * 用户修改用户头像
@@ -55,7 +55,7 @@ public interface PersonalInformationDao {
      * @return
      */
     @UpdateProvider(type = PersonalInformationDaoProvider.class, method = "changeUserAvatar")
-    Integer changeUserAvatar(Integer detailsId, String avatar);
+    Integer changeUserAvatar(String detailsId, String avatar);
 
     /**
      * 用户修改用户真实姓名和身份证
@@ -66,7 +66,7 @@ public interface PersonalInformationDao {
      * @return
      */
     @UpdateProvider(type = PersonalInformationDaoProvider.class, method = "changeUserIdentity")
-    Integer changeUserIdentity(Integer detailsId, String realName, String idCard);
+    Integer changeUserIdentity(String detailsId, String realName, String idCard);
 
     /**
      * 用户修改用户电话号码和地址
@@ -77,7 +77,7 @@ public interface PersonalInformationDao {
      * @return
      */
     @UpdateProvider(type = PersonalInformationDaoProvider.class, method = "changeUserPhoneAddress")
-    Integer changeUserPhoneAddress(Integer detailsId, String phone, String address);
+    Integer changeUserPhoneAddress(String detailsId, String phone, String address);
 
     /**
      * 用户通过userId获取自己的个人信息
@@ -86,7 +86,7 @@ public interface PersonalInformationDao {
      * @return
      */
     @Select("SELECT details_id, details_avatar, details_phone, details_address, details_realname, details_idcard FROM user_details WHERE details_id = #{userId}")
-    UserDetails getUserDetailsById(Integer userId);
+    UserDetails getUserDetailsById(String userId);
 
     /**
      * 管理员通过receiveId获取系统通知
@@ -96,7 +96,7 @@ public interface PersonalInformationDao {
      */
     @Select("SELECT notice_id, notice_sender_id, notice_receive_id, notice_content, notice_createtime, notice_isread FROM user_details " +
             "WHERE notice_receive_id = #{receiveId} ORDER BY notice_createtime DESC")
-    List<SystemNotice> getSystemNoticeById(Integer receiveId);
+    List<SystemNotice> getSystemNoticeById(String receiveId);
 
 
     /**
@@ -121,6 +121,6 @@ public interface PersonalInformationDao {
     @Select("SELECT p.permission_id p.permission_type FROM user_info ui, rel_ui_ug ruu, user_group ug, rel_ug_role rur, user_role ur, rel_role_pm rrp, permission p " +
             "WHERE ui.userinfo_id = #{userId} AND ui.userinfo_id = ruu.userinfo_id AND ruu.group_id = ug.group_id AND ug.group_id = rur.group_id " +
             "AND rur.role_id = ur.role_id AND ur.role_id = rrp.role_id AND rrp.permission_id = p.permission_id")
-    List<Permission> getPermissionByUserId(Integer userId);
+    List<Permission> getPermissionByUserId(String userId);
 
 }

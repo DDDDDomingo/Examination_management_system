@@ -99,7 +99,7 @@ public class LoginRegisterController {
             @ApiImplicitParam(name = "newPwd", value = "新密码", dataType = "String", paramType = "query", required = true)
     })
     @PutMapping("/user/changePwd")
-    public ResponseEntity<?> changeUserPwd(Integer userId, String account, String oldPwd, String newPwd) {
+    public ResponseEntity<?> changeUserPwd(String userId, String account, String oldPwd, String newPwd) {
         //验证账号信息是否正确
         assertOldPwd(userId, account, oldPwd);
         //修改密码成功
@@ -116,7 +116,7 @@ public class LoginRegisterController {
      * @param account
      * @param oldPwd
      */
-    private void assertOldPwd(Integer userId, String account, String oldPwd) {
+    private void assertOldPwd(String userId, String account, String oldPwd) {
         loginRegisterService
                 .assertOldPwd(userId, account, oldPwd)
                 .orElseThrow(

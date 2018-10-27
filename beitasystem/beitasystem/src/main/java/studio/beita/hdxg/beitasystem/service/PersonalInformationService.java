@@ -17,7 +17,7 @@ import java.util.Optional;
  **/
 
 public interface PersonalInformationService {
-// TODO: 2018/10/27 修改int ID为String ID
+
 
     /**
      * 系统添加用户个人信息
@@ -29,7 +29,7 @@ public interface PersonalInformationService {
      * @param idCard
      * @return
      */
-    Integer insertUserDetailsByUser(Integer detailsId,String avatar, String phone, String address, String realName, String idCard);
+    boolean insertUserDetailsByUser(String detailsId,String avatar, String phone, String address, String realName, String idCard);
 
     /**
      * 用户修改用户个人信息
@@ -42,7 +42,7 @@ public interface PersonalInformationService {
      * @param idCard
      * @return
      */
-    boolean changeUserDetails(Integer detailsId, String avatar, String phone, String address, String realName, String idCard);
+    boolean changeUserDetails(String detailsId, String avatar, String phone, String address, String realName, String idCard);
 
     /**
      * 用户修改用户头像
@@ -51,7 +51,7 @@ public interface PersonalInformationService {
      * @param avatar
      * @return
      */
-    boolean changeUserAvatar(Integer detailsId, String avatar);
+    boolean changeUserAvatar(String detailsId, String avatar);
 
     /**
      * 用户修改用户真实姓名和身份证
@@ -61,7 +61,7 @@ public interface PersonalInformationService {
      * @param idCard
      * @return
      */
-    boolean changeUserIdentity(Integer detailsId, String realName, String idCard);
+    boolean changeUserIdentity(String detailsId, String realName, String idCard);
 
     /**
      * 用户修改用户电话号码和地址
@@ -71,7 +71,7 @@ public interface PersonalInformationService {
      * @param address
      * @return
      */
-    boolean changeUserPhoneAddress(Integer detailsId, String phone, String address);
+    boolean changeUserPhoneAddress(String detailsId, String phone, String address);
 
     /**
      * 用户通过userId获取自己的个人信息
@@ -79,7 +79,7 @@ public interface PersonalInformationService {
      * @param userId
      * @return
      */
-    Optional<UserDetails> getUserInfoById(Integer userId);
+    Optional<UserDetails> getUserInfoById(String userId);
 
     /**
      * 管理员通过receiveId获取系统通知
@@ -87,7 +87,7 @@ public interface PersonalInformationService {
      * @param receiveId
      * @return
      */
-    Optional<List<SystemNotice>> getSystemNoticeById(Integer receiveId);
+    Optional<List<SystemNotice>> getSystemNoticeById(String receiveId);
 
     /**
      * 获取用户组列表
@@ -100,5 +100,5 @@ public interface PersonalInformationService {
      * @param userId
      * @return
      */
-    Optional<List<Permission>> getPermissionByUserId(Integer userId);
+    Optional<List<Permission>> getPermissionByUserId(String userId);
 }

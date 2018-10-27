@@ -20,7 +20,7 @@ public class PersonalInformationDaoProvider {
      * @return
      */
     public String insertUserDetailsByUser(Map<String, Object> piMap) {
-        Integer detailsId = (Integer) piMap.get("detailsId");
+        String detailsId = (String) piMap.get("detailsId");
         String avatar = (String) piMap.get("avatar");
         String phone = (String) piMap.get("phone");
         String address = (String) piMap.get("address");
@@ -53,7 +53,7 @@ public class PersonalInformationDaoProvider {
      * @return
      */
     public String changeUserDetails(Map<String, Object> piMap) {
-        Integer detailsId = (Integer) piMap.get("detailsId");
+        String detailsId = (String) piMap.get("detailsId");
         String avatar = (String) piMap.get("avatar");
         String phone = (String) piMap.get("phone");
         String address = (String) piMap.get("address");
@@ -78,7 +78,7 @@ public class PersonalInformationDaoProvider {
      * @return
      */
     public String changeUserAvatar(Map<String, Object> piMap) {
-        Integer detailsId = (Integer) piMap.get("detailsId");
+        String detailsId = (String) piMap.get("detailsId");
         String avatar = (String) piMap.get("avatar");
         return new SQL() {
             {
@@ -95,7 +95,7 @@ public class PersonalInformationDaoProvider {
      * @return
      */
     public String changeUserIdentity(Map<String, Object> piMap) {
-        Integer detailsId = (Integer) piMap.get("detailsId");
+        String detailsId = (String) piMap.get("detailsId");
         String realName = (String) piMap.get("realName");
         String idCard = (String) piMap.get("idCard");
         return new SQL() {
@@ -114,7 +114,7 @@ public class PersonalInformationDaoProvider {
      * @return
      */
     public String changeUserPhoneAddress(Map<String, Object> piMap) {
-        Integer detailsId = (Integer) piMap.get("detailsId");
+        String detailsId = (String) piMap.get("detailsId");
         String phone = (String) piMap.get("phone");
         String address = (String) piMap.get("address");
         return new SQL() {
