@@ -20,16 +20,16 @@ public class UserInfo implements Serializable{
     private String account;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String password;
-    private String eamil;
+    private String email;
 
     public UserInfo() {
     }
 
-    public UserInfo(String userId, String account, String password, String eamil) {
+    public UserInfo(String userId, String account, String password, String email) {
         this.userId = userId;
         this.account = account;
         this.password = password;
-        this.eamil = eamil;
+        this.email = email;
     }
 
     public static long getSerialVersionUID() {
@@ -64,11 +64,11 @@ public class UserInfo implements Serializable{
     }
 
     public String getEamil() {
-        return eamil;
+        return email;
     }
 
     public UserInfo setEamil(String eamil) {
-        this.eamil = eamil;
+        this.email = eamil;
         return this;
     }
 
@@ -78,7 +78,7 @@ public class UserInfo implements Serializable{
                 "userId=" + userId +
                 ", account='" + account + '\'' +
                 ", password='" + password + '\'' +
-                ", eamil='" + eamil + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 }

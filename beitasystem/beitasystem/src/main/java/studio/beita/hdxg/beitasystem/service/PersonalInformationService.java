@@ -1,5 +1,7 @@
 package studio.beita.hdxg.beitasystem.service;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 import studio.beita.hdxg.beitasystem.model.domain.Permission;
 import studio.beita.hdxg.beitasystem.model.domain.SystemNotice;
 import studio.beita.hdxg.beitasystem.model.domain.UserDetails;
@@ -15,7 +17,8 @@ import java.util.Optional;
  * @package: studio.beita.hdxg.beitasystem.service
  * @description: 个人信息模块Service层接口
  **/
-
+@Mapper
+@Repository
 public interface PersonalInformationService {
 
 
