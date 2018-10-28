@@ -5,6 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import studio.beita.hdxg.beitasystem.constant.ErrorCode;
+import studio.beita.hdxg.beitasystem.exception.ExamManagement.ExamDoesNotExistException;
+import studio.beita.hdxg.beitasystem.exception.ExamManagement.ExamIsClosedException;
+import studio.beita.hdxg.beitasystem.exception.ExamManagement.ExamQueryCannotChangeException;
 import studio.beita.hdxg.beitasystem.exception.LoginRegister.AccountIsUsedException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -73,6 +76,57 @@ public class ExceptionHandlerControllerAdvice {
                 .status(HttpStatus.NOT_FOUND)
                 .body(new Error()
                         .setCode(ErrorCode.ASSERT_ACCOUNT_WRONG)
+                        .setMessage(e.getMessage()));
+    }
+
+    /**
+     * 考试已经关闭，无法修改，异常
+     *
+     * @param request
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(ExamIsClosedException.class)
+    public ResponseEntity<?> examIsClosedExceptionHandler(HttpServletRequest request, ExamIsClosedException e) {
+        logError(request, e);
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new Error()
+                        .setCode(ErrorCode.EXAM_IS_CLOSED)
+                        .setMessage(e.getMessage()));
+    }
+
+    /**
+     * 考试成绩查询无法修改异常
+     *
+     * @param request
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(ExamQueryCannotChangeException.class)
+    public ResponseEntity<?> examQueryCannotChangeExceptionHandler(HttpServletRequest request, ExamQueryCannotChangeException e) {
+        logError(request, e);
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new Error()
+                        .setCode(ErrorCode.EXAM_NOT_QUERY)
+                        .setMessage(e.getMessage()));
+    }
+
+    /**
+     * 考试不存在异常
+     *
+     * @param request
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(ExamDoesNotExistException.class)
+    public ResponseEntity<?> examDoesNotExistExceptionHandler(HttpServletRequest request, ExamDoesNotExistException e) {
+        logError(request, e);
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new Error()
+                        .setCode(ErrorCode.EXAM_DOES_NOT_EXIST)
                         .setMessage(e.getMessage()));
     }
 

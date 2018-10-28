@@ -39,4 +39,27 @@ public class GetUidUtils {
         return userId;
     }
 
+    /**
+     * 获取考试ID
+     * @return
+     */
+    public static String getNewExamId() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
+        String time = sdf.format(new Date(System.currentTimeMillis()));
+        /**
+         * 根据日期生成UUID
+         */
+        String uuid = time + "$" + UUID.randomUUID().toString().replaceAll("-", "").toUpperCase();
+        /**
+         * 生成ID后缀
+         */
+        long suffix = Math.abs(uuid.hashCode() % 100);
+        /**
+         * 生成ID前缀
+         */
+        long prefix = Long.parseLong(time) * 100;
+        String examId = String.valueOf(prefix + suffix);
+
+        return examId;
+    }
 }

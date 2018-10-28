@@ -21,6 +21,6 @@ public class OldPasswordWrongException extends RuntimeException{
 
     @Override
     public String getMessage(){
-        return StringUtils.capitalize(ResponseConstant.OLD_PASSWORD_WRONG);
+        return ResponseConstant.OLD_PASSWORD_WRONG;
     }
 }

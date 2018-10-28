@@ -20,6 +20,6 @@ public class AccountIsUsedException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        return StringUtils.capitalize(ResponseConstant.ACCOUNT_ISUSED);
+        return ResponseConstant.ACCOUNT_ISUSED;
     }
 }

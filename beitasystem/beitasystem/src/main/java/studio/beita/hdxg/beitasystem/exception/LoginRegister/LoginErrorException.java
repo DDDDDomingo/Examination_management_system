@@ -19,6 +19,6 @@ public class LoginErrorException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        return StringUtils.capitalize(ResponseConstant.ACCOUNT_OR_PWD_WRONG);
+        return ResponseConstant.ACCOUNT_OR_PWD_WRONG;
     }
 }

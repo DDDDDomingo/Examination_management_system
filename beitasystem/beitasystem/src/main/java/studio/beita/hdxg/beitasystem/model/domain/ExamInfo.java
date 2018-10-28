@@ -1,6 +1,9 @@
 package studio.beita.hdxg.beitasystem.model.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author ydq
@@ -42,6 +45,11 @@ public class ExamInfo implements Serializable {
      * 考试可容纳人数
      */
     private Integer capacity;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date startTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date endTime;
+
 
     public ExamInfo() {
     }
@@ -106,6 +114,22 @@ public class ExamInfo implements Serializable {
         this.capacity = capacity;
     }
 
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
     @Override
     public String toString() {
         return "ExamInfo{" +
@@ -116,6 +140,8 @@ public class ExamInfo implements Serializable {
                 ", isQuery=" + isQuery +
                 ", auditedNum=" + auditedNum +
                 ", capacity=" + capacity +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
                 '}';
     }
 }

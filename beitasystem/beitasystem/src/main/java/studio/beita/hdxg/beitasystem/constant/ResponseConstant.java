@@ -26,10 +26,16 @@ public class ResponseConstant {
     public static final String ACCOUNT_OR_PWD_WRONG = "登陆失败！请重试！";
 
     /**
-     * loginRegisterController 200
+     * PersonalInformationController 200
      */
     public static final String CHANGE_USERDETAILS_SUCCESS = "修改信息成功";
 
+    /**
+     * ExamManagementController 400
+     */
+    public static final String EXAM_SIGNUP_CANNOT_CHANGE = "考试已经关闭！修改失败！";
+    public static final String EXAM_QUERY_CANNOT_CHANGE = "考试已经关闭或报名未截止！修改失败！";
+    public static final String EXAM_DOES_NOT_EXIST = "考试不存在或出现错误！请稍后重试！";
 
     /**
      * 公有构造函数

@@ -18,9 +18,16 @@ public class ErrorCode {
     public static final int ASSERT_ACCOUNT_WRONG = 1002;
 
     /**
+     * ExamManagementController
+     */
+    public static final int EXAM_IS_CLOSED = 1003;
+    public static final int EXAM_NOT_QUERY = 1004;
+    public static final int EXAM_DOES_NOT_EXIST = 1005;
+
+    /**
      * 公有构造函数
      */
-    public ErrorCode(){
+    public ErrorCode() {
 
     }
 }

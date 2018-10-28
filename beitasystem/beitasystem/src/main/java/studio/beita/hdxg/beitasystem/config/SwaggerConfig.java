@@ -76,7 +76,9 @@ public class SwaggerConfig extends WebMvcConfigurerAdapter{
                 regex("/product.*"),
                 regex("/admin.*"),*/
                 regex("/user.*"),
-                regex("/admin.*")
+                regex("/admin.*"),
+                regex("/admin/exam.*"),
+                regex("/exam.*")
 
         );
     }
