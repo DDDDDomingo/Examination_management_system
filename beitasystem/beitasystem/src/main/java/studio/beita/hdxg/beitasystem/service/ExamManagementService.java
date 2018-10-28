@@ -10,8 +10,7 @@ import org.springframework.stereotype.Repository;
  * @package: studio.beita.hdxg.beitasystem.service
  * @description: 考试管理模块Service层接口
  **/
-@Mapper
-@Repository
+
 public interface ExamManagementService {
 
 }

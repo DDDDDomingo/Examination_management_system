@@ -1,8 +1,10 @@
 package studio.beita.hdxg.beitasystem.repository;
 
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author ydq
@@ -11,7 +13,8 @@ import org.apache.ibatis.annotations.Update;
  * @package: studio.beita.hdxg.beitasystem.repository
  * @description: 考试管理模块Dao层接口
  **/
-
+@Mapper
+@Repository
 public interface ExamManagementDao {
     /**
      * 管理员新增考试
