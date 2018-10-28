@@ -26,6 +26,12 @@ public class ResponseConstant {
     public static final String ACCOUNT_OR_PWD_WRONG = "登陆失败！请重试！";
 
     /**
+     * loginRegisterController 200
+     */
+    public static final String CHANGE_USERDETAILS_SUCCESS = "修改信息成功";
+
+
+    /**
      * 公有构造函数
      */
     public ResponseConstant() {
