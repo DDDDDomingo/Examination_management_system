@@ -65,4 +65,19 @@ public class LoginRegisterDaoProvider {
         }.toString();
     }
 
+    /**
+     * 系统添加用户个人信息
+     * @param piMap
+     * @return
+     */
+    public String insertUserDetailsByUser(Map<String, Object> piMap) {
+        String detailsId = (String) piMap.get("detailsId");
+        return new SQL() {
+            {
+                INSERT_INTO("user_details");
+                VALUES("details_id", "#{detailsId}");
+            }
+        }.toString();
+    }
+
 }

@@ -100,6 +100,7 @@ public class LoginRegisterController {
     })
     @PutMapping("/user/changePwd")
     public ResponseEntity<?> changeUserPwd(String userId, String account, String oldPwd, String newPwd) {
+        // TODO: 2018/10/28 待测试
         //验证账号信息是否正确
         assertOldPwd(userId, account, oldPwd);
         //修改密码成功

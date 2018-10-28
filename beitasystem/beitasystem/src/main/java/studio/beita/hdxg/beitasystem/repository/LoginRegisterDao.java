@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 import studio.beita.hdxg.beitasystem.model.domain.UserInfo;
 import studio.beita.hdxg.beitasystem.repository.provider.LoginRegisterDaoProvider;
+import studio.beita.hdxg.beitasystem.repository.provider.PersonalInformationDaoProvider;
 
 /**
  * @author ydq
@@ -43,6 +44,15 @@ public interface LoginRegisterDao {
     Integer register(@Param("userId") String userId, @Param("account") String account, @Param("password") String password, @Param("email") String email);
 
     /**
+     * 系统添加用户个人信息
+     *
+     * @param userId
+     * @return
+     */
+    @InsertProvider(type = LoginRegisterDaoProvider.class, method = "insertUserDetailsByUser")
+    Integer insertUserDetailsByUser(@Param("detailsId") String userId);
+
+    /**
      * 验证用户登陆信息是否正确
      *
      * @param account
@@ -50,8 +60,7 @@ public interface LoginRegisterDao {
      * @param password
      * @return
      */
-    @InsertProvider(type = LoginRegisterDaoProvider.class, method = "assertLogin")
-    @ResultType(String.class)
+    @SelectProvider(type = LoginRegisterDaoProvider.class, method = "assertLogin")
     String assertLogin(@Param("account") String account, @Param("email") String email, @Param("password") String password);
 
     /**

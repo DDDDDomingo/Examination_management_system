@@ -2,6 +2,7 @@ package studio.beita.hdxg.beitasystem.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import studio.beita.hdxg.beitasystem.model.domain.UserInfo;
 import studio.beita.hdxg.beitasystem.repository.LoginRegisterDao;
 import studio.beita.hdxg.beitasystem.service.LoginRegisterService;
@@ -23,13 +24,17 @@ public class LoginRegisterServiceImpl implements LoginRegisterService {
     private LoginRegisterDao loginRegisterDao;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean insertUserByAdmin(String account, String password, String email) {
         return loginRegisterDao.insertUserByAdmin(GetUidUtils.getNewUserId(), account, password, email) > 0;
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean register(String account, String password, String email) {
-        return loginRegisterDao.register(GetUidUtils.getNewUserId(), account, password, email) > 0;
+        String userId = GetUidUtils.getNewUserId();
+        loginRegisterDao.register(userId, account, password, email);
+        return loginRegisterDao.insertUserDetailsByUser(userId) > 0;
     }
 
     @Override
@@ -55,6 +60,7 @@ public class LoginRegisterServiceImpl implements LoginRegisterService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean changePassword(String userId, String newPwd) {
         return loginRegisterDao.changePassword(userId, newPwd) > 0;
     }
