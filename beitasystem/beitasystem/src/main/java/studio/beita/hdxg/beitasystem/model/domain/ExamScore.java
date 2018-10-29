@@ -15,14 +15,14 @@ public class ExamScore implements Serializable {
 
     private Integer scoreId;
     private String examId;
-    private String ticketInfoIdentifier;
+    private String Identifier;
     private Integer scoreNum;
 
     public ExamScore(){}
     public ExamScore(Integer scoreId, String examId, String ticketInfoIdentifier, Integer scoreNum) {
         this.scoreId = scoreId;
         this.examId = examId;
-        this.ticketInfoIdentifier = ticketInfoIdentifier;
+        this.Identifier = ticketInfoIdentifier;
         this.scoreNum = scoreNum;
     }
 
@@ -46,12 +46,12 @@ public class ExamScore implements Serializable {
         this.examId = examId;
     }
 
-    public String getTicketInfoIdentifier() {
-        return ticketInfoIdentifier;
+    public String getIdentifier() {
+        return Identifier;
     }
 
-    public void setTicketInfoIdentifier(String ticketInfoIdentifier) {
-        this.ticketInfoIdentifier = ticketInfoIdentifier;
+    public void setIdentifier(String Identifier) {
+        this.Identifier = Identifier;
     }
 
     public Integer getScoreNum() {
@@ -67,7 +67,7 @@ public class ExamScore implements Serializable {
         return "ExamScore{" +
                 "scoreId=" + scoreId +
                 ", examId='" + examId + '\'' +
-                ", ticketInfoIdentifier='" + ticketInfoIdentifier + '\'' +
+                ", Identifier='" + Identifier + '\'' +
                 ", scoreNum=" + scoreNum +
                 '}';
     }
