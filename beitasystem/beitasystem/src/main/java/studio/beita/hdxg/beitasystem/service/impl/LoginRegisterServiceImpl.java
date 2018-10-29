@@ -19,19 +19,21 @@ import java.util.Optional;
  **/
 @Service
 public class LoginRegisterServiceImpl implements LoginRegisterService {
-
+    
     @Autowired
     private LoginRegisterDao loginRegisterDao;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean insertUserByAdmin(String account, String password, String email) {
+        // TODO: 2018/10/29 密码MD5加密
         return loginRegisterDao.insertUserByAdmin(GetUidUtils.getNewUserId(), account, password, email) > 0;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean register(String account, String password, String email) {
+        // TODO: 2018/10/29 密码MD5加密
         String userId = GetUidUtils.getNewUserId();
         loginRegisterDao.register(userId, account, password, email);
         return loginRegisterDao.insertUserDetailsByUser(userId) > 0;
