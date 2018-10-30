@@ -20,6 +20,8 @@ import java.util.List;
 @Repository
 public interface ExamScoreManagementDao {
 
+    // TODO: 2018/10/30 查询成绩返回4个属性（考试名称，准考证号，学生姓名，成绩）
+
     /**
      * 考生通过准考证ID查询成绩
      *
@@ -27,6 +29,12 @@ public interface ExamScoreManagementDao {
      * @return
      */
     @Select("SELECT score_id, exam_type_id, ticket_info_identifier, score_num FROM exam_score WHERE ticket_info_identifier = #{identifier}")
+    @Results(
+            id = "getExam",
+            value = {
+                    @Result(property = "realName",column = "exam_type_id", @One())
+            }
+    )
     ExamScore getExamScoreByIdentifier(String identifier);
 
     /**
@@ -58,8 +66,16 @@ public interface ExamScoreManagementDao {
      * @return
      */
     @Select("SELECT score_id, exam_type_id, ticket_info_identifier, score_num FROM exam_score")
+    @Results(
+            id = "examScore",
+            value = {
+                    @Result(property = "realName",column = "ticket_info_identifier", @One())
+            }
+    )
     List<ExamScore> getExamScoreByUserId();
 
+    // TODO: 2018/10/30 通过准考证获取考生姓名
+    
     /**
      * 验证录入管理员是否能录入
      *
