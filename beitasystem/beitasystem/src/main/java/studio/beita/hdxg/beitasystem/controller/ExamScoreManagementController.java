@@ -18,5 +18,5 @@ public class ExamScoreManagementController {
     @Autowired
     private ExamScoreManagementService examScoreManagementService;
 
-    // TODO: 2018/10/30 考生根据准考证和姓名查询成绩，成绩开放时间 
+    // TODO: 2018/10/30 考生根据准考证和姓名查询成绩，成绩开放时间
 }

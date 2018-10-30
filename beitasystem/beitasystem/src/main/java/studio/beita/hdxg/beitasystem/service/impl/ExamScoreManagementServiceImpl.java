@@ -40,8 +40,8 @@ public class ExamScoreManagementServiceImpl implements ExamScoreManagementServic
     }
 
     @Override
-    public Optional<List<ExamScore>> getExamScoreByUserId() {
-        return Optional.ofNullable(examScoreManagementDao.getExamScoreByUserId());
+    public Optional<List<ExamScore>> getExamScoreList() {
+        return Optional.ofNullable(examScoreManagementDao.getExamScoreList());
     }
 
     @Override

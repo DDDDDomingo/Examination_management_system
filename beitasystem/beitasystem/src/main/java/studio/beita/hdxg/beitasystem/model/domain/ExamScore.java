@@ -1,5 +1,7 @@
 package studio.beita.hdxg.beitasystem.model.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.io.Serializable;
 
 /**
@@ -15,18 +17,19 @@ public class ExamScore implements Serializable {
 
     private Integer scoreId;
     private String examId;
-    // TODO: 2018/10/30 通过考试ID获取考试名称
-    private String Identifier;
-    // TODO: 2018/10/30 通过准考证添加学生姓名
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String examName;
+    private String identifier;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String realName;
     private Integer scoreNum;
 
-    // TODO: 2018/10/30 get set tosTRING 构造方法
     public ExamScore(){}
-    public ExamScore(Integer scoreId, String examId, String ticketInfoIdentifier, Integer scoreNum) {
+
+    public ExamScore(Integer scoreId, String examId, String identifier, Integer scoreNum) {
         this.scoreId = scoreId;
         this.examId = examId;
-        this.Identifier = ticketInfoIdentifier;
+        this.identifier = identifier;
         this.scoreNum = scoreNum;
     }
 
@@ -50,12 +53,28 @@ public class ExamScore implements Serializable {
         this.examId = examId;
     }
 
-    public String getIdentifier() {
-        return Identifier;
+    public String getExamName() {
+        return examName;
     }
 
-    public void setIdentifier(String Identifier) {
-        this.Identifier = Identifier;
+    public void setExamName(String examName) {
+        this.examName = examName;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 
     public Integer getScoreNum() {
@@ -71,7 +90,9 @@ public class ExamScore implements Serializable {
         return "ExamScore{" +
                 "scoreId=" + scoreId +
                 ", examId='" + examId + '\'' +
-                ", Identifier='" + Identifier + '\'' +
+                ", examName='" + examName + '\'' +
+                ", identifier='" + identifier + '\'' +
+                ", realName='" + realName + '\'' +
                 ", scoreNum=" + scoreNum +
                 '}';
     }
