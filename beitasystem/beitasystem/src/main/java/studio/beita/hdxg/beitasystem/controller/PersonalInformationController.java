@@ -23,6 +23,7 @@ import studio.beita.hdxg.beitasystem.service.PersonalInformationService;
 @Api(value = "PersonalInformationController", description = "PersonalInformationController")
 @RestController
 public class PersonalInformationController {
+    // TODO: 2018/10/30 图片存储功能待更改 
 
     @Autowired
     private PersonalInformationService personalInformationService;

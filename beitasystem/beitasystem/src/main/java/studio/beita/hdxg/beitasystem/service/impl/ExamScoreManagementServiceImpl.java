@@ -30,6 +30,11 @@ public class ExamScoreManagementServiceImpl implements ExamScoreManagementServic
     }
 
     @Override
+    public Optional<String> getExamNameByIdentifier(String identifier) {
+        return Optional.ofNullable(examScoreManagementDao.getExamNameByIdentifier(identifier));
+    }
+
+    @Override
     public Optional<String> checkUserInfo(String identifier, String name) {
         return Optional.ofNullable(examScoreManagementDao.checkUserInfo(identifier, name));
     }
@@ -42,6 +47,11 @@ public class ExamScoreManagementServiceImpl implements ExamScoreManagementServic
     @Override
     public Optional<List<ExamScore>> getExamScoreList() {
         return Optional.ofNullable(examScoreManagementDao.getExamScoreList());
+    }
+
+    @Override
+    public Optional<String> getRealNameByIdentifier(String identifier) {
+        return Optional.ofNullable(examScoreManagementDao.getExamNameByIdentifier(identifier));
     }
 
     @Override

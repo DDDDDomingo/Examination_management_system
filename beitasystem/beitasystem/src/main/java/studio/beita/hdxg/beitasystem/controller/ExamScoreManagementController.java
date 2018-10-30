@@ -2,8 +2,11 @@ package studio.beita.hdxg.beitasystem.controller;
 
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import studio.beita.hdxg.beitasystem.service.ExamScoreManagementService;
+
+import java.util.Optional;
 
 /**
  * @author zr
@@ -19,4 +22,14 @@ public class ExamScoreManagementController {
     private ExamScoreManagementService examScoreManagementService;
 
     // TODO: 2018/10/30 考生根据准考证和姓名查询成绩，成绩开放时间
+    public ResponseEntity<?> getExamScoreByIdentifier(String identifier,String name){
+        Optional<String> optionalString = examScoreManagementService.checkUserInfo(identifier,name);
+        if(!optionalString.isPresent()){
+            return ResponseEntity.ok("准考证和姓名不符！");
+        }else{
+
+            return ResponseEntity.ok("");
+        }
+    }
+
 }

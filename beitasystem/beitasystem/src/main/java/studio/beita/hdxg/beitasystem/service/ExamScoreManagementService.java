@@ -24,6 +24,13 @@ public interface ExamScoreManagementService {
     Optional<ExamScore> getExamScoreByIdentifier(String identifier);
 
     /**
+     * 通过准考证获取考生姓名
+     * @param identifier
+     * @return
+     */
+    Optional<String> getExamNameByIdentifier(String identifier);
+
+    /**
      * 验证考生准考证和姓名是否匹配
      *
      * @param identifier
@@ -45,6 +52,13 @@ public interface ExamScoreManagementService {
      * @return
      */
     Optional<List<ExamScore>> getExamScoreList();
+
+    /**
+     * 通过准考证获取考生姓名
+     * @param identifier
+     * @return
+     */
+    Optional<String> getRealNameByIdentifier(String identifier);
 
     /**
      * 验证录入管理员是否能录入
