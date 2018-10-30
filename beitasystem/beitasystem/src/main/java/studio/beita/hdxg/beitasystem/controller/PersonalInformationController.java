@@ -14,11 +14,11 @@ import studio.beita.hdxg.beitasystem.constant.ResponseConstant;
 import studio.beita.hdxg.beitasystem.service.PersonalInformationService;
 
 /**
- * @author ydq
+ * @author zr
  * @program: beitasystem
- * @Title: LoginRegisterController
+ * @Title: PersonalInformationController
  * @package: studio.beita.hdxg.beitasystem.controller
- * @description: 登陆/注册模块控制器
+ * @description: 个人信息管理模块控制器
  **/
 @Api(value = "PersonalInformationController", description = "PersonalInformationController")
 @RestController
