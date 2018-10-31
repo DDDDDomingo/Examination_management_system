@@ -26,18 +26,18 @@ public class PersonalInformationImpl implements PersonalInformationService {
     private PersonalInformationDao personalInformationDao;
 
     @Override
-    public boolean insertUserDetailsByUser(String detailsId, String avatar, String phone, String address, String realName, String idCard) {
-        return personalInformationDao.insertUserDetailsByUser(detailsId, avatar, phone, address, realName, idCard) > 0;
+    public boolean insertUserDetailsByUser(String detailsId, String detailsAvatar, String detailsSavepath, String phone, String address, String realName, String idCard) {
+        return personalInformationDao.insertUserDetailsByUser(detailsId, detailsAvatar, detailsSavepath, phone, address, realName, idCard) > 0;
     }
 
     @Override
-    public boolean changeUserDetails(String detailsId, String avatar, String phone, String address, String realName, String idCard) {
-        return personalInformationDao.changeUserDetails(detailsId, avatar, phone, address, realName, idCard) > 0;
+    public boolean changeUserDetails(String detailsId, String detailsAvatar, String detailsSavepath, String phone, String address, String realName, String idCard) {
+        return personalInformationDao.changeUserDetails(detailsId, detailsAvatar, detailsSavepath, phone, address, realName, idCard) > 0;
     }
 
     @Override
-    public boolean changeUserAvatar(String detailsId, String avatar) {
-        return personalInformationDao.changeUserAvatar(detailsId, avatar) > 0;
+    public boolean changeUserAvatar(String detailsId, String detailsAvatar, String detailsSavepath) {
+        return personalInformationDao.changeUserAvatar(detailsId, detailsAvatar, detailsSavepath) > 0;
     }
 
     @Override

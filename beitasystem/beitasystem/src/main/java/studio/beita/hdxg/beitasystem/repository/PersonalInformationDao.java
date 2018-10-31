@@ -18,12 +18,13 @@ import java.util.List;
 @Mapper
 @Repository
 public interface PersonalInformationDao {
-// TODO: 2018/10/27 修改int ID为String ID
+
     /**
      * 系统添加用户个人信息
      *
      * @param detailsId
-     * @param avatar
+     * @param detailsAvatar
+     * @param detailsSavepath
      * @param phone
      * @param address
      * @param realName
@@ -31,13 +32,15 @@ public interface PersonalInformationDao {
      * @return
      */
     @InsertProvider(type = PersonalInformationDaoProvider.class, method = "insertUserDetailsByUser")
-    Integer insertUserDetailsByUser(@Param("detailsId") String detailsId, @Param("avatar") String avatar, @Param("phone") String phone, @Param("address") String address, @Param("realName") String realName, @Param("idCard") String idCard);
+    Integer insertUserDetailsByUser(@Param("detailsId") String detailsId, @Param("detailsAvatar") String detailsAvatar,@Param("detailsSavepath")String detailsSavepath,
+                                    @Param("phone") String phone, @Param("address") String address, @Param("realName") String realName, @Param("idCard") String idCard);
 
     /**
      * 用户修改用户个人信息
      *
      * @param detailsId
-     * @param avatar
+     * @param detailsAvatar
+     * @param detailsSavepath
      * @param phone
      * @param address
      * @param realName
@@ -45,7 +48,7 @@ public interface PersonalInformationDao {
      * @return
      */
     @UpdateProvider(type = PersonalInformationDaoProvider.class, method = "changeUserDetails")
-    Integer changeUserDetails(String detailsId, String avatar, String phone, String address, String realName, String idCard);
+    Integer changeUserDetails(String detailsId, String detailsAvatar, String detailsSavepath, String phone, String address, String realName, String idCard);
 
     /**
      * 用户修改用户头像
@@ -55,7 +58,7 @@ public interface PersonalInformationDao {
      * @return
      */
     @UpdateProvider(type = PersonalInformationDaoProvider.class, method = "changeUserAvatar")
-    Integer changeUserAvatar(String detailsId, String avatar);
+    Integer changeUserAvatar(String detailsId, String detailsAvatar, String detailsSavepath);
 
     /**
      * 用户修改用户真实姓名和身份证
@@ -85,7 +88,7 @@ public interface PersonalInformationDao {
      * @param userId
      * @return
      */
-    @Select("SELECT details_id, details_avatar, details_phone, details_address, details_realname, details_idcard FROM user_details WHERE details_id = #{userId}")
+    @Select("SELECT details_id, details_avatar, details_savepath, details_phone, details_address, details_realname, details_idcard FROM user_details WHERE details_id = #{userId}")
     UserDetails getUserDetailsById(String userId);
 
     /**

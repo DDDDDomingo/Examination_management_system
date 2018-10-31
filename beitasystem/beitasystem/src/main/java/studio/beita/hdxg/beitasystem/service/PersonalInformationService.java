@@ -22,36 +22,39 @@ public interface PersonalInformationService {
     /**
      * 系统添加用户个人信息
      *
-     * @param avatar
+     * @param detailsAvatar
+     * @param detailsSavepath
      * @param phone
      * @param address
      * @param realName
      * @param idCard
      * @return
      */
-    boolean insertUserDetailsByUser(String detailsId,String avatar, String phone, String address, String realName, String idCard);
+    boolean insertUserDetailsByUser(String detailsId,String detailsAvatar, String detailsSavepath, String phone, String address, String realName, String idCard);
 
     /**
      * 用户修改用户个人信息
      *
      * @param detailsId
-     * @param avatar
+     * @param detailsAvatar
+     * @param detailsSavepath
      * @param phone
      * @param address
      * @param realName
      * @param idCard
      * @return
      */
-    boolean changeUserDetails(String detailsId, String avatar, String phone, String address, String realName, String idCard);
+    boolean changeUserDetails(String detailsId, String detailsAvatar, String detailsSavepath, String phone, String address, String realName, String idCard);
 
     /**
      * 用户修改用户头像
      *
      * @param detailsId
-     * @param avatar
+     * @param detailsAvatar
+     * @param detailsSavepath
      * @return
      */
-    boolean changeUserAvatar(String detailsId, String avatar);
+    boolean changeUserAvatar(String detailsId, String detailsAvatar, String detailsSavepath);
 
     /**
      * 用户修改用户真实姓名和身份证

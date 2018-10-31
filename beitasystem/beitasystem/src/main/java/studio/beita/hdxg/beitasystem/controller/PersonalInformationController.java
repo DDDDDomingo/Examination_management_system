@@ -5,13 +5,17 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import studio.beita.hdxg.beitasystem.constant.ResponseConstant;
 import studio.beita.hdxg.beitasystem.service.PersonalInformationService;
+import studio.beita.hdxg.beitasystem.utils.UploadUtils;
 
 /**
  * @author zr
@@ -23,7 +27,20 @@ import studio.beita.hdxg.beitasystem.service.PersonalInformationService;
 @Api(value = "PersonalInformationController", description = "PersonalInformationController")
 @RestController
 public class PersonalInformationController {
-    // TODO: 2018/10/30 图片存储功能待更改 
+    // TODO: 2018/10/30 图片存储功能待更改 头像更改（除了初始头像，其他直接删除）
+
+    @Value("${WEBSITE_ADDRESS}")
+    private String WEBSITE_ADDRESS;
+    /**
+     * 产品图片映射位置
+     */
+    @Value("${USER_AVATAR_PATH_PATTERN}")
+    private String USER_AVATAR_PATH_PATTERN;
+    /**
+     * 产品图片存储位置
+     */
+    @Value("${USER_AVATAR_FILE_REPOSITORY}")
+    private String USER_AVATAR_FILE_REPOSITORY;
 
     @Autowired
     private PersonalInformationService personalInformationService;
@@ -38,13 +55,22 @@ public class PersonalInformationController {
             @ApiImplicitParam(name = "idCard", value = "身份证", dataType = "String", paramType = "query", required = true)
     })
     @PutMapping("/user/changePI")
-    public ResponseEntity<?> changeUserDetails(String detailsId, String avatar, String phone, String address, String realName, String idCard) {
-        if(personalInformationService.changeUserDetails(detailsId, avatar, phone, address, realName, idCard)){
-            return ResponseEntity.ok(ResponseConstant.CHANGE_USERDETAILS_SUCCESS);
-        }else{
+    public ResponseEntity<?> changeUserDetails(@RequestParam("detailsId")String detailsId, @RequestParam("avatar") MultipartFile file, @RequestParam("phone")String phone,
+                                               @RequestParam("address")String address, @RequestParam("realName")String realName, @RequestParam("idCard")String idCard) {
+        String fileName = UploadUtils.uploadPhoto(file, USER_AVATAR_FILE_REPOSITORY);
+        if (fileName != null) {
+            if (personalInformationService.changeUserDetails(detailsId, USER_AVATAR_FILE_REPOSITORY + "/" + fileName, WEBSITE_ADDRESS + USER_AVATAR_PATH_PATTERN + "/" + fileName, phone, address, realName, idCard)) {
+                return ResponseEntity
+                        .ok(ResponseConstant.CHANGE_USERDETAILS_SUCCESS);
+            } else {
+                return ResponseEntity
+                        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("服务器繁忙！个人信息更新失败");
+            }
+        } else {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("服务器繁忙！个人信息更新失败");
+                    .body("上传图片失败！");
         }
     }
 
@@ -54,8 +80,10 @@ public class PersonalInformationController {
             @ApiImplicitParam(name = "avatar", value = "头像", dataType = "String", paramType = "query", required = true)
     })
     @PutMapping("/user/changeAvatar")
-    public ResponseEntity<?> changeUserAvatar(String detailsId, String avatar) {
-        if(personalInformationService.changeUserAvatar(detailsId, avatar)){
+    public ResponseEntity<?> changeUserAvatar(String detailsId, @RequestParam("avatar") MultipartFile file) {
+        String fileName = UploadUtils.uploadPhoto(file, USER_AVATAR_FILE_REPOSITORY);
+        if(fileName != null){
+            personalInformationService.changeUserAvatar(detailsId, USER_AVATAR_FILE_REPOSITORY + "/" + fileName, WEBSITE_ADDRESS + USER_AVATAR_PATH_PATTERN + "/" + fileName);
             return ResponseEntity.ok("修改头像成功！");
         }else{
             return ResponseEntity
