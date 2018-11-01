@@ -80,9 +80,12 @@ public class PersonalInformationController {
     }
 
     @ApiOperation(value = "用户修改头像", notes = "user change avatar")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "detailsId", value = "用户ID", dataType = "String", paramType = "query", required = true),
+            @ApiImplicitParam(name = "avatar", value = "头像", dataType = "String", paramType = "query", required = true)
+    })
     @PutMapping("/userInformation/changeAvatar")
-    public ResponseEntity<?> changeUserAvatar(@RequestParam("avatar") MultipartFile file) {
-        String detailsId="222";
+    public ResponseEntity<?> changeUserAvatar(@RequestParam("detailsId")String detailsId, @RequestParam("avatar") MultipartFile file) {
         String fileName = UploadUtils.uploadPhoto(file, USER_AVATAR_FILE_REPOSITORY);
         if(fileName != null){
             personalInformationService.changeUserAvatar(detailsId, USER_AVATAR_FILE_REPOSITORY + "/" + fileName, WEBSITE_ADDRESS + USER_AVATAR_PATH_PATTERN + "/" + fileName);

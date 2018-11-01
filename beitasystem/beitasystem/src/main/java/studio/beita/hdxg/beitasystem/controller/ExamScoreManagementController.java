@@ -8,9 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import studio.beita.hdxg.beitasystem.model.domain.ReturnScore;
 import studio.beita.hdxg.beitasystem.service.ExamScoreManagementService;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -43,7 +46,7 @@ public class ExamScoreManagementController {
             return ResponseEntity.ok(examScoreManagementService.getExamScoreByIdentifier(identifier));
         }
     }
-    // TODO: 2018/11/1 管理员excel上传 自己上传 
+    // TODO: 2018/11/1 管理员excel上传
 
     @ApiOperation(value = "管理员查询考试成绩表", notes = "user get examScore")
     @GetMapping("/user/getExamScoreList")
@@ -52,4 +55,14 @@ public class ExamScoreManagementController {
         return ResponseEntity.ok(examScoreManagementService.getExamScoreList());
     }
 
+    @ApiOperation(value = "管理员手动更改成绩", notes = "admin change examScore")
+    @PutMapping("/user/changeManualExamScore")
+    public ResponseEntity<?> getExamScoreByIdentifier(@RequestParam("ReturnScore[]") List<ReturnScore> returnScore){
+        examScoreManagementService.changeExamScoreByReturnScore(returnScore);
+        if(examScoreManagementService.changeExamScoreByReturnScore(returnScore)){
+            return ResponseEntity.ok("考生成绩录入成功！");
+        }else{
+            return ResponseEntity.ok("服务器繁忙考试成绩更改失败");
+        }
+    }
 }
