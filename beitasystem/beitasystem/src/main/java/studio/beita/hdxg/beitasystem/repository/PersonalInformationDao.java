@@ -49,6 +49,8 @@ public interface PersonalInformationDao {
      */
     @UpdateProvider(type = PersonalInformationDaoProvider.class, method = "changeUserDetails")
     Integer changeUserDetails(String detailsId, String detailsAvatar, String detailsSavepath, String phone, String address, String realName, String idCard);
+    Integer changeUserDetails(@Param("detailsId") String detailsId, @Param("detailsAvatar") String detailsAvatar,@Param("detailsSavepath")String detailsSavepath,
+                              @Param("phone") String phone, @Param("address") String address, @Param("realName") String realName, @Param("idCard") String idCard);
 
     /**
      * 用户修改用户头像
@@ -59,6 +61,7 @@ public interface PersonalInformationDao {
      */
     @UpdateProvider(type = PersonalInformationDaoProvider.class, method = "changeUserAvatar")
     Integer changeUserAvatar(String detailsId, String detailsAvatar, String detailsSavepath);
+    Integer changeUserAvatar(@Param("detailsId") String detailsId, @Param("detailsAvatar") String detailsAvatar,@Param("detailsSavepath")String detailsSavepath);
 
     /**
      * 用户修改用户真实姓名和身份证
@@ -69,7 +72,7 @@ public interface PersonalInformationDao {
      * @return
      */
     @UpdateProvider(type = PersonalInformationDaoProvider.class, method = "changeUserIdentity")
-    Integer changeUserIdentity(String detailsId, String realName, String idCard);
+    Integer changeUserIdentity(@Param("detailsId") String detailsId, @Param("realName") String realName, @Param("idCard") String idCard);
 
     /**
      * 用户修改用户电话号码和地址
@@ -80,7 +83,7 @@ public interface PersonalInformationDao {
      * @return
      */
     @UpdateProvider(type = PersonalInformationDaoProvider.class, method = "changeUserPhoneAddress")
-    Integer changeUserPhoneAddress(String detailsId, String phone, String address);
+    Integer changeUserPhoneAddress(@Param("detailsId")String detailsId, @Param("phone") String phone, @Param("address") String address);
 
     /**
      * 用户通过userId获取自己的个人信息
@@ -121,9 +124,9 @@ public interface PersonalInformationDao {
      * @param userId
      * @return
      */
-    @Select("SELECT p.permission_id p.permission_type FROM user_info ui, rel_ui_ug ruu, user_group ug, rel_ug_role rur, user_role ur, rel_role_pm rrp, permission p " +
+    @Select("SELECT p.permission_type FROM user_info ui, rel_ui_ug ruu, user_group ug, rel_ug_role rur, user_role ur, rel_role_pm rrp, permission p " +
             "WHERE ui.userinfo_id = #{userId} AND ui.userinfo_id = ruu.userinfo_id AND ruu.group_id = ug.group_id AND ug.group_id = rur.group_id " +
             "AND rur.role_id = ur.role_id AND ur.role_id = rrp.role_id AND rrp.permission_id = p.permission_id")
-    List<Permission> getPermissionByUserId(String userId);
+    List<Permission> getPermissionByUserId(@Param("userId")String userId);
 
 }

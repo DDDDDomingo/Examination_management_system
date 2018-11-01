@@ -106,9 +106,9 @@ public class PersonalInformationDaoProvider {
         return new SQL() {
             {
                 UPDATE("user_details");
-                SET("details_realname ='" + realName + "'");
-                SET("details_idcard ='" + idCard + "'");
-                WHERE("details_id =" + detailsId);
+                SET("details_realname= #{realName}");
+                SET("details_idcard = #{idCard}");
+                WHERE("details_id = #{detailsId}");
             }
         }.toString();
     }
