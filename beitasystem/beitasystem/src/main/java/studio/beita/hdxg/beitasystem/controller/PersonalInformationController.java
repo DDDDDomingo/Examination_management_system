@@ -32,7 +32,7 @@ import java.util.Optional;
 @Api(value = "PersonalInformationController", description = "PersonalInformationController")
 @RestController
 public class PersonalInformationController {
-    // TODO: 2018/10/30 图片存储功能待更改 头像更改（除了初始头像，其他直接删除）修改信息除了包含图片的，其他都测试过了，获取权限测试swagger返回值无法显示
+    // TODO: 2018/10/30 图片存储功能待更改 头像更改（除了初始头像，其他直接删除）修改信息除了包含图片的，其他都测试过了
 
     @Value("${WEBSITE_ADDRESS}")
     private String WEBSITE_ADDRESS;
@@ -80,12 +80,9 @@ public class PersonalInformationController {
     }
 
     @ApiOperation(value = "用户修改头像", notes = "user change avatar")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "detailsId", value = "用户ID", dataType = "String", paramType = "query", required = true),
-            @ApiImplicitParam(name = "avatar", value = "头像", dataType = "String", paramType = "query", required = true)
-    })
     @PutMapping("/userInformation/changeAvatar")
-    public ResponseEntity<?> changeUserAvatar(String detailsId, @RequestParam("avatar") MultipartFile file) {
+    public ResponseEntity<?> changeUserAvatar(@RequestParam("avatar") MultipartFile file) {
+        String detailsId="222";
         String fileName = UploadUtils.uploadPhoto(file, USER_AVATAR_FILE_REPOSITORY);
         if(fileName != null){
             personalInformationService.changeUserAvatar(detailsId, USER_AVATAR_FILE_REPOSITORY + "/" + fileName, WEBSITE_ADDRESS + USER_AVATAR_PATH_PATTERN + "/" + fileName);
@@ -147,10 +144,7 @@ public class PersonalInformationController {
     })
     @GetMapping("/userInformation/getPermission")
     public ResponseEntity<?> getPermissionByUserId(String userId) {
-        Permission noPermission = new Permission(1,"没有权限");
-        List<Permission> lp= new ArrayList<Permission>();
-        lp.add(noPermission);
         return ResponseEntity
-                .ok(personalInformationService.getPermissionByUserId(userId).orElse(lp));
+               .ok(personalInformationService.getPermissionByUserId(userId));
     }
 }

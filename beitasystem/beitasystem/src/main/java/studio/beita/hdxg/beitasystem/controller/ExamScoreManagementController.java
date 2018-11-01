@@ -43,5 +43,13 @@ public class ExamScoreManagementController {
             return ResponseEntity.ok(examScoreManagementService.getExamScoreByIdentifier(identifier));
         }
     }
+    // TODO: 2018/11/1 管理员excel上传 自己上传 
+
+    @ApiOperation(value = "管理员查询考试成绩表", notes = "user get examScore")
+    @GetMapping("/user/getExamScoreList")
+    public ResponseEntity<?> getExamScoreList(){
+        // TODO: 2018/11/1 管理员 
+        return ResponseEntity.ok(examScoreManagementService.getExamScoreList());
+    }
 
 }

@@ -55,7 +55,8 @@ public interface PersonalInformationDao {
      * 用户修改用户头像
      *
      * @param detailsId
-     * @param avatar
+     * @param detailsAvatar
+     * @param detailsSavepath
      * @return
      */
     @UpdateProvider(type = PersonalInformationDaoProvider.class, method = "changeUserAvatar")
@@ -125,6 +126,13 @@ public interface PersonalInformationDao {
     @Select("SELECT p.permission_type FROM user_info ui, rel_ui_ug ruu, user_group ug, rel_ug_role rur, user_role ur, rel_role_pm rrp, permission p " +
             "WHERE ui.userinfo_id = #{userId} AND ui.userinfo_id = ruu.userinfo_id AND ruu.group_id = ug.group_id AND ug.group_id = rur.group_id " +
             "AND rur.role_id = ur.role_id AND ur.role_id = rrp.role_id AND rrp.permission_id = p.permission_id")
+    @Results(
+            id = "permiss2",
+            value = {
+                    @Result(id = true, property = "permissionId", column = "permission_id"),
+                    @Result(property = "type", column = "permission_type")
+            }
+    )
     List<Permission> getPermissionByUserId(@Param("userId") String userId);
 
 }
