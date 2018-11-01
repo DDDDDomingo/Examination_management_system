@@ -32,7 +32,6 @@ import java.util.Optional;
 @Api(value = "PersonalInformationController", description = "PersonalInformationController")
 @RestController
 public class PersonalInformationController {
-    // TODO: 2018/10/30 图片存储功能待更改 头像更改（除了初始头像，其他直接删除）
     // TODO: 2018/10/30 图片存储功能待更改 头像更改（除了初始头像，其他直接删除）修改信息除了包含图片的，其他都测试过了，获取权限测试swagger返回值无法显示
 
     @Value("${WEBSITE_ADDRESS}")
