@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 import studio.beita.hdxg.beitasystem.service.ExamScoreManagementService;
 
@@ -25,11 +27,13 @@ public class ExamScoreManagementController {
     private ExamScoreManagementService examScoreManagementService;
 
     // TODO: 2018/10/30 考生根据准考证和姓名查询成绩，成绩开放时间
+
     @ApiOperation(value = "考试查询成绩", notes = "user get examScore")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "identifier", value = "准考证", dataType = "String", paramType = "query", required = true),
             @ApiImplicitParam(name = "name", value = "姓名", dataType = "String", paramType = "query", required = true)
     })
+    @GetMapping("/user/getExamScore")
     public ResponseEntity<?> getExamScoreByIdentifier(String identifier,String name){
         Optional<String> optionalString = examScoreManagementService.checkUserInfo(identifier,name);
         if(!optionalString.isPresent()){
