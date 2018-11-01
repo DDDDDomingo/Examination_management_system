@@ -35,6 +35,7 @@ public class ExamScoreManagementController {
     })
     @GetMapping("/user/getExamScore")
     public ResponseEntity<?> getExamScoreByIdentifier(String identifier,String name){
+        //判断考试开放未完成
         Optional<String> optionalString = examScoreManagementService.checkUserInfo(identifier,name);
         if(!optionalString.isPresent()){
             return ResponseEntity.ok("准考证和姓名不符！");

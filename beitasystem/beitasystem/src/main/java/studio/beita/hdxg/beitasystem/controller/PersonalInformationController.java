@@ -59,7 +59,7 @@ public class PersonalInformationController {
             @ApiImplicitParam(name = "realName", value = "真实姓名", dataType = "String", paramType = "query", required = true),
             @ApiImplicitParam(name = "idCard", value = "身份证", dataType = "String", paramType = "query", required = true)
     })
-    @PutMapping("/user/changePI")
+    @PutMapping("/userInformation/changePI")
     public ResponseEntity<?> changeUserDetails(@RequestParam("detailsId")String detailsId, @RequestParam("avatar") MultipartFile file, @RequestParam("phone")String phone,
                                                @RequestParam("address")String address, @RequestParam("realName")String realName, @RequestParam("idCard")String idCard) {
         String fileName = UploadUtils.uploadPhoto(file, USER_AVATAR_FILE_REPOSITORY);
@@ -84,7 +84,7 @@ public class PersonalInformationController {
             @ApiImplicitParam(name = "detailsId", value = "用户ID", dataType = "String", paramType = "query", required = true),
             @ApiImplicitParam(name = "avatar", value = "头像", dataType = "String", paramType = "query", required = true)
     })
-    @PutMapping("/user/changeAvatar")
+    @PutMapping("/userInformation/changeAvatar")
     public ResponseEntity<?> changeUserAvatar(String detailsId, @RequestParam("avatar") MultipartFile file) {
         String fileName = UploadUtils.uploadPhoto(file, USER_AVATAR_FILE_REPOSITORY);
         if(fileName != null){
@@ -103,7 +103,7 @@ public class PersonalInformationController {
             @ApiImplicitParam(name = "realName", value = "真实姓名", dataType = "String", paramType = "query", required = true),
             @ApiImplicitParam(name = "idCard", value = "身份证", dataType = "String", paramType = "query", required = true)
     })
-    @PutMapping("/user/changeIdentity")
+    @PutMapping("/userInformation/changeIdentity")
     public ResponseEntity<?> changeUserIdentity(String detailsId, String realName, String idCard) {
         if(personalInformationService.changeUserIdentity(detailsId, realName, idCard)){
             return ResponseEntity.ok("身份信息成功！");
@@ -118,7 +118,7 @@ public class PersonalInformationController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId", value = "用户ID", dataType = "String", paramType = "query", required = true)
     })
-    @GetMapping("/user/getUserInfo")
+    @GetMapping("/userInformation/getUserInfo")
     public ResponseEntity<?> getUserInfoById(String userId) {
         return ResponseEntity
                 .ok(personalInformationService.getUserInfoById(userId));
@@ -128,14 +128,14 @@ public class PersonalInformationController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "receiveId", value = "发送者ID", dataType = "String", paramType = "query", required = true)
     })
-    @GetMapping("/user/getSystemNotice")
+    @GetMapping("/userInformation/getSystemNotice")
     public ResponseEntity<?> getSystemNoticeById(String receiveId) {
         return ResponseEntity
                 .ok(personalInformationService.getSystemNoticeById(receiveId));
     }
 
     @ApiOperation(value = "获取用户组", notes = "user get getUserGroupList")
-    @GetMapping("/user/getUserGroupList")
+    @GetMapping("/userInformation/getUserGroupList")
     public ResponseEntity<?> getUserGroupList() {
         return ResponseEntity
                 .ok(personalInformationService.getUserGroupList());
@@ -145,7 +145,7 @@ public class PersonalInformationController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId", value = "发送者ID", dataType = "String", paramType = "query", required = true)
     })
-    @GetMapping("/user/getPermission")
+    @GetMapping("/userInformation/getPermission")
     public ResponseEntity<?> getPermissionByUserId(String userId) {
         Permission noPermission = new Permission(1,"没有权限");
         List<Permission> lp= new ArrayList<Permission>();
