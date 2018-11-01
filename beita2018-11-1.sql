@@ -1,22 +1,22 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost_3306
-Source Server Version : 50717
+Source Server         : 1
+Source Server Version : 50721
 Source Host           : localhost:3306
 Source Database       : beita
 
 Target Server Type    : MYSQL
-Target Server Version : 50717
+Target Server Version : 50721
 File Encoding         : 65001
 
-Date: 2018-11-01 16:38:51
+Date: 2018-11-01 23:08:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for admission_ticket_info
+-- Table structure for `admission_ticket_info`
 -- ----------------------------
 DROP TABLE IF EXISTS `admission_ticket_info`;
 CREATE TABLE `admission_ticket_info` (
@@ -39,7 +39,7 @@ CREATE TABLE `admission_ticket_info` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for exam_news
+-- Table structure for `exam_news`
 -- ----------------------------
 DROP TABLE IF EXISTS `exam_news`;
 CREATE TABLE `exam_news` (
@@ -59,7 +59,7 @@ CREATE TABLE `exam_news` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for exam_news_type
+-- Table structure for `exam_news_type`
 -- ----------------------------
 DROP TABLE IF EXISTS `exam_news_type`;
 CREATE TABLE `exam_news_type` (
@@ -73,18 +73,21 @@ CREATE TABLE `exam_news_type` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for exam_score
+-- Table structure for `exam_score`
 -- ----------------------------
 DROP TABLE IF EXISTS `exam_score`;
 CREATE TABLE `exam_score` (
   `score_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '考试成绩表id',
   `exam_type_id` char(18) NOT NULL COMMENT '考试类别表id',
+  `session_id` int(11) NOT NULL,
   `ticket_info_identifier` char(18) NOT NULL COMMENT '准考证id',
-  `score_num` varchar(11) DEFAULT NULL COMMENT '成绩',
+  `score_num` varchar(11) NOT NULL DEFAULT '0' COMMENT '成绩',
   PRIMARY KEY (`score_id`),
   KEY `exam_type_id4` (`exam_type_id`),
   KEY `ticket_info_identifier` (`ticket_info_identifier`),
+  KEY `rel_examsession_examscore` (`session_id`),
   CONSTRAINT `exam_type_id4` FOREIGN KEY (`exam_type_id`) REFERENCES `exam_type` (`exam_type_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `rel_examsession_examscore` FOREIGN KEY (`session_id`) REFERENCES `exam_session` (`session_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `ticket_info_identifier` FOREIGN KEY (`ticket_info_identifier`) REFERENCES `admission_ticket_info` (`ticket_info_identifier`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -93,7 +96,7 @@ CREATE TABLE `exam_score` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for exam_session
+-- Table structure for `exam_session`
 -- ----------------------------
 DROP TABLE IF EXISTS `exam_session`;
 CREATE TABLE `exam_session` (
@@ -112,7 +115,7 @@ CREATE TABLE `exam_session` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for exam_signup_list
+-- Table structure for `exam_signup_list`
 -- ----------------------------
 DROP TABLE IF EXISTS `exam_signup_list`;
 CREATE TABLE `exam_signup_list` (
@@ -134,7 +137,7 @@ CREATE TABLE `exam_signup_list` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for exam_type
+-- Table structure for `exam_type`
 -- ----------------------------
 DROP TABLE IF EXISTS `exam_type`;
 CREATE TABLE `exam_type` (
@@ -156,7 +159,7 @@ CREATE TABLE `exam_type` (
 INSERT INTO `exam_type` VALUES ('18102858', '计算机二级考试', '1', '0', '0', '0', '1000', '2018-10-28 00:00:00', '2018-11-28 00:00:00');
 
 -- ----------------------------
--- Table structure for operating
+-- Table structure for `operating`
 -- ----------------------------
 DROP TABLE IF EXISTS `operating`;
 CREATE TABLE `operating` (
@@ -173,22 +176,21 @@ CREATE TABLE `operating` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for permission
+-- Table structure for `permission`
 -- ----------------------------
 DROP TABLE IF EXISTS `permission`;
 CREATE TABLE `permission` (
   `permission_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '权限表id',
   `permission_type` varchar(20) NOT NULL COMMENT '权限名称',
   PRIMARY KEY (`permission_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=334 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of permission
 -- ----------------------------
-INSERT INTO `permission` VALUES ('333', '权限');
 
 -- ----------------------------
--- Table structure for rel_pm_op
+-- Table structure for `rel_pm_op`
 -- ----------------------------
 DROP TABLE IF EXISTS `rel_pm_op`;
 CREATE TABLE `rel_pm_op` (
@@ -207,7 +209,7 @@ CREATE TABLE `rel_pm_op` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for rel_role_pm
+-- Table structure for `rel_role_pm`
 -- ----------------------------
 DROP TABLE IF EXISTS `rel_role_pm`;
 CREATE TABLE `rel_role_pm` (
@@ -219,15 +221,14 @@ CREATE TABLE `rel_role_pm` (
   KEY `role_id2` (`role_id`),
   CONSTRAINT `permission_id` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`permission_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `role_id2` FOREIGN KEY (`role_id`) REFERENCES `user_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=334 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of rel_role_pm
 -- ----------------------------
-INSERT INTO `rel_role_pm` VALUES ('333', '222', '333');
 
 -- ----------------------------
--- Table structure for rel_ug_role
+-- Table structure for `rel_ug_role`
 -- ----------------------------
 DROP TABLE IF EXISTS `rel_ug_role`;
 CREATE TABLE `rel_ug_role` (
@@ -239,15 +240,14 @@ CREATE TABLE `rel_ug_role` (
   KEY `group_id2` (`group_id`),
   CONSTRAINT `group_id2` FOREIGN KEY (`group_id`) REFERENCES `user_group` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `role_id` FOREIGN KEY (`role_id`) REFERENCES `user_role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=223 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of rel_ug_role
 -- ----------------------------
-INSERT INTO `rel_ug_role` VALUES ('222', '111', '222');
 
 -- ----------------------------
--- Table structure for rel_ui_ug
+-- Table structure for `rel_ui_ug`
 -- ----------------------------
 DROP TABLE IF EXISTS `rel_ui_ug`;
 CREATE TABLE `rel_ui_ug` (
@@ -259,15 +259,14 @@ CREATE TABLE `rel_ui_ug` (
   KEY `userinfo_id` (`userinfo_id`),
   CONSTRAINT `group_id` FOREIGN KEY (`group_id`) REFERENCES `user_group` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `userinfo_id` FOREIGN KEY (`userinfo_id`) REFERENCES `user_info` (`userinfo_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of rel_ui_ug
 -- ----------------------------
-INSERT INTO `rel_ui_ug` VALUES ('1', '181028969487', '111');
 
 -- ----------------------------
--- Table structure for resource
+-- Table structure for `resource`
 -- ----------------------------
 DROP TABLE IF EXISTS `resource`;
 CREATE TABLE `resource` (
@@ -286,7 +285,7 @@ CREATE TABLE `resource` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for review_personnel
+-- Table structure for `review_personnel`
 -- ----------------------------
 DROP TABLE IF EXISTS `review_personnel`;
 CREATE TABLE `review_personnel` (
@@ -309,7 +308,7 @@ CREATE TABLE `review_personnel` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for system_notice
+-- Table structure for `system_notice`
 -- ----------------------------
 DROP TABLE IF EXISTS `system_notice`;
 CREATE TABLE `system_notice` (
@@ -331,7 +330,7 @@ CREATE TABLE `system_notice` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for user_details
+-- Table structure for `user_details`
 -- ----------------------------
 DROP TABLE IF EXISTS `user_details`;
 CREATE TABLE `user_details` (
@@ -348,25 +347,24 @@ CREATE TABLE `user_details` (
 -- ----------------------------
 -- Records of user_details
 -- ----------------------------
-INSERT INTO `user_details` VALUES ('181028969487', '110.10.1.1', null, null, null, '曹文', '123123123123');
+INSERT INTO `user_details` VALUES ('181028969487', '110.10.1.1', null, null, null, null, null);
 
 -- ----------------------------
--- Table structure for user_group
+-- Table structure for `user_group`
 -- ----------------------------
 DROP TABLE IF EXISTS `user_group`;
 CREATE TABLE `user_group` (
   `group_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户组id',
   `group_name` varchar(16) NOT NULL COMMENT '用户组名称',
   PRIMARY KEY (`group_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_group
 -- ----------------------------
-INSERT INTO `user_group` VALUES ('111', '管理员');
 
 -- ----------------------------
--- Table structure for user_info
+-- Table structure for `user_info`
 -- ----------------------------
 DROP TABLE IF EXISTS `user_info`;
 CREATE TABLE `user_info` (
@@ -384,16 +382,15 @@ INSERT INTO `user_info` VALUES ('181028562814', 'admin', '123456', null);
 INSERT INTO `user_info` VALUES ('181028969487', 'account1', 'pwd123', '1783610921@qq.com');
 
 -- ----------------------------
--- Table structure for user_role
+-- Table structure for `user_role`
 -- ----------------------------
 DROP TABLE IF EXISTS `user_role`;
 CREATE TABLE `user_role` (
   `role_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户角色id',
   `role_name` varchar(255) NOT NULL COMMENT '用户角色名称',
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=223 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_role
 -- ----------------------------
-INSERT INTO `user_role` VALUES ('222', '录入管理员');
