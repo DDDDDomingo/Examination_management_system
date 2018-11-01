@@ -13,6 +13,7 @@ import java.util.Map;
  **/
 
 public class LoginRegisterDaoProvider {
+    // TODO: 2018/10/31 创建个人用户信息表的方法有改动 创建时自动添加默认头像路径
 
     /**
      * 管理员添加管理员账号

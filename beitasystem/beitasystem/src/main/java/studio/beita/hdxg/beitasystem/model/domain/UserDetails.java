@@ -16,7 +16,8 @@ public class UserDetails implements Serializable {
     private static final long serialVersionUID = 1845910154152320171L;
 
     private String detailsId;
-    private String avatar;
+    private String detailsAvatar;
+    private String detailsSavepath;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String phone;
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -28,9 +29,10 @@ public class UserDetails implements Serializable {
 
     public UserDetails(){}
 
-    public UserDetails(String detailsId,String avatar,String phone,String address,String realName,String idCard){
+    public UserDetails(String detailsId, String detailsAvatar, String detailsSavepath, String phone, String address, String realName, String idCard) {
         this.detailsId = detailsId;
-        this.avatar = avatar;
+        this.detailsAvatar = detailsAvatar;
+        this.detailsSavepath = detailsSavepath;
         this.phone = phone;
         this.address = address;
         this.realName = realName;
@@ -49,12 +51,20 @@ public class UserDetails implements Serializable {
         this.detailsId = detailsId;
     }
 
-    public String getAvatar() {
-        return avatar;
+    public String getDetailsAvatar() {
+        return detailsAvatar;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setDetailsAvatar(String detailsAvatar) {
+        this.detailsAvatar = detailsAvatar;
+    }
+
+    public String getDetailsSavepath() {
+        return detailsSavepath;
+    }
+
+    public void setDetailsSavepath(String detailsSavepath) {
+        this.detailsSavepath = detailsSavepath;
     }
 
     public String getPhone() {
@@ -92,8 +102,9 @@ public class UserDetails implements Serializable {
     @Override
     public String toString() {
         return "UserDetails{" +
-                "detailsId=" + detailsId +
-                ", avatar='" + avatar + '\'' +
+                "detailsId='" + detailsId + '\'' +
+                ", detailsAvatar='" + detailsAvatar + '\'' +
+                ", detailsSavepath='" + detailsSavepath + '\'' +
                 ", phone='" + phone + '\'' +
                 ", address='" + address + '\'' +
                 ", realName='" + realName + '\'' +

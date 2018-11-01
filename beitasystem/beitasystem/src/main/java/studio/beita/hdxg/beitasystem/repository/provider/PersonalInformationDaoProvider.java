@@ -12,7 +12,6 @@ import java.util.Map;
  * @description: 个人信息模块Dao层动态SQL语句
  **/
 public class PersonalInformationDaoProvider {
-    // TODO: 2018/10/27 修改int ID为String ID
 
     /**
      * 系统添加用户个人信息
@@ -21,7 +20,8 @@ public class PersonalInformationDaoProvider {
      */
     public String insertUserDetailsByUser(Map<String, Object> piMap) {
         String detailsId = (String) piMap.get("detailsId");
-        String avatar = (String) piMap.get("avatar");
+        String detailsAvatar = (String) piMap.get("detailsAvatar");
+        String detailsSavepath = (String) piMap.get("detailsSavepath");
         String phone = (String) piMap.get("phone");
         String address = (String) piMap.get("address");
         String realName = (String) piMap.get("realName");
@@ -30,7 +30,8 @@ public class PersonalInformationDaoProvider {
             {
                 INSERT_INTO("user_details");
                 VALUES("details_id", "#{detailsId}");
-                VALUES("details_avatar", "#{avatar}");
+                VALUES("details_avatar", "#{detailsAvatar}");
+                VALUES("details_savepath", "#{detailsSavepath}");
                 if (phone != null && !phone.equals("")) {
                     VALUES("details_phone", "#{phone}");
                 }
@@ -54,7 +55,8 @@ public class PersonalInformationDaoProvider {
      */
     public String changeUserDetails(Map<String, Object> piMap) {
         String detailsId = (String) piMap.get("detailsId");
-        String avatar = (String) piMap.get("avatar");
+        String detailsAvatar = (String) piMap.get("detailsAvatar");
+        String detailsSavepath = (String) piMap.get("detailsSavepath");
         String phone = (String) piMap.get("phone");
         String address = (String) piMap.get("address");
         String realName = (String) piMap.get("realName");
@@ -62,7 +64,8 @@ public class PersonalInformationDaoProvider {
         return new SQL() {
             {
                 UPDATE("user_details");
-                SET("details_avatar='" + avatar + "'");
+                SET("details_avatar='" + detailsAvatar + "'");
+                SET("details_savepath='" + detailsSavepath + "'");
                 SET("details_phone ='" + phone + "'");
                 SET("details_address ='" + address + "'");
                 SET("details_realname ='" + realName + "'");
@@ -79,11 +82,13 @@ public class PersonalInformationDaoProvider {
      */
     public String changeUserAvatar(Map<String, Object> piMap) {
         String detailsId = (String) piMap.get("detailsId");
-        String avatar = (String) piMap.get("avatar");
+        String detailsAvatar = (String) piMap.get("detailsAvatar");
+        String detailsSavepath = (String) piMap.get("detailsSavepath");
         return new SQL() {
             {
                 UPDATE("user_details");
-                SET("details_avatar='" + avatar + "'");
+                SET("details_avatar='" + detailsAvatar + "'");
+                SET("details_savepath='" + detailsSavepath + "'");
                 WHERE("details_id =" + detailsId);
             }
         }.toString();

@@ -16,6 +16,17 @@ import java.util.UUID;
 
 public class UploadUtils {
 
+    /**
+     * 删除图片
+     *
+     * @param filaPath
+     */
+    public static void delFile(String filaPath) {
+        File file = new File(filaPath);
+        if (file.exists() && file.isFile()) {
+            file.delete();
+        }
+    }
 
     public static String uploadPhoto(MultipartFile file, String adSavePath) {
         if (file.isEmpty()) {
