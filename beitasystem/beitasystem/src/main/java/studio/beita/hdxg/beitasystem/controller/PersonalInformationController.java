@@ -111,6 +111,8 @@ public class PersonalInformationController {
         }
     }
 
+    // TODO: 2018/11/1 地址信息接口未完成 
+    
     @ApiOperation(value = "用户获取个人信息", notes = "user get userInfo")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId", value = "用户ID", dataType = "String", paramType = "query", required = true)
