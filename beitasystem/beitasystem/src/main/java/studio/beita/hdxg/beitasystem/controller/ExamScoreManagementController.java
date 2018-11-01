@@ -29,7 +29,8 @@ public class ExamScoreManagementController {
     @Autowired
     private ExamScoreManagementService examScoreManagementService;
 
-    // TODO: 2018/10/30 考生根据准考证和姓名查询成绩，成绩开放时间
+    // TODO: 2018/10/30 考生根据准考证和姓名查询成绩，考试是否开放查询（得写sql）
+    // TODO: 2018/11/1  管理员查询考场列表（写sql） 发成绩单邮件 管理员修改成绩 调用系统通知接口发邮件给最高管理员
 
     @ApiOperation(value = "考试查询成绩", notes = "user get examScore")
     @ApiImplicitParams({
@@ -46,12 +47,11 @@ public class ExamScoreManagementController {
             return ResponseEntity.ok(examScoreManagementService.getExamScoreByIdentifier(identifier));
         }
     }
-    // TODO: 2018/11/1 管理员excel上传
+    // TODO: 2018/11/1 管理员excel导入/导出
 
     @ApiOperation(value = "管理员查询考试成绩表", notes = "user get examScore")
     @GetMapping("/user/getExamScoreList")
     public ResponseEntity<?> getExamScoreList(){
-        // TODO: 2018/11/1 管理员 
         return ResponseEntity.ok(examScoreManagementService.getExamScoreList());
     }
 
