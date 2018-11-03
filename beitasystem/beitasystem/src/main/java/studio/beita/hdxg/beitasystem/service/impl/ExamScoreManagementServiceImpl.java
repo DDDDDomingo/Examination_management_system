@@ -3,6 +3,7 @@ package studio.beita.hdxg.beitasystem.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import studio.beita.hdxg.beitasystem.model.domain.ExamScore;
+import studio.beita.hdxg.beitasystem.model.domain.ExamSession;
 import studio.beita.hdxg.beitasystem.model.domain.ReturnScore;
 import studio.beita.hdxg.beitasystem.model.domain.ReviewPersonnel;
 import studio.beita.hdxg.beitasystem.repository.ExamScoreManagementDao;
@@ -45,8 +46,8 @@ public class ExamScoreManagementServiceImpl implements ExamScoreManagementServic
     }
 
     @Override
-    public Optional<List<ExamScore>> getExamScoreList() {
-        return Optional.ofNullable(examScoreManagementDao.getExamScoreList());
+    public Optional<List<ExamScore>> getExamScoreListBySession(Integer sessionId) {
+        return Optional.ofNullable(examScoreManagementDao.getExamScoreListBySession(sessionId));
     }
 
     @Override
@@ -62,5 +63,15 @@ public class ExamScoreManagementServiceImpl implements ExamScoreManagementServic
     @Override
     public boolean changeIsCheck(Integer userId) {
         return examScoreManagementDao.changeIsCheck(userId)>0;
+    }
+
+    @Override
+    public boolean getIsQueryByIdentifier(String identifier) {
+        return examScoreManagementDao.getIsQueryByIdentifier(identifier);
+    }
+
+    @Override
+    public Optional<List<ExamSession>> getExamSessionList() {
+        return Optional.ofNullable(examScoreManagementDao.getExamSessionList());
     }
 }

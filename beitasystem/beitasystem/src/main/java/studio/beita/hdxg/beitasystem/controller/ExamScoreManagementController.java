@@ -29,8 +29,7 @@ public class ExamScoreManagementController {
     @Autowired
     private ExamScoreManagementService examScoreManagementService;
 
-    // TODO: 2018/10/30 考生根据准考证和姓名查询成绩，考试是否开放查询（得写sql）
-    // TODO: 2018/11/1  管理员查询考场列表（写sql） 发成绩单邮件 管理员修改成绩 调用系统通知接口发邮件给最高管理员
+    // TODO: 2018/11/1   发成绩单邮件 管理员修改成绩 调用系统通知接口发邮件给最高管理员
 
     @ApiOperation(value = "考试查询成绩", notes = "user get examScore")
     @ApiImplicitParams({
@@ -39,7 +38,9 @@ public class ExamScoreManagementController {
     })
     @GetMapping("/user/getExamScore")
     public ResponseEntity<?> getExamScoreByIdentifier(String identifier,String name){
-        //判断考试开放未完成
+        if(!examScoreManagementService.getIsQueryByIdentifier(identifier)){
+            return ResponseEntity.ok("该考试成绩查询未开放");
+        }
         Optional<String> optionalString = examScoreManagementService.checkUserInfo(identifier,name);
         if(!optionalString.isPresent()){
             return ResponseEntity.ok("准考证和姓名不符！");
@@ -49,14 +50,14 @@ public class ExamScoreManagementController {
     }
     // TODO: 2018/11/1 管理员excel导入/导出
 
-    @ApiOperation(value = "管理员查询考试成绩表", notes = "user get examScore")
-    @GetMapping("/user/getExamScoreList")
-    public ResponseEntity<?> getExamScoreList(){
-        return ResponseEntity.ok(examScoreManagementService.getExamScoreList());
+    @ApiOperation(value = "管理员查询某场次的考试成绩表", notes = "user get examScore")
+    @GetMapping("/admin/getExamScoreList")
+    public ResponseEntity<?> getExamScoreList(Integer sessionId){
+        return ResponseEntity.ok(examScoreManagementService.getExamScoreListBySession(sessionId));
     }
 
     @ApiOperation(value = "管理员手动更改成绩", notes = "admin change examScore")
-    @PutMapping("/user/changeManualExamScore")
+    @PutMapping("/admin/changeManualExamScore")
     public ResponseEntity<?> getExamScoreByIdentifier(@RequestParam("ReturnScore[]") List<ReturnScore> returnScore){
         examScoreManagementService.changeExamScoreByReturnScore(returnScore);
         if(examScoreManagementService.changeExamScoreByReturnScore(returnScore)){
@@ -64,5 +65,11 @@ public class ExamScoreManagementController {
         }else{
             return ResponseEntity.ok("服务器繁忙考试成绩更改失败");
         }
+    }
+
+    @ApiOperation(value = "管理员查询考试场次", notes = "user get examSession")
+    @GetMapping("/admin/getExamSessionList")
+    public ResponseEntity<?> getExamScoreList(){
+        return ResponseEntity.ok(examScoreManagementService.getExamSessionList());
     }
 }

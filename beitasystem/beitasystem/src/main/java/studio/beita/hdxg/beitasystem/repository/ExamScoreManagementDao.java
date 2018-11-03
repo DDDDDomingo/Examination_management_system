@@ -3,6 +3,7 @@ package studio.beita.hdxg.beitasystem.repository;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 import studio.beita.hdxg.beitasystem.model.domain.ExamScore;
+import studio.beita.hdxg.beitasystem.model.domain.ExamSession;
 import studio.beita.hdxg.beitasystem.model.domain.ReturnScore;
 import studio.beita.hdxg.beitasystem.model.domain.ReviewPersonnel;
 import studio.beita.hdxg.beitasystem.repository.provider.ExamScoreManagementDaoProvider;
@@ -72,11 +73,12 @@ public interface ExamScoreManagementDao {
     Integer changeExamScoreByReturnScore(List<ReturnScore> returnScore);
 
     /**
-     * 录入管理员查看录入成绩表
+     * 录入管理员查看某场次录入成绩表
      *
+     * @param sessionId
      * @return
      */
-    @Select("SELECT score_id, exam_type_id, ticket_info_identifier, score_num FROM exam_score ORDER BY score_id ASC")
+    @Select("SELECT score_id, exam_type_id, ticket_info_identifier, score_num FROM exam_score WHERE session_id= #{sessionId} ORDER BY score_id ASC")
     @Results(
             id = "examScore",
             value = {
@@ -86,7 +88,7 @@ public interface ExamScoreManagementDao {
                     @Result(property = "scoreNum", column = "score_num"),
             }
     )
-    List<ExamScore> getExamScoreList();
+    List<ExamScore> getExamScoreListBySession(Integer sessionId);
 
     /**
      * 通过准考证获取考生姓名
@@ -112,5 +114,22 @@ public interface ExamScoreManagementDao {
      */
     @Update("UPDATE review_personnel SET enter_is_check = 1 WHERE userinfo_id= #{userId}")
     Integer changeIsCheck(Integer userId);
+
+    /**
+     * 验证准考证对应的考试成绩查询是否开放
+     *
+     * @param identifier
+     * @return
+     */
+    @Select("SELECT et.exam_isquery FROM exam_score es, exam_type et WHERE es.exam_type_id = et.exam_type_id AND es.ticket_info_identifier= #{identifier}")
+    boolean getIsQueryByIdentifier(String identifier);
+
+    /**
+     * 管理员获取考试场次列表
+     *
+     * @return
+     */
+    @Select("SELECT session_id, exam_type_id, session_place, session_time, session_capacity FROM exam_session")
+    List<ExamSession> getExamSessionList();
 
 }

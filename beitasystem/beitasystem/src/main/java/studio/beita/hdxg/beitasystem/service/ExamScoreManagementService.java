@@ -1,6 +1,7 @@
 package studio.beita.hdxg.beitasystem.service;
 
 import studio.beita.hdxg.beitasystem.model.domain.ExamScore;
+import studio.beita.hdxg.beitasystem.model.domain.ExamSession;
 import studio.beita.hdxg.beitasystem.model.domain.ReturnScore;
 import studio.beita.hdxg.beitasystem.model.domain.ReviewPersonnel;
 
@@ -48,10 +49,10 @@ public interface ExamScoreManagementService {
     boolean changeExamScoreByReturnScore(List<ReturnScore> returnScore);
 
     /**
-     * 录入管理员查看录入成绩表
+     * 录入管理员查看某场次录入成绩表
      * @return
      */
-    Optional<List<ExamScore>> getExamScoreList();
+    Optional<List<ExamScore>> getExamScoreListBySession(Integer sessionId);
 
     /**
      * 通过准考证获取考生姓名
@@ -74,4 +75,19 @@ public interface ExamScoreManagementService {
      * @return
      */
     boolean changeIsCheck(Integer userId);
+
+    /**
+     * 验证准考证对应的考试成绩查询是否开放
+     *
+     * @param identifier
+     * @return
+     */
+    boolean getIsQueryByIdentifier(String identifier);
+
+    /**
+     * 管理员获取考试场次列表
+     *
+     * @return
+     */
+    Optional<List<ExamSession>> getExamSessionList();
 }
