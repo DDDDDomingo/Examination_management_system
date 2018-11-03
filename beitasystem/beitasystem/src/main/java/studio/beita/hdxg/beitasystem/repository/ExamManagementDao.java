@@ -4,8 +4,8 @@ import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 import studio.beita.hdxg.beitasystem.model.domain.ExamInfo;
 import studio.beita.hdxg.beitasystem.repository.provider.ExamManagementDaoProvider;
-import studio.beita.hdxg.beitasystem.repository.provider.LoginRegisterDaoProvider;
 
+import javax.websocket.Session;
 import java.util.List;
 
 /**
@@ -132,4 +132,68 @@ public interface ExamManagementDao {
             }
     )
     List<ExamInfo> getSignUpExamList();
+
+    // TODO: 2018/10/28 考试场次部分 管理员分配考场
+
+    /**
+     * 管理员添加考试场次
+     *
+     * @param sessionPlace
+     * @param sessionCapacity
+     * @param sessionTime
+     * @return
+     */
+    @Insert("INSERT INTO exam_session (session_place, session_time, session_capacity) VALUES (#{sessionPlace},#{sessionTime},#{sessionCapacity})")
+    Integer addExamSession(@Param("sessionPlace") String sessionPlace, @Param("sessionCapacity") Integer sessionCapacity, @Param("sessionTime") String sessionTime);
+
+    /**
+     * 管理员根据考试场次ID删除考场
+     *
+     * @param examId
+     * @return
+     */
+    @Delete("DELETE FROM exam_session WHERE session_id = #{examId}")
+    Integer deleteExamSession(String examId);
+
+    /**
+     * 管理员获取考场列表
+     *
+     * @param examId
+     * @return
+     */
+    @SelectProvider(type = ExamManagementDaoProvider.class, method = "getExamDetails")
+    @Results(
+            id = "examDetails",
+            value = {
+                    @Result(id = true, property = "examId", column = "exam_type_id"),
+                    @Result(property = "examName", column = "exam_name"),
+                    @Result(property = "isClosed", column = "exam_isclosed"),
+                    @Result(property = "isSignUp", column = "exam_issignup"),
+                    @Result(property = "isQuery", column = "exam_isquery"),
+                    @Result(property = "auditedNum", column = "exam_audited_num"),
+                    @Result(property = "capacity", column = "exam_capacity"),
+                    @Result(property = "startTime", column = "exam_starttime"),
+                    @Result(property = "endTime", column = "exam_endtime"),
+                    @Result(property = "", column = "", many = @Many(select = "studio.beita.hdxg.beitasystem.repository.ExamManagementDao.getExamSessionByExamTypeId"))
+            }
+    )
+    ExamInfo adminGetExamDetails(String examId);
+
+    /**
+     * 通过开始ID获取考场列表
+     *
+     * @param examId
+     * @return
+     */
+    @Select("SELECT session_id, session_place, session_time, session_capacity FROM exam_session WHERE exam_type_id = #{examId}")
+    @Results(
+            id = "sessionDetails",
+            value = {
+                    @Result(id = true, property = "sessionId", column = "session_id"),
+                    @Result(property = "sessionPlace", column = "session_place"),
+                    @Result(property = "sessionCapacity", column = "session_time"),
+                    @Result(property = "sessionTime", column = "session_capacity")
+            }
+    )
+    List<Session> getExamSessionByExamTypeId(String examId);
 }

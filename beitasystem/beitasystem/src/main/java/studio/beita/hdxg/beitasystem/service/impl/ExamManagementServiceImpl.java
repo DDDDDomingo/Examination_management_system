@@ -77,4 +77,19 @@ public class ExamManagementServiceImpl implements ExamManagementService {
         return examManagementDao.getSignUpExamList();
     }
 
+    @Override
+    public boolean addExamSession(String sessionPlace, Integer sessionCapacity, String sessionTime) {
+        return false;
+    }
+
+    @Override
+    public boolean deleteExamSession(String examId) {
+        return false;
+    }
+
+    @Override
+    public ExamInfo adminGetExamDetails(String examId) {
+        return null;
+    }
+
 }

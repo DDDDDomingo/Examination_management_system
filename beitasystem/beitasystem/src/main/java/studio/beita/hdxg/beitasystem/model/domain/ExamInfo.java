@@ -1,9 +1,12 @@
 package studio.beita.hdxg.beitasystem.model.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+import javax.websocket.Session;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author ydq
@@ -49,6 +52,8 @@ public class ExamInfo implements Serializable {
     private Date startTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date endTime;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<Session> sessionList;
 
 
     public ExamInfo() {
@@ -130,6 +135,14 @@ public class ExamInfo implements Serializable {
         this.endTime = endTime;
     }
 
+    public List<Session> getSessionList() {
+        return sessionList;
+    }
+
+    public void setSessionList(List<Session> sessionList) {
+        this.sessionList = sessionList;
+    }
+
     @Override
     public String toString() {
         return "ExamInfo{" +
@@ -142,6 +155,7 @@ public class ExamInfo implements Serializable {
                 ", capacity=" + capacity +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
+                ", sessionList=" + sessionList +
                 '}';
     }
 }

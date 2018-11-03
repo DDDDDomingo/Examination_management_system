@@ -97,4 +97,29 @@ public interface ExamManagementService {
      */
     List<ExamInfo> getSignUpExamList(Integer pageNumber, Integer pageSize);
 
+    // TODO: 2018/10/28 考试场次部分 管理员分配考场
+
+    /**
+     * 管理员添加考试场次
+     *
+     * @param sessionPlace
+     * @param sessionCapacity
+     * @param sessionTime
+     * @return
+     */
+    boolean addExamSession(String sessionPlace, Integer sessionCapacity, String sessionTime);
+
+    /**
+     * 管理员根据考试场次ID删除考场
+     * @param examId
+     * @return
+     */
+    boolean deleteExamSession(String examId);
+
+    /**
+     * 管理员获取考场列表
+     * @param examId
+     * @return
+     */
+    ExamInfo adminGetExamDetails(String examId);
 }
