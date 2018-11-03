@@ -13,7 +13,6 @@ import studio.beita.hdxg.beitasystem.exception.ExamManagement.ExamDoesNotExistEx
 import studio.beita.hdxg.beitasystem.exception.ExamManagement.ExamIsClosedException;
 import studio.beita.hdxg.beitasystem.exception.ExamManagement.ExamQueryCannotChangeException;
 import studio.beita.hdxg.beitasystem.model.domain.ExamInfo;
-import studio.beita.hdxg.beitasystem.model.domain.UserInfo;
 import studio.beita.hdxg.beitasystem.service.ExamManagementService;
 
 import java.util.Optional;
@@ -48,7 +47,7 @@ public class ExamManagementController {
         } else {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("服务器繁忙！添加考试失败！请稍后重试");
+                    .body("服务器繁忙！添加考试失败！请稍后重试！");
         }
     }
 
@@ -64,7 +63,7 @@ public class ExamManagementController {
         } else {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("服务器繁忙！修改考试失败！请稍后重试");
+                    .body("服务器繁忙！修改考试失败！请稍后重试！");
         }
     }
 
@@ -124,7 +123,6 @@ public class ExamManagementController {
 
         return ResponseEntity
                 .ok(examInfo.get());
-
     }
 
     // TODO: 2018/10/28 移除考试管理模块 到 考试报名模块
@@ -141,9 +139,52 @@ public class ExamManagementController {
                 .ok(signUpExamInfoList);
     }
 
-    // TODO: 2018/10/28 考试场次部分 管理员分配考场
+    // TODO: 2018/10/28 考试场次部分 管理员分配考场1
+    @ApiOperation(value = "管理员添加考试场次", notes = "admin add session")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "sessionPlace", value = "考试场次地点", dataType = "String", paramType = "query", required = true),
+            @ApiImplicitParam(name = "sessionCapacity", value = "考场容量", dataType = "Integer", paramType = "query", required = true),
+            @ApiImplicitParam(name = "sessionTime", value = "考试时间", dataType = "String", paramType = "query", required = true)
+    })
+    @PostMapping("/admin/exam/session/add")
+    public ResponseEntity<?> addExamSession(String sessionPlace, Integer sessionCapacity, String sessionTime){
+        if(examManagementService.addExamSession(sessionPlace, sessionCapacity, sessionTime)){
+            return ResponseEntity
+                    .ok("添加考场成功！");
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("服务器繁忙！添加考场失败！请稍后重试！");
+        }
+    }
 
+    @ApiOperation(value = "管理员删除考试场次", notes = "admin delete session")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "examId", value = "考试类型ID", dataType = "String", paramType = "query", required = true)
+    })
+    @DeleteMapping("/admin/exam/session/delete")
+    public ResponseEntity<?> deleteExamSession(String examId){
+        if(examManagementService.deleteExamSession(examId)){
+            return ResponseEntity
+                    .ok("删除考试成功！");
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("服务器繁忙！删除考试失败！请稍后重试！");
+        }
+    }
 
+    @ApiOperation(value = "考生/管理员通过考试ID获取考试信息", notes = "get exam details by id")
+    @GetMapping("/admin/exam/{examId}")
+    public ResponseEntity<?> adminGetExamDetails(String examId){
+        Optional<ExamInfo> examInfoAdmin = examManagementService.adminGetExamDetails(examId);
+
+        examInfoAdmin.orElseThrow(
+                () -> new ExamDoesNotExistException());
+
+        return ResponseEntity
+                .ok(examInfoAdmin.get());
+    }
 
     /********************************** HELPER METHOD **********************************/
 

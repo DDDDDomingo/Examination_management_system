@@ -121,5 +121,5 @@ public interface ExamManagementService {
      * @param examId
      * @return
      */
-    ExamInfo adminGetExamDetails(String examId);
+    Optional<ExamInfo> adminGetExamDetails(String examId);
 }

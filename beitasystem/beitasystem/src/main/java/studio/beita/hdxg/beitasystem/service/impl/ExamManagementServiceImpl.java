@@ -79,17 +79,17 @@ public class ExamManagementServiceImpl implements ExamManagementService {
 
     @Override
     public boolean addExamSession(String sessionPlace, Integer sessionCapacity, String sessionTime) {
-        return false;
+        return examManagementDao.addExamSession(sessionPlace, sessionCapacity, sessionTime) > 0;
     }
 
     @Override
     public boolean deleteExamSession(String examId) {
-        return false;
+        return examManagementDao.deleteExamSession(examId) > 0;
     }
 
     @Override
-    public ExamInfo adminGetExamDetails(String examId) {
-        return null;
+    public Optional<ExamInfo> adminGetExamDetails(String examId) {
+        return Optional.ofNullable(examManagementDao.adminGetExamDetails(examId));
     }
 
 }
