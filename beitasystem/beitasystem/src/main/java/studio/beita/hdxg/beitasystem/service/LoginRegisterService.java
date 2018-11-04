@@ -15,16 +15,6 @@ import java.util.Optional;
 public interface LoginRegisterService {
 
     /**
-     * 系统最高管理员添加管理员账号
-     *
-     * @param account
-     * @param password
-     * @param email
-     * @return
-     */
-    boolean insertUserByAdmin(String account, String password, String email);
-
-    /**
      * 用户注册账号
      *
      * @param account
@@ -36,6 +26,7 @@ public interface LoginRegisterService {
 
     /**
      * 用户通过账号登陆或者通过邮箱登陆
+     *
      * @param account
      * @param email
      * @param password

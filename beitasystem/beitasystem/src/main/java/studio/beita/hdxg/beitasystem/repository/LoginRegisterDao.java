@@ -18,18 +18,14 @@ import studio.beita.hdxg.beitasystem.repository.provider.PersonalInformationDaoP
 public interface LoginRegisterDao {
 
     /**
-     * 管理员添加管理员账号
+     * 添加用户与用户组关系
      *
      * @param userId
-     * @param account
-     * @param password
-     * @param email
+     * @param groupId
      * @return
      */
-    @InsertProvider(type = LoginRegisterDaoProvider.class, method = "insertUserByAdmin")
-    Integer insertUserByAdmin(@Param("userId") String userId, @Param("account") String account, @Param("password") String password, @Param("email") String email);
-
-    //@Options(keyProperty = "id", keyColumn = "xpsp_id", useGeneratedKeys = true)
+    @Insert("INSERT INTO rel_ui_ug (userinfo_id, group_id) VALUES (#{userId},#{groupId})")
+    Integer insertRelUiUg(String userId, Integer groupId);
 
     /**
      * 游客注册用户

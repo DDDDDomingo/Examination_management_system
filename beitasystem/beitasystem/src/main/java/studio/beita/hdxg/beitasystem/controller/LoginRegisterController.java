@@ -37,26 +37,6 @@ public class LoginRegisterController {
     @Autowired
     private LoginRegisterService loginRegisterService;
 
-    @ApiOperation(value = "最高管理员添加下级审核员账号", notes = "add admin")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "account", value = "用户名", dataType = "String", paramType = "query", required = true),
-            @ApiImplicitParam(name = "password", value = "密码", dataType = "String", paramType = "query", required = true),
-            @ApiImplicitParam(name = "email", value = "邮箱", dataType = "String", paramType = "query")
-    })
-    @PostMapping("/admin/add")
-    public ResponseEntity<?> insertUserByAdmin(String account, String password, String email) {
-        //验证账号名是否已经被占用
-        Optional<String> userInfo = loginRegisterService.isAccountUsed(account);
-        if (userInfo.isPresent()) {
-            userInfo.orElseThrow(
-                    () -> new AccountIsUsedException());
-        }
-        //管理员注册账号
-        loginRegisterService.insertUserByAdmin(account, password, email);
-        return ResponseEntity.ok(ResponseConstant.ACCOUNT_REGISTER_SUCCESS);
-
-    }
-
     @ApiOperation(value = "用户注册账号", notes = "user register")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "account", value = "用户名", dataType = "String", paramType = "query", required = true),
@@ -65,6 +45,7 @@ public class LoginRegisterController {
     })
     @PostMapping("/user/register")
     public ResponseEntity<?> register(String account, String password, String email) {
+        // TODO: 2018/11/4 添加用户与用户组关系记录
         //验证账号名是否已经被占用
         Optional<String> userInfo = loginRegisterService.isAccountUsed(account);
         if (userInfo.isPresent()) {

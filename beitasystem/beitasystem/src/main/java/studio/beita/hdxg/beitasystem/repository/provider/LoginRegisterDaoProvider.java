@@ -16,30 +16,6 @@ public class LoginRegisterDaoProvider {
     // TODO: 2018/10/31 创建个人用户信息表的方法有改动 创建时自动添加默认头像路径
 
     /**
-     * 管理员添加管理员账号
-     *
-     * @param uiMap
-     * @return
-     */
-    public String insertUserByAdmin(Map<String, Object> uiMap) {
-        String userId = (String) uiMap.get("userId");
-        String account = (String) uiMap.get("account");
-        String password = (String) uiMap.get("password");
-        String email = (String) uiMap.get("email");
-        return new SQL() {
-            {
-                INSERT_INTO("user_info");
-                VALUES("userinfo_id", "#{userId}");
-                VALUES("userinfo_account", "#{account}");
-                VALUES("userinfo_password", "#{password}");
-                if (email != null && !email.equals("")) {
-                    VALUES("userinfo_email", "#{email}");
-                }
-            }
-        }.toString();
-    }
-
-    /**
      * 用户登陆验证
      *
      * @param uiMap
