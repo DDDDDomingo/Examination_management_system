@@ -64,9 +64,15 @@ public interface ExamScoreManagementDao {
      * @param returnScore
      * @return
      */
-    @Update("<script>UPDATE exam_score SET score_num = #{ScoreNum} WHERE ticket_info_identifier in" +
-            "<foreach item=\"id\" index=\"index\" collection=\"returnScore\" open=\"(\" separator=\",\" close=\")\">" +
-            "#{identifier}" +
+    @Update("<script>" +
+            "UPDATE exam_score " +
+            "SET score_num = " +
+            "<foreach item=\"item1\" index=\"index\" collection=\"list\" open=\"(\" separator=\",\" close=\")\">" +
+            "#{item1.scoreNum} " +
+            "</foreach>" +
+            "WHERE ticket_info_identifier = " +
+            "<foreach item=\"item1\" index=\"index\" collection=\"list\" open=\"(\" separator=\",\" close=\")\">" +
+            "#{item1.identifier}" +
             "</foreach>" +
             "</script>")
     Integer changeExamScoreByReturnScore(List<ReturnScore> returnScore);

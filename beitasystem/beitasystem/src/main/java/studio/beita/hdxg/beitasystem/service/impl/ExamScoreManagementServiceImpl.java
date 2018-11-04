@@ -1,5 +1,6 @@
 package studio.beita.hdxg.beitasystem.service.impl;
 
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -99,20 +100,24 @@ public class ExamScoreManagementServiceImpl implements ExamScoreManagementServic
         //储存Excel
         String fileName = ExcelUtils.uploadExcel(file, USER_EXCEL_FILE_REPOSITORY);
         //取出Excel进行解析
-        FileInputStream inputStream = new FileInputStream(new File(USER_EXCEL_FILE_REPOSITORY+fileName));
+        FileInputStream inputStream = new FileInputStream(new File(USER_EXCEL_FILE_REPOSITORY+"\\"+fileName));
         XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
         XSSFSheet sheet = workbook.getSheetAt(0);
         //动态匹配准考证和成绩对应列
         int identifierLine=0,scoreNumline=0;
         XSSFRow row = sheet.getRow(0);
         XSSFCell cell;
-        for(int i=0;i<10;i++){
-            cell = row.getCell(i);
-            if(cell.getStringCellValue().equals("准考证")){
-                identifierLine = i;
-            }
-            if(cell.getStringCellValue().equals("成绩")){
-                scoreNumline = i;
+        for(int i=0;i<5;i++){
+            if(row.getCell(i)!=null){
+                row.getCell(i).setCellType(Cell.CELL_TYPE_STRING);
+                if(row.getCell(i).getStringCellValue()!=null) {
+                    if (row.getCell(i).getStringCellValue().equals("准考证")) {
+                        identifierLine = i;
+                    }
+                    if (row.getCell(i).getStringCellValue().equals("成绩")) {
+                        scoreNumline = i;
+                    }
+                }
             }
         }
         //将数据填入List
@@ -120,12 +125,18 @@ public class ExamScoreManagementServiceImpl implements ExamScoreManagementServic
         //获取总行数
         int rowNum=sheet.getLastRowNum();
         ReturnScore rs = new ReturnScore();
-        for(int i=0;i<rowNum;i++){
+        for(int i=1;i<=rowNum;i++){
             row = sheet.getRow(i);
-            rs.setIdentifier(row.getCell(identifierLine).getStringCellValue());
-            if(row.getCell(scoreNumline).getStringCellValue()!=null){
-                rs.setScoreNum(Integer.valueOf(row.getCell(scoreNumline).getStringCellValue()));
+            if(row.getCell(identifierLine)!=null) {
+                row.getCell(identifierLine).setCellType(Cell.CELL_TYPE_STRING);
+                rs.setIdentifier(row.getCell(identifierLine).getStringCellValue());
             }
+            if(row.getCell(scoreNumline)!=null){
+                row.getCell(scoreNumline).setCellType(Cell.CELL_TYPE_STRING);
+                String sn = row.getCell(scoreNumline).getStringCellValue();
+                rs.setScoreNum(Integer.valueOf(sn));
+            }
+            rs.setName("1");
             returnScoreList.add(rs);
         }
         return returnScoreList;
