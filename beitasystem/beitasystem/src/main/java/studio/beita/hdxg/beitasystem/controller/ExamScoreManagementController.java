@@ -68,7 +68,7 @@ public class ExamScoreManagementController {
 
     // TODO: 2018/11/1 管理员excel导入/导出 未测试
     @ApiOperation(value = "管理员excel导入成绩", notes = "admin examScore excel")
-    @PostMapping("/admin/getExamScoreList")
+    @PostMapping("/admin/getExamScoreListByExcel")
     public ResponseEntity<?> getExamScoreListByExcel(@RequestParam("file") MultipartFile file) throws IOException {
         List<ReturnScore> returnScoreList = examScoreManagementService.changeExamScoreByByExcel(file);
         if(examScoreManagementService.changeExamScoreByReturnScore(returnScoreList)){
