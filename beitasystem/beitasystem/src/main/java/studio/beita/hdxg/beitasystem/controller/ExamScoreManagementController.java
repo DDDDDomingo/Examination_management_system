@@ -66,9 +66,8 @@ public class ExamScoreManagementController {
         }
     }
 
-    // TODO: 2018/11/1 管理员excel导入/导出 未测试
     @ApiOperation(value = "管理员excel导入成绩", notes = "admin examScore excel")
-    @PostMapping("/admin/getExamScoreListByExcel")
+    @PutMapping("/admin/getExamScoreListByExcel")
     public ResponseEntity<?> getExamScoreListByExcel(@RequestParam("file") MultipartFile file) throws IOException {
         List<ReturnScore> returnScoreList = examScoreManagementService.changeExamScoreByByExcel(file);
         if(examScoreManagementService.changeExamScoreByReturnScore(returnScoreList)){
@@ -77,12 +76,13 @@ public class ExamScoreManagementController {
             return ResponseEntity.ok("服务器繁忙Excel考试成绩录入更改失败");
         }
     }
-
+    // TODO: 2018/11/1 管理员excel导出 未测试
     @ApiOperation(value = "管理员excel导出成绩", notes = "admin examScore excel")
     @GetMapping("/admin/outputExamScoreByExcel")
     public ResponseEntity<?> outputExamScoreListByExcel(Integer sessionId) throws IOException {
         //获取成绩列表
         Optional<List<ExamScore>> examScoreListOptional=examScoreManagementService.getExamScoreListBySession(sessionId);
+        examScoreListOptional.get().get(0).toString();
         if(examScoreManagementService.outputExamScoreListByExcel(examScoreListOptional)){
             return ResponseEntity.ok("Excel导出成功");
         }
