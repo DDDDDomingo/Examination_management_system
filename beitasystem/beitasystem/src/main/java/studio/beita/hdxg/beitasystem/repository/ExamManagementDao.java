@@ -163,7 +163,7 @@ public interface ExamManagementDao {
      */
     @SelectProvider(type = ExamManagementDaoProvider.class, method = "getExamDetails")
     @Results(
-            id = "examDetails",
+            id = "examAdminDetails",
             value = {
                     @Result(id = true, property = "examId", column = "exam_type_id"),
                     @Result(property = "examName", column = "exam_name"),
@@ -174,7 +174,7 @@ public interface ExamManagementDao {
                     @Result(property = "capacity", column = "exam_capacity"),
                     @Result(property = "startTime", column = "exam_starttime"),
                     @Result(property = "endTime", column = "exam_endtime"),
-                    @Result(property = "", column = "", many = @Many(select = "studio.beita.hdxg.beitasystem.repository.ExamManagementDao.getExamSessionByExamTypeId"))
+                    @Result(property = "sessionList", column = "examId", many = @Many(select = "studio.beita.hdxg.beitasystem.repository.ExamManagementDao.getExamSessionByExamTypeId"))
             }
     )
     ExamInfo adminGetExamDetails(String examId);
