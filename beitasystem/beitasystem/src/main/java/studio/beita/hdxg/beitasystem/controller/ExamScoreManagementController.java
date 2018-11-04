@@ -11,10 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import studio.beita.hdxg.beitasystem.model.domain.ExamScore;
 import studio.beita.hdxg.beitasystem.model.domain.ReturnScore;
@@ -68,9 +65,10 @@ public class ExamScoreManagementController {
             return ResponseEntity.ok(examScoreManagementService.getExamScoreByIdentifier(identifier));
         }
     }
+
     // TODO: 2018/11/1 管理员excel导入/导出 未测试
     @ApiOperation(value = "管理员excel导入成绩", notes = "admin examScore excel")
-    @GetMapping("/admin/getExamScoreList")
+    @PostMapping("/admin/getExamScoreList")
     public ResponseEntity<?> getExamScoreListByExcel(@RequestParam("file") MultipartFile file) throws IOException {
         List<ReturnScore> returnScoreList = examScoreManagementService.changeExamScoreByByExcel(file);
         if(examScoreManagementService.changeExamScoreByReturnScore(returnScoreList)){
