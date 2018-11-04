@@ -92,7 +92,7 @@ public class ExamScoreManagementController {
     }
 
     @ApiOperation(value = "管理员查询某场次的考试成绩表", notes = "user get examScore")
-    @GetMapping("/admin/getExamScoreList")
+    @GetMapping("/admin/ExamScoreList/{sessionId}")
     public ResponseEntity<?> getExamScoreList(Integer sessionId){
         return ResponseEntity.ok(examScoreManagementService.getExamScoreListBySession(sessionId));
     }
