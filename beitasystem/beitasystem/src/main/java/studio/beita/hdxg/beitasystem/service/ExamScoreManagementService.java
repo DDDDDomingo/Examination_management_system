@@ -1,10 +1,12 @@
 package studio.beita.hdxg.beitasystem.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import studio.beita.hdxg.beitasystem.model.domain.ExamScore;
 import studio.beita.hdxg.beitasystem.model.domain.ExamSession;
 import studio.beita.hdxg.beitasystem.model.domain.ReturnScore;
 import studio.beita.hdxg.beitasystem.model.domain.ReviewPersonnel;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -90,4 +92,21 @@ public interface ExamScoreManagementService {
      * @return
      */
     Optional<List<ExamSession>> getExamSessionList();
+
+    /**
+     * 通过前台Excel成绩更改考试成绩
+     *
+     * @param file
+     * @return
+     */
+    List<ReturnScore> changeExamScoreByByExcel(MultipartFile file) throws IOException;
+
+    /**
+     * 管理员excel导出成绩
+     *
+     * @param examScoreListOptional
+     * @return
+     * @throws IOException
+     */
+    boolean outputExamScoreListByExcel(Optional<List<ExamScore>> examScoreListOptional) throws IOException ;
 }

@@ -21,7 +21,6 @@ import java.util.List;
 @Repository
 public interface ExamScoreManagementDao {
 
-    // TODO: 2018/10/30 查询成绩返回4个属性（考试名称，准考证号，学生姓名，成绩）通过准考证查询考试名称
     /**
      * 考生通过准考证查询成绩
      *
