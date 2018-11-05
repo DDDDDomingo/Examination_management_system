@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2018-11-05 12:12:20
+Date: 2018-11-05 13:05:03
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -125,6 +125,7 @@ CREATE TABLE `exam_signup_list` (
   `details_id` char(12) NOT NULL COMMENT '用户个人信息表id',
   `signup_time` datetime NOT NULL COMMENT '考试报名时间',
   `signup_isconfirm` tinyint(4) NOT NULL COMMENT '审核是否通过',
+  `signup_birth_month` int(11) NOT NULL COMMENT '考生出生月份（分配标准）',
   PRIMARY KEY (`signup_id`),
   KEY `exam_type_id` (`exam_type_id`),
   KEY `details_id` (`details_id`),
