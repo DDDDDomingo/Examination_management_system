@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import studio.beita.hdxg.beitasystem.annotation.ControllerLog;
 import studio.beita.hdxg.beitasystem.exception.ExamManagement.ExamDoesNotExistException;
 import studio.beita.hdxg.beitasystem.exception.ExamManagement.ExamIsClosedException;
 import studio.beita.hdxg.beitasystem.exception.ExamManagement.ExamQueryCannotChangeException;
@@ -39,7 +40,8 @@ public class ExamManagementController {
             @ApiImplicitParam(name = "endTime", value = "考试结束时间", dataType = "String", paramType = "query", required = true)
     })
     @PostMapping("/admin/exam/add")
-    public ResponseEntity<?> addExam(String examName, Integer examCapacity, String startTime, String endTime) {
+    @ControllerLog(description = "最高管理员添加考试")
+    public ResponseEntity<?> addExamByAdmin(String examName, Integer examCapacity, String startTime, String endTime) {
         if (examManagementService.addExam(examName, examCapacity, startTime, endTime)) {
             return ResponseEntity
                     .ok("添加考试成功！");
@@ -55,8 +57,9 @@ public class ExamManagementController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "examId", value = "考试类型ID", dataType = "String", paramType = "query", required = true)
     })
-    @PutMapping("/admin/exam/cgClosed")
-    public ResponseEntity<?> changeExamClosed(String examId) {
+    @PutMapping("/admin/exam/close")
+    @ControllerLog(description = "管理员修改：考试是否结束")
+    public ResponseEntity<?> changeExamClosedByAdmin(String examId) {
         if (examManagementService.changeExamClosed(examId)) {
             return ResponseEntity
                     .ok("修改成功！考试已结束！");
@@ -72,8 +75,9 @@ public class ExamManagementController {
             @ApiImplicitParam(name = "examId", value = "考试类型ID", dataType = "String", paramType = "query", required = true),
             @ApiImplicitParam(name = "isSignUp", value = "考试是否可以报名", dataType = "boolean", paramType = "query", required = true)
     })
-    @PutMapping("/admin/exam/cgSignUp")
-    public ResponseEntity<?> changeExamSignUp(String examId, boolean isSignUp) {
+    @PutMapping("/admin/exam/signUp")
+    @ControllerLog(description = "管理员修改：考试是否可以报名")
+    public ResponseEntity<?> changeExamSignUpByAdmin(String examId, boolean isSignUp) {
         //验证考试是否已经关闭
         assertExamIsClosed(examId);
         //修改考试为可报名
@@ -88,8 +92,9 @@ public class ExamManagementController {
             @ApiImplicitParam(name = "examId", value = "考试类型ID", dataType = "String", paramType = "query", required = true),
             @ApiImplicitParam(name = "isQuery", value = "考试是否可以查询成绩", dataType = "boolean", paramType = "query", required = true)
     })
-    @PutMapping("/admin/exam/cgQuery")
-    public ResponseEntity<?> changeExamQuery(String examId, boolean isQuery) {
+    @PutMapping("/admin/exam/query")
+    @ControllerLog(description = "管理员修改：考试是否可以查询")
+    public ResponseEntity<?> changeExamQueryByAdmin(String examId, boolean isQuery) {
         //修改考试成绩为可查询时，保证考试未结束，考试报名已结束
         assertExamIsClosedSignUp(examId);
 
@@ -106,7 +111,9 @@ public class ExamManagementController {
             @ApiImplicitParam(name = "pageSize", value = "每页可容纳数量", dataType = "int", paramType = "query", required = true)
     })
     @GetMapping("/admin/exam/list")
-    public ResponseEntity<?> getExamList(Integer pageNumber, Integer pageSize) {
+    @ControllerLog(description = "管理员获取所有考试列表")
+
+    public ResponseEntity<?> getExamListByAdmin(Integer pageNumber, Integer pageSize) {
         PageInfo<ExamInfo> examInfoList = new PageInfo<>(examManagementService.getExamList(pageNumber, pageSize));
 
         return ResponseEntity
@@ -147,7 +154,8 @@ public class ExamManagementController {
             @ApiImplicitParam(name = "sessionTime", value = "考试时间", dataType = "String", paramType = "query", required = true)
     })
     @PostMapping("/admin/exam/session/add")
-    public ResponseEntity<?> addExamSession(String sessionPlace, Integer sessionCapacity, String sessionTime){
+    @ControllerLog(description = "管理员添加考试场次")
+    public ResponseEntity<?> addExamSessionByAdmin(String sessionPlace, Integer sessionCapacity, String sessionTime){
         if(examManagementService.addExamSession(sessionPlace, sessionCapacity, sessionTime)){
             return ResponseEntity
                     .ok("添加考场成功！");
@@ -163,7 +171,8 @@ public class ExamManagementController {
             @ApiImplicitParam(name = "examId", value = "考试类型ID", dataType = "String", paramType = "query", required = true)
     })
     @DeleteMapping("/admin/exam/session/delete")
-    public ResponseEntity<?> deleteExamSession(String examId){
+    @ControllerLog(description = "管理员删除考试场次")
+    public ResponseEntity<?> deleteExamSessionByAdmin(String examId){
         if(examManagementService.deleteExamSession(examId)){
             return ResponseEntity
                     .ok("删除考试成功！");
@@ -176,7 +185,8 @@ public class ExamManagementController {
 
     @ApiOperation(value = "考生/管理员通过考试ID获取考试信息", notes = "get exam details by id")
     @GetMapping("/admin/exam/{examId}")
-    public ResponseEntity<?> adminGetExamDetails(@PathVariable("examId") String examId){
+    @ControllerLog(description = "管理员通过考试ID获取考试信息")
+    public ResponseEntity<?> adminGetExamDetailsByAdmin(@PathVariable("examId") String examId){
         Optional<ExamInfo> examInfoAdmin = examManagementService.adminGetExamDetails(examId);
 
         examInfoAdmin.orElseThrow(

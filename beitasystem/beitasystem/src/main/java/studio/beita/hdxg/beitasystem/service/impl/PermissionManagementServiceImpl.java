@@ -35,6 +35,12 @@ public class PermissionManagementServiceImpl implements PermissionManagementServ
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean deleteUserByAdmin(String userId) {
+        return permissionManagementDao.deleteUserByAdmin(userId) > 0;
+    }
+
+    @Override
     public Optional<String> isAccountUsed(String account) {
         return Optional.ofNullable(permissionManagementDao.isAccountUsed(account));
     }

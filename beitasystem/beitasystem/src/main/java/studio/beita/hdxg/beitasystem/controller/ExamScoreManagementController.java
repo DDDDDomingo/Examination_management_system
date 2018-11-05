@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import studio.beita.hdxg.beitasystem.annotation.ControllerLog;
 import studio.beita.hdxg.beitasystem.model.domain.ExamScore;
 import studio.beita.hdxg.beitasystem.model.domain.ReturnScore;
 import studio.beita.hdxg.beitasystem.service.ExamScoreManagementService;
@@ -36,7 +37,7 @@ import java.util.Optional;
 @Api(value = "ExamScoreManagementController", description = "ExamScoreManagementController")
 @RestController
 public class ExamScoreManagementController {
-
+    // TODO: 2018/11/5 controller mapping 规范化
     /**
      * EXCEL存储位置
      */
@@ -68,7 +69,8 @@ public class ExamScoreManagementController {
 
     @ApiOperation(value = "管理员excel导入成绩", notes = "admin examScore excel")
     @PutMapping("/admin/getExamScoreListByExcel")
-    public ResponseEntity<?> getExamScoreListByExcel(@RequestParam("file") MultipartFile file) throws IOException {
+    @ControllerLog(description = "管理员excel导入成绩")
+    public ResponseEntity<?> getExamScoreListByExcelByAdmin(@RequestParam("file") MultipartFile file) throws IOException {
         List<ReturnScore> returnScoreList = examScoreManagementService.changeExamScoreByByExcel(file);
         if(examScoreManagementService.changeExamScoreByReturnScore(returnScoreList)){
             return ResponseEntity.ok("考生成绩Excel录入成功！");
@@ -79,7 +81,8 @@ public class ExamScoreManagementController {
     // TODO: 2018/11/1 管理员excel导出 未测试
     @ApiOperation(value = "管理员excel导出成绩", notes = "admin examScore excel")
     @GetMapping("/admin/outputExamScoreByExcel")
-    public ResponseEntity<?> outputExamScoreListByExcel(Integer sessionId) throws IOException {
+    @ControllerLog(description = "管理员excel导出成绩")
+    public ResponseEntity<?> outputExamScoreListByExcelByAdmin(Integer sessionId) throws IOException {
         //获取成绩列表
         Optional<List<ExamScore>> examScoreListOptional=examScoreManagementService.getExamScoreListBySession(sessionId);
         examScoreListOptional.get().get(0).toString();
@@ -91,13 +94,15 @@ public class ExamScoreManagementController {
 
     @ApiOperation(value = "管理员查询某场次的考试成绩表", notes = "user get examScore")
     @GetMapping("/admin/ExamScoreList/{sessionId}")
-    public ResponseEntity<?> getExamScoreList(Integer sessionId){
+    @ControllerLog(description = "管理员查询某场次的考试成绩表")
+    public ResponseEntity<?> getExamScoreListByAdmin(Integer sessionId){
         return ResponseEntity.ok(examScoreManagementService.getExamScoreListBySession(sessionId));
     }
 
     @ApiOperation(value = "管理员手动更改成绩", notes = "admin change examScore")
     @PutMapping("/admin/changeManualExamScore")
-    public ResponseEntity<?> getExamScoreByIdentifier(@RequestParam("ReturnScore[]") List<ReturnScore> returnScore){
+    @ControllerLog(description = "管理员手动更改成绩")
+    public ResponseEntity<?> getExamScoreByIdentifierByAdmin(@RequestParam("ReturnScore[]") List<ReturnScore> returnScore){
         if(examScoreManagementService.changeExamScoreByReturnScore(returnScore)){
             return ResponseEntity.ok("考生成绩录入成功！");
         }else{
@@ -107,7 +112,8 @@ public class ExamScoreManagementController {
 
     @ApiOperation(value = "管理员查询考试场次", notes = "user get examSession")
     @GetMapping("/admin/getExamSessionList")
-    public ResponseEntity<?> getExamScoreList(){
+    @ControllerLog(description = "管理员查询考试场次")
+    public ResponseEntity<?> getExamScoreListByAdmin(){
         return ResponseEntity.ok(examScoreManagementService.getExamSessionList());
     }
 }

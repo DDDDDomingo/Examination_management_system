@@ -42,6 +42,15 @@ public interface PermissionManagementDao {
     Integer insertRelUiUg(String userId, Integer groupId);
 
     /**
+     * 最高管理员通过ID删除管理员
+     *
+     * @param userId
+     * @return
+     */
+    @Delete("DELETE FROM user_info WHERE userinfo_id = #{userId}")
+    Integer deleteUserByAdmin(String userId);
+
+    /**
      * 系统验证账号是否已被使用
      *
      * @param account
@@ -82,5 +91,6 @@ public interface PermissionManagementDao {
             }
     )
     List<UserInfo> getUserByUserIdList(List<Integer> userInfoIdList);
+
 
 }

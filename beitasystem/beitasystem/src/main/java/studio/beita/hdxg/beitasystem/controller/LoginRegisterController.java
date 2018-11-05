@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
+import studio.beita.hdxg.beitasystem.annotation.ControllerLog;
 import studio.beita.hdxg.beitasystem.constant.ResourceNameConstant;
 import studio.beita.hdxg.beitasystem.constant.ResponseConstant;
 import studio.beita.hdxg.beitasystem.exception.LoginRegister.AccountIsUsedException;
@@ -72,6 +73,22 @@ public class LoginRegisterController {
         return ResponseEntity.ok(ResponseConstant.ASSERT_LOGIN_SUCCESS);
     }
 
+    @ApiOperation(value = "管理员登陆验证", notes = "admin login")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "account", value = "用户名", dataType = "String", paramType = "query"),
+            @ApiImplicitParam(name = "password", value = "密码", dataType = "String", paramType = "query", required = true),
+            @ApiImplicitParam(name = "email", value = "邮箱", dataType = "String", paramType = "query")
+    })
+    @GetMapping("/admin/login")
+    @ControllerLog(description = "管理员登陆验证")
+    public ResponseEntity<?> adminAssertLogin(String account, String email, String password) {
+        //验证登陆信息
+        assertLoginAccount(account, email, password);
+        // TODO: 2018/10/27 添加JWT
+        //登陆成功
+        return ResponseEntity.ok(ResponseConstant.ASSERT_LOGIN_SUCCESS);
+    }
+
     @ApiOperation(value = "用户修改密码", notes = "user change password")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId", value = "用户ID", dataType = "Integer", paramType = "query", required = true),
@@ -79,7 +96,7 @@ public class LoginRegisterController {
             @ApiImplicitParam(name = "oldPwd", value = "旧密码", dataType = "String", paramType = "query", required = true),
             @ApiImplicitParam(name = "newPwd", value = "新密码", dataType = "String", paramType = "query", required = true)
     })
-    @PutMapping("/user/changePwd")
+    @PutMapping("/user/password/change")
     public ResponseEntity<?> changeUserPwd(String userId, String account, String oldPwd, String newPwd) {
         // TODO: 2018/10/28 待测试
         //验证账号信息是否正确

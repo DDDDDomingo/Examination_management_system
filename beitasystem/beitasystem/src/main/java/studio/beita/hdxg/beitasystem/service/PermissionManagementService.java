@@ -25,6 +25,14 @@ public interface PermissionManagementService {
     boolean insertUserByAdmin(String account, String password, String email, Integer groupId);
 
     /**
+     * 最高管理员通过ID删除管理员
+     *
+     * @param userId
+     * @return
+     */
+    boolean deleteUserByAdmin(String userId);
+
+    /**
      * 系统验证账号名是否已被使用
      *
      * @param account
@@ -34,6 +42,7 @@ public interface PermissionManagementService {
 
     /**
      * 通过用户组ID获取底下的用户List
+     *
      * @param groupId
      * @return
      */

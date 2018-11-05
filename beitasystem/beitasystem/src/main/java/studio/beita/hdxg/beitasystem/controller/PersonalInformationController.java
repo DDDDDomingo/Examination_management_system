@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import studio.beita.hdxg.beitasystem.annotation.ControllerLog;
 import studio.beita.hdxg.beitasystem.constant.ResponseConstant;
 import studio.beita.hdxg.beitasystem.model.domain.Permission;
 import studio.beita.hdxg.beitasystem.service.PersonalInformationService;
@@ -34,6 +35,7 @@ import java.util.Optional;
 public class PersonalInformationController {
     // TODO: 2018/10/30 图片存储功能待更改 头像更改（除了初始头像，其他直接删除）修改信息除了包含图片的，其他都测试过了
     // TODO: 2018/11/1 loginService 更改密码 
+    // TODO: 2018/11/5 controller mapping规范
 
     @Value("${WEBSITE_ADDRESS}")
     private String WEBSITE_ADDRESS;
@@ -147,14 +149,16 @@ public class PersonalInformationController {
             @ApiImplicitParam(name = "receiveId", value = "接受者ID", dataType = "String", paramType = "query", required = true)
     })
     @GetMapping("/admin/Information/getSystemNotice")
-    public ResponseEntity<?> getSystemNoticeById(String receiveId) {
+    @ControllerLog(description = "管理员获取系统通知")
+    public ResponseEntity<?> getSystemNoticeByIdByAdmin(String receiveId) {
         return ResponseEntity
                 .ok(personalInformationService.getSystemNoticeById(receiveId));
     }
 
-    @ApiOperation(value = "获取用户组", notes = "user get getUserGroupList")
-    @GetMapping("/userInformation/getUserGroupList")
-    public ResponseEntity<?> getUserGroupList() {
+    @ApiOperation(value = "获取用户组List", notes = "user get getUserGroupList")
+    @GetMapping("/admin/userInformation/getUserGroupList")
+    @ControllerLog(description = "管理员获取用户组List")
+    public ResponseEntity<?> getUserGroupListByAdmin() {
         return ResponseEntity
                 .ok(personalInformationService.getUserGroupList());
     }
@@ -164,7 +168,8 @@ public class PersonalInformationController {
             @ApiImplicitParam(name = "userId", value = "发送者ID", dataType = "String", paramType = "query", required = true)
     })
     @GetMapping("/admin/Information/getPermission")
-    public ResponseEntity<?> getPermissionByUserId(String userId) {
+    @ControllerLog(description = "管理员获取权限信息")
+    public ResponseEntity<?> getPermissionByUserIdByAdmin(String userId) {
         return ResponseEntity
                .ok(personalInformationService.getPermissionByUserId(userId));
     }
