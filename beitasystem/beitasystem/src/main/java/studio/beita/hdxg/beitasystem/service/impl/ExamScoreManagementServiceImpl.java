@@ -153,9 +153,9 @@ public class ExamScoreManagementServiceImpl implements ExamScoreManagementServic
         XSSFSheet sheet = workbook.createSheet("成绩");
         XSSFRow row = sheet.createRow(0);
         //在第一行填写标题
-        String title[] = {"考试成绩表id","考试类别表id","考试场地id","准考证","成绩"};
+        String title[] = {"考试类别表id","考生姓名","准考证","成绩"};
         XSSFCell xssfCell;
-        for (int i=0;i<5;i++){
+        for (int i=0;i<4;i++){
             xssfCell = row.createCell(i);
             xssfCell.setCellValue(title[i]);
         }
@@ -169,11 +169,9 @@ public class ExamScoreManagementServiceImpl implements ExamScoreManagementServic
             xssfCell = row.createCell(2);
             xssfCell.setCellValue(examScoreList.get(i-1).getIdentifier());
             xssfCell = row.createCell(3);
-            xssfCell.setCellValue(examScoreList.get(i-1).getRealName());
-            xssfCell = row.createCell(4);
             xssfCell.setCellValue(examScoreList.get(i-1).getScoreNum());
         }
-        FileOutputStream outputStream = new FileOutputStream(new File("C:\\Users\\hp\\Desktop\\ExamScore.xls"));
+        FileOutputStream outputStream = new FileOutputStream(new File("C:\\Users\\hp\\Desktop\\ExamScore.xlsx"));
         workbook.write(outputStream);
         outputStream.close();
         return true;

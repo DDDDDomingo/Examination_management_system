@@ -52,12 +52,15 @@ public interface ExamScoreManagementService {
 
     /**
      * 录入管理员查看某场次录入成绩表
+     *
+     * @param sessionId
      * @return
      */
     Optional<List<ExamScore>> getExamScoreListBySession(Integer sessionId);
 
     /**
      * 通过准考证获取考生姓名
+     *
      * @param identifier
      * @return
      */

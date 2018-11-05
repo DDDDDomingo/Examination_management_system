@@ -83,13 +83,14 @@ public interface ExamScoreManagementDao {
      * @param sessionId
      * @return
      */
-    @Select("SELECT score_id, exam_type_id, ticket_info_identifier, score_num FROM exam_score WHERE session_id= #{sessionId} ORDER BY score_id ASC")
+    @Select("SELECT score_id, exam_type_id,session_id, ticket_info_identifier, score_num FROM exam_score WHERE session_id= #{sessionId} ORDER BY score_id ASC")
     @Results(
             id = "examScore",
             value = {
                     @Result(property = "scoreId", column = "score_id"),
                     @Result(property = "examId", column = "exam_type_id"),
-                    @Result(property = "realName",column = "ticket_info_identifier",one = @One(select = "studio.beita.hdxg.beitasystem.repository.ExamScoreManagementDao.getRealNameByIdentifier")),
+                    @Result(property = "examName", column = "ticket_info_identifier",one = @One(select = "studio.beita.hdxg.beitasystem.repository.ExamScoreManagementDao.getRealNameByIdentifier")),
+                    @Result(property = "identifier",column = "ticket_info_identifier"),
                     @Result(property = "scoreNum", column = "score_num"),
             }
     )
