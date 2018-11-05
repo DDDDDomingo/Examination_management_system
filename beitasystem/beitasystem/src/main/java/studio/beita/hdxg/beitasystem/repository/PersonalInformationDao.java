@@ -112,7 +112,7 @@ public interface PersonalInformationDao {
     @Results(
             id = "userGroupList",
             value = {
-                    @Result(id = true, property = "groupId", column = "group_id"),
+                    @Result(id = true, property = "signUpId", column = "group_id"),
                     @Result(property = "name", column = "group_name")
             }
     )
@@ -125,7 +125,7 @@ public interface PersonalInformationDao {
      */
     @Select("SELECT p.permission_type FROM user_info ui, rel_ui_ug ruu, user_group ug, rel_ug_role rur, user_role ur, rel_role_pm rrp, permission p " +
             "WHERE ui.userinfo_id = #{userId} AND ui.userinfo_id = ruu.userinfo_id AND ruu.group_id = ug.group_id AND ug.group_id = rur.group_id " +
-            "AND rur.role_id = ur.role_id AND ur.role_id = rrp.role_id AND rrp.permission_id = p.permission_id")
+            "AND rur.role_id = ur.role_id AND ur.role_id = rrp.role_id AND rrp.permission_id = p.permission_id ORDER BY p.permission_id DESC")
     @Results(
             id = "permiss2",
             value = {

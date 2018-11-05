@@ -13,7 +13,7 @@ import java.util.Map;
  **/
 public class ExamSignUpDaoProvider {
     /**
-     * 用户添加用户报名表
+     * 添加用户报名表
      * @param iesMap
      * @return
      */
@@ -34,6 +34,39 @@ public class ExamSignUpDaoProvider {
                 VALUES("signUpTime", "#{signUpTime}");
                 VALUES("isConfirm", "#{isConfirm}");
                 VALUES("birthMonth", "#{birthMonth}");
+            }
+        }.toString();
+    }
+
+    /**
+     * 审核通过者，发邮件告知，更改审核状态为1
+     * @param esMap
+     * @return
+     */
+    public String changeExamSignupList(Map<String, Object> esMap) {
+        String userId = (String) esMap.get("userId");
+        return new SQL() {
+            {
+                UPDATE("exam_signup_list");
+                SET("signup_isconfirm=1");
+                WHERE("details_id =" + userId);
+            }
+        }.toString();
+    }
+
+    /**
+     * 审核通过,更改考试类别表的审核人数
+     *
+     * @param cnMap
+     * @return
+     */
+    public String changeCandidateNum(Map<String, Object> cnMap) {
+        String typeId = (String) cnMap.get("typeId");
+        return new SQL() {
+            {
+                UPDATE("exam_type");
+                SET("exam_audited_num = exam_audited_num + 1");
+                WHERE("exam_type_id =" + typeId);
             }
         }.toString();
     }

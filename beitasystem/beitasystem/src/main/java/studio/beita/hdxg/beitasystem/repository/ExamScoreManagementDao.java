@@ -135,7 +135,7 @@ public interface ExamScoreManagementDao {
      *
      * @return
      */
-    @Select("SELECT session_id, exam_type_id, session_place, session_time, session_capacity FROM exam_session")
+    @Select("SELECT session_id, exam_type_id, session_place, session_time, session_capacity FROM exam_session ORDER BY session_time DESC")
     List<ExamSession> getExamSessionList();
 
 }

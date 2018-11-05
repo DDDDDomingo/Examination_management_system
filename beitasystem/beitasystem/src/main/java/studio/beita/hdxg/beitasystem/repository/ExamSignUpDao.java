@@ -1,14 +1,8 @@
 package studio.beita.hdxg.beitasystem.repository;
 
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
-import studio.beita.hdxg.beitasystem.model.domain.ExamInfo;
-import studio.beita.hdxg.beitasystem.model.domain.ExamSignupList;
-import studio.beita.hdxg.beitasystem.model.domain.ReviewPersonnel;
-import studio.beita.hdxg.beitasystem.model.domain.UserDetails;
+import studio.beita.hdxg.beitasystem.model.domain.*;
 import studio.beita.hdxg.beitasystem.repository.provider.ExamSignUpDaoProvider;
 
 import java.util.Date;
@@ -25,18 +19,18 @@ import java.util.List;
 @Repository
 public interface ExamSignUpDao {
     // TODO: 2018/11/5  用户报名时，身份验证（真实姓名，身份证是否完善），取出可以报名的考试类别表清单，选取考试类别，考生上传转账截图，点击报名。
-    // TODO: 2018/11/5  审核员审核，查询审核对应出生月份的考生（先查询考试报名审核员人数），将其报名表改为通过（一起取），对审核结果发送通知（审核完就发）是否通过都发，计算审核通过人数，超出则添加考场,结束考试直接
+    // TODO: 2018/11/5  审核员审核，查询审核对应出生月份的考生（先查询考试报名审核员人数），将其报名表改为通过，对审核结果发送通知（审核完就发）是否通过都发，计算审核通过人数，超出则直接结束报名（直接调用）
     // TODO: 2018/11/5  select添加升降序
-    // TODO: 2018/11/5  限定考试审核员添加时间 
+    // TODO: 2018/11/5  限定考试审核员添加时间
     //管理员增删改查考试新闻（富文本，html格式，新闻资源），新闻类别未确定，游客和用户获取考试新闻列表（随时间倒置排列），游客点击增加阅读量，可以下载新闻资源
 
     /**
-     * 身份验证（是否有反面身份证照片）需要修改
+     * 身份验证（是否有反面身份证照片）
      *
      * @param userId
      * @return
      */
-    @Select("SELECT idcard_reverse_photo_url FROM user_details WHERE userinfo_id = #{userId}")
+    @Select("SELECT idcard_reverse_photo_url FROM idcard_photo WHERE userinfo_id = #{userId}")
     String userAuthentication(Integer userId);
 
     /**
@@ -56,6 +50,7 @@ public interface ExamSignUpDao {
      * @param signUpPic
      * @param signUpTime
      * @param isConfirm
+     * @param birthMonth
      * @return
      */
     @InsertProvider(type = ExamSignUpDaoProvider.class, method = "insertExamSignupListByUser")
@@ -85,9 +80,49 @@ public interface ExamSignUpDao {
             "<foreach item=\"id\" index=\"index\" collection=\"list\" open=\"(\" separator=\",\" close=\")\">" +
             "#{item1.month} " +
             "</foreach>" +
-            "AND exam_type_id = #{item1.typeId} AND signup_isconfirm = 0" +
+            "AND exam_type_id = #{item1.typeId} AND signup_isconfirm = 0 ORDER BY details_id ASC" +
             "</script>")
-    List<ExamSignupList> reviewCandidateInformation(String typeId,int[] month);
+    @Results(
+            id = "userGroupList",
+            value = {
+                    @Result(id = true, property = "signup_id", column = "signup_id"),
+                    @Result(property = "examTypeId", column = "exam_type_id"),
+                    @Result(property = "name", column = "details_id",one = @One(select = "studio.beita.hdxg.beitasystem.repository.ExamSignUpDao.getUserNameByUserId")),
+                    @Result(property = "signUpPic", column = "signup_pic"),
+                    @Result(property = "signUpTime", column = "signup_time"),
+                    @Result(property = "frontPhotoUrl", column = "exam_type_id",one = @One(select = "studio.beita.hdxg.beitasystem.repository.ExamSignUpDao.getFrontPhotoUrlByUserId")),
+                    @Result(property = "reversePhotoUrl", column = "exam_type_id",one = @One(select = "studio.beita.hdxg.beitasystem.repository.ExamSignUpDao.getReversePhotoUrlByUserId")),
+                    @Result(property = "isConfirm", column = "signup_isconfirm")
+            }
+    )
+    List<ReviewCandidate> reviewCandidateInformation(String typeId, int[] month);
+
+    /**
+     * 通过userId获取用户名
+     *
+     * @param userId
+     * @return
+     */
+    @Select("SELECT ticket_info_name FROM admission_ticket_info WHERE userinfo_id = #{userId} ")
+    String getUserNameByUserId(String userId);
+
+    /**
+     * 通过userId获取身份证正面
+     *
+     * @param userId
+     * @return
+     */
+    @Select("SELECT idcard_front_photo_url FROM idcard_photo WHERE userinfo_id = #{userId} ")
+    String getFrontPhotoUrlByUserId(String userId);
+
+    /**
+     * 通过userId获取身份证反面
+     *
+     * @param userId
+     * @return
+     */
+    @Select("SELECT idcard_reverse_photo_url FROM idcard_photo WHERE userinfo_id = #{userId} ")
+    String getReversePhotoUrlByUserId(String userId);
 
     /**
      * 查询对应考试的管理员列表（对应列表的）
@@ -95,6 +130,34 @@ public interface ExamSignUpDao {
      * @param typeId
      * @return
      */
-    @Select("SELECT enter_p_id, exam_type_id, userinfo_id, enter_is_check, start_review, end_review, enter_type FROM review_personnel WHERE exam_type_id = #{typeId} AND enter_type = 0")
+    @Select("SELECT enter_p_id, exam_type_id, userinfo_id, enter_is_check, start_review, end_review, enter_type FROM review_personnel WHERE exam_type_id = #{typeId} AND enter_type = 0 ORDER BY userinfo_id ASC")
     List<ReviewPersonnel> getExamAdminNumberByExamTypeId(String typeId);
+
+    /**
+     * 未通过者，发邮件告知，删除其报名表
+     *
+     * @param userId
+     * @return
+     */
+    @Delete("DELETE FROM exam_signup_list WHERE userinfo_id = #{userId}")
+    Integer deleteCandidateByUserId(String userId);
+
+    /**
+     * 审核通过者，发邮件告知，更改审核状态为1
+     *
+     * @param userId
+     * @return
+     */
+    @UpdateProvider(type = ExamSignUpDaoProvider.class, method = "changeExamSignupList")
+    Integer changeExamSignupList(@Param("userId") String userId);
+
+    /**
+     * 审核通过,更改考试类别表的审核人数
+     *
+     * @param typeId
+     * @return
+     */
+    @UpdateProvider(type = ExamSignUpDaoProvider.class, method = "changeCandidateNum")
+    Integer changeCandidateNum(@Param("typeId") String typeId);
+
 }
