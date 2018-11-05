@@ -58,9 +58,17 @@ public interface ExamSignUpDao {
      * @return
      */
     @InsertProvider(type = ExamSignUpDaoProvider.class, method = "insertExamSignupListByUser")
-    ExamSignupList insertExamSignupListByUser(@Param("examTypeId")String examTypeId, @Param("detailsId")String detailsId,
-                                              @Param("signUpPic")String signUpPic, @Param("signUpTime")Date signUpTime, @Param("isConfirm")boolean isConfirm);
+    ExamSignupList insertExamSignupListByUser(@Param("examTypeId")String examTypeId, @Param("detailsId")String detailsId, @Param("signUpPic")String signUpPic,
+                                              @Param("signUpTime")Date signUpTime, @Param("isConfirm")boolean isConfirm,@Param("birthMonth")Integer birthMonth);
 
+    /**
+     * 验证是否为审核该考试的管理员
+     * @param typeId
+     * @param userId
+     * @return
+     */
+    @Select("SELECT enter_p_id FROM review_personnel WHERE userinfo_id = #{userId} AND exam_type_id = #{typeId}")
+    String verifyAdministrator(String typeId,Integer userId);
 
 
 }
