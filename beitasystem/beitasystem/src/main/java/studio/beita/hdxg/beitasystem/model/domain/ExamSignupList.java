@@ -24,15 +24,18 @@ public class ExamSignupList implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date signUpTime;
     private boolean isConfirm;
+    private Integer birthMonth;
 
     public ExamSignupList(){}
-    public ExamSignupList(Integer signUpId, String examTypeId, String detailsId, String signUpPic, Date signUpTime, boolean isConfirm) {
+
+    public ExamSignupList(Integer signUpId, String examTypeId, String detailsId, String signUpPic, Date signUpTime, boolean isConfirm, Integer birthMonth) {
         this.signUpId = signUpId;
         this.examTypeId = examTypeId;
         this.detailsId = detailsId;
         this.signUpPic = signUpPic;
         this.signUpTime = signUpTime;
         this.isConfirm = isConfirm;
+        this.birthMonth = birthMonth;
     }
 
     public static long getSerialVersionUID() {
@@ -87,6 +90,14 @@ public class ExamSignupList implements Serializable {
         isConfirm = confirm;
     }
 
+    public Integer getBirthMonth() {
+        return birthMonth;
+    }
+
+    public void setBirthMonth(Integer birthMonth) {
+        this.birthMonth = birthMonth;
+    }
+
     @Override
     public String toString() {
         return "ExamSignupList{" +
@@ -94,8 +105,9 @@ public class ExamSignupList implements Serializable {
                 ", examTypeId='" + examTypeId + '\'' +
                 ", detailsId='" + detailsId + '\'' +
                 ", signUpPic='" + signUpPic + '\'' +
-                ", signUpTime='" + signUpTime + '\'' +
+                ", signUpTime=" + signUpTime +
                 ", isConfirm=" + isConfirm +
+                ", birthMonth=" + birthMonth +
                 '}';
     }
 }

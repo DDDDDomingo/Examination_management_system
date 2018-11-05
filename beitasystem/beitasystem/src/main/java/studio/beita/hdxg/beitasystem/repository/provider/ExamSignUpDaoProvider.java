@@ -23,6 +23,7 @@ public class ExamSignUpDaoProvider {
         String signUpPic = (String) iesMap.get("signUpPic");
         String signUpTime = (String) iesMap.get("signUpTime");
         String isConfirm = (String) iesMap.get("isConfirm");
+        String birthMonth = (String) iesMap.get("birthMonth");
 
         return new SQL() {
             {
@@ -32,6 +33,7 @@ public class ExamSignUpDaoProvider {
                 VALUES("signUpPic", "#{signUpPic}");
                 VALUES("signUpTime", "#{signUpTime}");
                 VALUES("isConfirm", "#{isConfirm}");
+                VALUES("birthMonth", "#{birthMonth}");
             }
         }.toString();
     }
