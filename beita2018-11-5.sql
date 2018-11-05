@@ -1,22 +1,22 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 1
-Source Server Version : 50721
+Source Server         : localhost_3306
+Source Server Version : 50717
 Source Host           : localhost:3306
 Source Database       : beita
 
 Target Server Type    : MYSQL
-Target Server Version : 50721
+Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2018-11-05 11:39:28
+Date: 2018-11-05 12:12:20
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for `admission_ticket_info`
+-- Table structure for admission_ticket_info
 -- ----------------------------
 DROP TABLE IF EXISTS `admission_ticket_info`;
 CREATE TABLE `admission_ticket_info` (
@@ -39,7 +39,7 @@ CREATE TABLE `admission_ticket_info` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `exam_news`
+-- Table structure for exam_news
 -- ----------------------------
 DROP TABLE IF EXISTS `exam_news`;
 CREATE TABLE `exam_news` (
@@ -59,7 +59,7 @@ CREATE TABLE `exam_news` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `exam_news_type`
+-- Table structure for exam_news_type
 -- ----------------------------
 DROP TABLE IF EXISTS `exam_news_type`;
 CREATE TABLE `exam_news_type` (
@@ -73,7 +73,7 @@ CREATE TABLE `exam_news_type` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `exam_score`
+-- Table structure for exam_score
 -- ----------------------------
 DROP TABLE IF EXISTS `exam_score`;
 CREATE TABLE `exam_score` (
@@ -96,7 +96,7 @@ CREATE TABLE `exam_score` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `exam_session`
+-- Table structure for exam_session
 -- ----------------------------
 DROP TABLE IF EXISTS `exam_session`;
 CREATE TABLE `exam_session` (
@@ -115,7 +115,7 @@ CREATE TABLE `exam_session` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `exam_signup_list`
+-- Table structure for exam_signup_list
 -- ----------------------------
 DROP TABLE IF EXISTS `exam_signup_list`;
 CREATE TABLE `exam_signup_list` (
@@ -137,7 +137,7 @@ CREATE TABLE `exam_signup_list` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `exam_type`
+-- Table structure for exam_type
 -- ----------------------------
 DROP TABLE IF EXISTS `exam_type`;
 CREATE TABLE `exam_type` (
@@ -159,7 +159,27 @@ CREATE TABLE `exam_type` (
 INSERT INTO `exam_type` VALUES ('18102858', '计算机二级考试', '1', '0', '0', '0', '1000', '2018-10-28 00:00:00', '2018-11-28 00:00:00');
 
 -- ----------------------------
--- Table structure for `operating`
+-- Table structure for idcard_photo
+-- ----------------------------
+DROP TABLE IF EXISTS `idcard_photo`;
+CREATE TABLE `idcard_photo` (
+  `idcard_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '身份证照片ID',
+  `userinfo_id` char(12) NOT NULL COMMENT '用户个人信息表ID',
+  `idcard_front_photo_url` varchar(255) NOT NULL COMMENT '身份证正面照片映射地址',
+  `idcard_ front _photo_savepath` varchar(255) NOT NULL COMMENT '身份证正面照片存储地址',
+  `Idcard_reverse_photo_url` varchar(255) NOT NULL,
+  `Idcard_reverse_photo_savepath` varchar(255) NOT NULL,
+  PRIMARY KEY (`idcard_id`),
+  KEY `userinfo_id5` (`userinfo_id`),
+  CONSTRAINT `userinfo_id5` FOREIGN KEY (`userinfo_id`) REFERENCES `user_info` (`userinfo_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of idcard_photo
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for operating
 -- ----------------------------
 DROP TABLE IF EXISTS `operating`;
 CREATE TABLE `operating` (
@@ -176,7 +196,7 @@ CREATE TABLE `operating` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `permission`
+-- Table structure for permission
 -- ----------------------------
 DROP TABLE IF EXISTS `permission`;
 CREATE TABLE `permission` (
@@ -211,7 +231,7 @@ INSERT INTO `permission` VALUES ('20', '添加管理员账号');
 INSERT INTO `permission` VALUES ('21', '实名认证上传图片');
 
 -- ----------------------------
--- Table structure for `rel_pm_op`
+-- Table structure for rel_pm_op
 -- ----------------------------
 DROP TABLE IF EXISTS `rel_pm_op`;
 CREATE TABLE `rel_pm_op` (
@@ -230,7 +250,7 @@ CREATE TABLE `rel_pm_op` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `rel_role_pm`
+-- Table structure for rel_role_pm
 -- ----------------------------
 DROP TABLE IF EXISTS `rel_role_pm`;
 CREATE TABLE `rel_role_pm` (
@@ -310,7 +330,7 @@ INSERT INTO `rel_role_pm` VALUES ('62', '7', '15');
 INSERT INTO `rel_role_pm` VALUES ('63', '7', '16');
 
 -- ----------------------------
--- Table structure for `rel_ug_role`
+-- Table structure for rel_ug_role
 -- ----------------------------
 DROP TABLE IF EXISTS `rel_ug_role`;
 CREATE TABLE `rel_ug_role` (
@@ -336,7 +356,7 @@ INSERT INTO `rel_ug_role` VALUES ('6', '6', '6');
 INSERT INTO `rel_ug_role` VALUES ('7', '7', '7');
 
 -- ----------------------------
--- Table structure for `rel_ui_ug`
+-- Table structure for rel_ui_ug
 -- ----------------------------
 DROP TABLE IF EXISTS `rel_ui_ug`;
 CREATE TABLE `rel_ui_ug` (
@@ -358,7 +378,7 @@ INSERT INTO `rel_ui_ug` VALUES ('2', '180928562814', '1');
 INSERT INTO `rel_ui_ug` VALUES ('3', '180828562814', '1');
 
 -- ----------------------------
--- Table structure for `resource`
+-- Table structure for resource
 -- ----------------------------
 DROP TABLE IF EXISTS `resource`;
 CREATE TABLE `resource` (
@@ -377,7 +397,7 @@ CREATE TABLE `resource` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `review_personnel`
+-- Table structure for review_personnel
 -- ----------------------------
 DROP TABLE IF EXISTS `review_personnel`;
 CREATE TABLE `review_personnel` (
@@ -400,7 +420,7 @@ CREATE TABLE `review_personnel` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `system_notice`
+-- Table structure for system_notice
 -- ----------------------------
 DROP TABLE IF EXISTS `system_notice`;
 CREATE TABLE `system_notice` (
@@ -422,7 +442,7 @@ CREATE TABLE `system_notice` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `user_details`
+-- Table structure for user_details
 -- ----------------------------
 DROP TABLE IF EXISTS `user_details`;
 CREATE TABLE `user_details` (
@@ -442,7 +462,7 @@ CREATE TABLE `user_details` (
 INSERT INTO `user_details` VALUES ('181028969487', '110.10.1.1', null, null, null, null, null);
 
 -- ----------------------------
--- Table structure for `user_group`
+-- Table structure for user_group
 -- ----------------------------
 DROP TABLE IF EXISTS `user_group`;
 CREATE TABLE `user_group` (
@@ -463,7 +483,7 @@ INSERT INTO `user_group` VALUES ('6', '注册用户');
 INSERT INTO `user_group` VALUES ('7', '未注册用户');
 
 -- ----------------------------
--- Table structure for `user_info`
+-- Table structure for user_info
 -- ----------------------------
 DROP TABLE IF EXISTS `user_info`;
 CREATE TABLE `user_info` (
@@ -483,7 +503,7 @@ INSERT INTO `user_info` VALUES ('181028562814', 'admin', '123456', null);
 INSERT INTO `user_info` VALUES ('181028969487', 'account1', 'pwd123', '1783610921@qq.com');
 
 -- ----------------------------
--- Table structure for `user_role`
+-- Table structure for user_role
 -- ----------------------------
 DROP TABLE IF EXISTS `user_role`;
 CREATE TABLE `user_role` (
