@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 import studio.beita.hdxg.beitasystem.model.domain.ExamInfo;
 import studio.beita.hdxg.beitasystem.model.domain.ExamSignupList;
+import studio.beita.hdxg.beitasystem.model.domain.ReviewPersonnel;
 import studio.beita.hdxg.beitasystem.model.domain.UserDetails;
 import studio.beita.hdxg.beitasystem.repository.provider.ExamSignUpDaoProvider;
 
@@ -63,6 +64,7 @@ public interface ExamSignUpDao {
 
     /**
      * 验证是否为审核该考试的管理员
+     *
      * @param typeId
      * @param userId
      * @return
@@ -70,5 +72,29 @@ public interface ExamSignUpDao {
     @Select("SELECT enter_p_id FROM review_personnel WHERE userinfo_id = #{userId} AND exam_type_id = #{typeId}")
     String verifyAdministrator(String typeId,Integer userId);
 
+    /**
+     * 根据出生月份，选择对应未审核的考生
+     *
+     * @param typeId
+     * @param month
+     * @return
+     */
+    @Select("<script>" +
+            "SELECT signup_id, exam_type_id, details_id, signup_pic, signup_time, signup_isconfirm, signup_birth_month " +
+            " FROM exam_signup_list WHERE signup_birth_month =" +
+            "<foreach item=\"id\" index=\"index\" collection=\"list\" open=\"(\" separator=\",\" close=\")\">" +
+            "#{item1.month} " +
+            "</foreach>" +
+            "AND exam_type_id = #{item1.typeId} AND signup_isconfirm = 0" +
+            "</script>")
+    List<ExamSignupList> reviewCandidateInformation(String typeId,int[] month);
 
+    /**
+     * 查询对应考试的管理员列表（对应列表的）
+     *
+     * @param typeId
+     * @return
+     */
+    @Select("SELECT enter_p_id, exam_type_id, userinfo_id, enter_is_check, start_review, end_review, enter_type FROM review_personnel WHERE exam_type_id = #{typeId} AND enter_type = 0")
+    List<ReviewPersonnel> getExamAdminNumberByExamTypeId(String typeId);
 }
