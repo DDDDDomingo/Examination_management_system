@@ -2,7 +2,11 @@ package studio.beita.hdxg.beitasystem.repository;
 
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
+import studio.beita.hdxg.beitasystem.model.domain.UserGroup;
+import studio.beita.hdxg.beitasystem.model.domain.UserInfo;
 import studio.beita.hdxg.beitasystem.repository.provider.PermissionManagementDaoProvider;
+
+import java.util.List;
 
 /**
  * @author ydq
@@ -45,4 +49,38 @@ public interface PermissionManagementDao {
      */
     @Select("SELECT userinfo_account FROM user_info WHERE userinfo_account = #{account}")
     String isAccountUsed(String account);
+
+    /**
+     * 通过用户组ID获取底下的用户
+     *
+     * @param groupId
+     * @return
+     */
+    @Select("SELECT group_id, group_name FROM user_group WHERE group_id = #{groupId}")
+    @Results(
+            id = "groupDetails",
+            value = {
+                    @Result(id = true, property = "groupId", column = "group_id"),
+                    @Result(property = "name", column = "group_name"),
+                    @Result(property = "userInfoList", column = "group_id", many = @Many(select = "studio.beita.hdxg.beitasystem.repository.PermissionManagementDao.getUserByUserIdList"))
+            }
+    )
+    UserGroup getUserByGroupId(Integer groupId);
+
+    /**
+     * 通过管理员ID列表获取管理员列表
+     *
+     * @param userInfoIdList
+     * @return
+     */
+    @Select("SELECT ui.userinfo_id, ui.userinfo_account FROM user_info ui LEFT JOIN rel_ui_ug ruu ON ui.userinfo_id = ruu.userinfo_id WHERE group_id = #{groupId}")
+    @Results(
+            id = "userInfo",
+            value = {
+                    @Result(id = true, property = "userId", column = "userinfo_id"),
+                    @Result(property = "account", column = "userinfo_account")
+            }
+    )
+    List<UserInfo> getUserByUserIdList(List<Integer> userInfoIdList);
+
 }

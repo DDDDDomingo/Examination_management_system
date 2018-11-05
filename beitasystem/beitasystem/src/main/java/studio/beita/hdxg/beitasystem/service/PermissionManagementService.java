@@ -1,5 +1,7 @@
 package studio.beita.hdxg.beitasystem.service;
 
+import studio.beita.hdxg.beitasystem.model.domain.UserGroup;
+
 import java.util.Optional;
 
 /**
@@ -29,4 +31,11 @@ public interface PermissionManagementService {
      * @return
      */
     Optional<String> isAccountUsed(String account);
+
+    /**
+     * 通过用户组ID获取底下的用户List
+     * @param groupId
+     * @return
+     */
+    UserGroup getUserByGroupId(Integer groupId);
 }

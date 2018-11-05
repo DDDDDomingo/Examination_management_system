@@ -6,11 +6,12 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import studio.beita.hdxg.beitasystem.constant.ResponseConstant;
 import studio.beita.hdxg.beitasystem.exception.LoginRegister.AccountIsUsedException;
-import studio.beita.hdxg.beitasystem.service.LoginRegisterService;
 import studio.beita.hdxg.beitasystem.service.PermissionManagementService;
 
 import java.util.Optional;
@@ -33,7 +34,7 @@ public class PermissionManagementController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "account", value = "用户名", dataType = "String", paramType = "query", required = true),
             @ApiImplicitParam(name = "password", value = "密码", dataType = "String", paramType = "query", required = true),
-            @ApiImplicitParam(name = "groupId", value = "用户组ID", dataType = "Integer", paramType = "query", required = true),
+            @ApiImplicitParam(name = "groupId", value = "用户组ID", dataType = "int", paramType = "query", required = true),
             @ApiImplicitParam(name = "email", value = "邮箱", dataType = "String", paramType = "query")
     })
     @PostMapping("/admin/permission/addAdmin")
@@ -47,6 +48,16 @@ public class PermissionManagementController {
         return ResponseEntity.ok(ResponseConstant.ACCOUNT_REGISTER_SUCCESS);
     }
 
+    @ApiOperation(value = "最高管理员获取用户组底下用户信息", notes = "Top administrator get adminList")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "groupId", value = "用户组ID", dataType = "int", paramType = "query", required = true)
+    })
+    @GetMapping("/admin/group/{groupId}")
+    public ResponseEntity<?> getUserByGroupId(@PathVariable Integer groupId) {
+        //返回用户组底下用户列表
+        return ResponseEntity
+                .ok(permissionManagementService.getUserByGroupId(groupId));
+    }
 
 
 

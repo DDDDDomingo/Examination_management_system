@@ -34,7 +34,7 @@ public class ExamManagementController {
     @ApiOperation(value = "最高管理员添加考试", notes = "admin adds exam")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "examName", value = "考试名称", dataType = "String", paramType = "query", required = true),
-            @ApiImplicitParam(name = "examCapacity", value = "考试最大容纳数量", dataType = "Integer", paramType = "query", required = true),
+            @ApiImplicitParam(name = "examCapacity", value = "考试最大容纳数量", dataType = "int", paramType = "query", required = true),
             @ApiImplicitParam(name = "startTime", value = "考试开始时间", dataType = "String", paramType = "query", required = true),
             @ApiImplicitParam(name = "endTime", value = "考试结束时间", dataType = "String", paramType = "query", required = true)
     })
@@ -70,7 +70,7 @@ public class ExamManagementController {
     @ApiOperation(value = "管理员修改：考试是否可以报名", notes = "exam is sign up?")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "examId", value = "考试类型ID", dataType = "String", paramType = "query", required = true),
-            @ApiImplicitParam(name = "isSignUp", value = "考试是否可以报名", dataType = "Boolean", paramType = "query", required = true)
+            @ApiImplicitParam(name = "isSignUp", value = "考试是否可以报名", dataType = "boolean", paramType = "query", required = true)
     })
     @PutMapping("/admin/exam/cgSignUp")
     public ResponseEntity<?> changeExamSignUp(String examId, boolean isSignUp) {
@@ -86,7 +86,7 @@ public class ExamManagementController {
     @ApiOperation(value = "管理员修改：考试是否可以查询", notes = "exam is query?")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "examId", value = "考试类型ID", dataType = "String", paramType = "query", required = true),
-            @ApiImplicitParam(name = "isQuery", value = "考试是否可以查询成绩", dataType = "Boolean", paramType = "query", required = true)
+            @ApiImplicitParam(name = "isQuery", value = "考试是否可以查询成绩", dataType = "boolean", paramType = "query", required = true)
     })
     @PutMapping("/admin/exam/cgQuery")
     public ResponseEntity<?> changeExamQuery(String examId, boolean isQuery) {
@@ -102,8 +102,8 @@ public class ExamManagementController {
     // TODO: 2018/10/28 条件查询
     @ApiOperation(value = "管理员获取所有考试列表", notes = "admin get exam list")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageNumber", value = "页数", dataType = "Integer", paramType = "query", required = true),
-            @ApiImplicitParam(name = "pageSize", value = "每页可容纳数量", dataType = "Integer", paramType = "query", required = true)
+            @ApiImplicitParam(name = "pageNumber", value = "页数", dataType = "int", paramType = "query", required = true),
+            @ApiImplicitParam(name = "pageSize", value = "每页可容纳数量", dataType = "int", paramType = "query", required = true)
     })
     @GetMapping("/admin/exam/list")
     public ResponseEntity<?> getExamList(Integer pageNumber, Integer pageSize) {
@@ -115,7 +115,7 @@ public class ExamManagementController {
 
     @ApiOperation(value = "考生/管理员通过考试ID获取考试信息", notes = "get exam details by id")
     @GetMapping("/exam/{examId}")
-    public ResponseEntity<?> getExamDetails(@PathVariable String examId) {
+    public ResponseEntity<?> getExamDetails(@PathVariable("examId") String examId) {
         Optional<ExamInfo> examInfo = examManagementService.getExamDetails(examId);
 
         examInfo.orElseThrow(
@@ -128,8 +128,8 @@ public class ExamManagementController {
     // TODO: 2018/10/28 移除考试管理模块 到 考试报名模块
     @ApiOperation(value = "考生获取可查询考试列表", notes = "admin get sign up exam list")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageNumber", value = "页数", dataType = "Integer", paramType = "query", required = true),
-            @ApiImplicitParam(name = "pageSize", value = "每页可容纳数量", dataType = "Integer", paramType = "query", required = true)
+            @ApiImplicitParam(name = "pageNumber", value = "页数", dataType = "int", paramType = "query", required = true),
+            @ApiImplicitParam(name = "pageSize", value = "每页可容纳数量", dataType = "int", paramType = "query", required = true)
     })
     @GetMapping("/exam/list")
     public ResponseEntity<?> getSignUpExamList(Integer pageNumber, Integer pageSize) {
@@ -143,7 +143,7 @@ public class ExamManagementController {
     @ApiOperation(value = "管理员添加考试场次", notes = "admin add session")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sessionPlace", value = "考试场次地点", dataType = "String", paramType = "query", required = true),
-            @ApiImplicitParam(name = "sessionCapacity", value = "考场容量", dataType = "Integer", paramType = "query", required = true),
+            @ApiImplicitParam(name = "sessionCapacity", value = "考场容量", dataType = "int", paramType = "query", required = true),
             @ApiImplicitParam(name = "sessionTime", value = "考试时间", dataType = "String", paramType = "query", required = true)
     })
     @PostMapping("/admin/exam/session/add")
@@ -176,7 +176,7 @@ public class ExamManagementController {
 
     @ApiOperation(value = "考生/管理员通过考试ID获取考试信息", notes = "get exam details by id")
     @GetMapping("/admin/exam/{examId}")
-    public ResponseEntity<?> adminGetExamDetails(String examId){
+    public ResponseEntity<?> adminGetExamDetails(@PathVariable("examId") String examId){
         Optional<ExamInfo> examInfoAdmin = examManagementService.adminGetExamDetails(examId);
 
         examInfoAdmin.orElseThrow(

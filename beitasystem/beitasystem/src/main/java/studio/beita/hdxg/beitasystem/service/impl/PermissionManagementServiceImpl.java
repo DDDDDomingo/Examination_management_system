@@ -3,6 +3,7 @@ package studio.beita.hdxg.beitasystem.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import studio.beita.hdxg.beitasystem.model.domain.UserGroup;
 import studio.beita.hdxg.beitasystem.repository.PermissionManagementDao;
 import studio.beita.hdxg.beitasystem.service.PermissionManagementService;
 import studio.beita.hdxg.beitasystem.utils.GetUidUtils;
@@ -36,5 +37,10 @@ public class PermissionManagementServiceImpl implements PermissionManagementServ
     @Override
     public Optional<String> isAccountUsed(String account) {
         return Optional.ofNullable(permissionManagementDao.isAccountUsed(account));
+    }
+
+    @Override
+    public UserGroup getUserByGroupId(Integer groupId) {
+        return permissionManagementDao.getUserByGroupId(groupId);
     }
 }

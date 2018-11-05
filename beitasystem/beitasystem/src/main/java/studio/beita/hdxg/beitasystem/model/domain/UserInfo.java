@@ -20,6 +20,7 @@ public class UserInfo implements Serializable{
     private String account;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String password;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String email;
 
     public UserInfo() {
