@@ -14,6 +14,7 @@ import studio.beita.hdxg.beitasystem.exception.ExamManagement.ExamDoesNotExistEx
 import studio.beita.hdxg.beitasystem.exception.ExamManagement.ExamIsClosedException;
 import studio.beita.hdxg.beitasystem.exception.ExamManagement.ExamQueryCannotChangeException;
 import studio.beita.hdxg.beitasystem.model.domain.ExamInfo;
+import studio.beita.hdxg.beitasystem.model.domain.ReviewPersonnel;
 import studio.beita.hdxg.beitasystem.service.ExamManagementService;
 
 import java.util.Optional;
@@ -136,7 +137,7 @@ public class ExamManagementController {
     @ApiOperation(value = "考生获取可查询考试列表", notes = "admin get sign up exam list")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNumber", value = "页数", dataType = "int", paramType = "query", required = true),
-            @ApiImplicitParam(name = "pageSize", value = "每页可容纳数量", dataType = "int", paramType = "query", required = true)
+            @ApiImplicitParam(name = "pageSize", value = "每页数量", dataType = "int", paramType = "query", required = true)
     })
     @GetMapping("/exam/list")
     public ResponseEntity<?> getSignUpExamList(Integer pageNumber, Integer pageSize) {
@@ -146,7 +147,6 @@ public class ExamManagementController {
                 .ok(signUpExamInfoList);
     }
 
-    // TODO: 2018/10/28 考试场次部分 管理员分配考场1
     @ApiOperation(value = "管理员添加考试场次", notes = "admin add session")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "sessionPlace", value = "考试场次地点", dataType = "String", paramType = "query", required = true),
@@ -155,8 +155,8 @@ public class ExamManagementController {
     })
     @PostMapping("/admin/exam/session/add")
     @ControllerLog(description = "管理员添加考试场次")
-    public ResponseEntity<?> addExamSessionByAdmin(String sessionPlace, Integer sessionCapacity, String sessionTime){
-        if(examManagementService.addExamSession(sessionPlace, sessionCapacity, sessionTime)){
+    public ResponseEntity<?> addExamSessionByAdmin(String sessionPlace, Integer sessionCapacity, String sessionTime) {
+        if (examManagementService.addExamSession(sessionPlace, sessionCapacity, sessionTime)) {
             return ResponseEntity
                     .ok("添加考场成功！");
         } else {
@@ -172,8 +172,8 @@ public class ExamManagementController {
     })
     @DeleteMapping("/admin/exam/session/delete")
     @ControllerLog(description = "管理员删除考试场次")
-    public ResponseEntity<?> deleteExamSessionByAdmin(String examId){
-        if(examManagementService.deleteExamSession(examId)){
+    public ResponseEntity<?> deleteExamSessionByAdmin(String examId) {
+        if (examManagementService.deleteExamSession(examId)) {
             return ResponseEntity
                     .ok("删除考试成功！");
         } else {
@@ -186,7 +186,7 @@ public class ExamManagementController {
     @ApiOperation(value = "考生/管理员通过考试ID获取考试信息", notes = "get exam details by id")
     @GetMapping("/admin/exam/{examId}")
     @ControllerLog(description = "管理员通过考试ID获取考试信息")
-    public ResponseEntity<?> adminGetExamDetailsByAdmin(@PathVariable("examId") String examId){
+    public ResponseEntity<?> adminGetExamDetailsByAdmin(@PathVariable("examId") String examId) {
         Optional<ExamInfo> examInfoAdmin = examManagementService.adminGetExamDetails(examId);
 
         examInfoAdmin.orElseThrow(
@@ -196,6 +196,59 @@ public class ExamManagementController {
                 .ok(examInfoAdmin.get());
     }
 
+    // TODO: 2018/11/6 以下三条未测试 
+    
+    @ApiOperation(value = "管理员获取该考试的管理员（审核员/录入员）列表", notes = "top admin get manager list by typeId")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "typeId", value = "考试类别ID", dataType = "String", paramType = "query", required = true),
+            @ApiImplicitParam(name = "enterType", value = "管理员类型，0为审核人员，1为录入人员", dataType = "Integer", paramType = "query", required = true),
+            @ApiImplicitParam(name = "pageNumber", value = "页数", dataType = "int", paramType = "query", required = true),
+            @ApiImplicitParam(name = "pageSize", value = "每页数量", dataType = "int", paramType = "query", required = true)
+    })
+    @GetMapping("/admin/exam/review/list")
+    @ControllerLog(description = "管理员获取该考试的管理员列表")
+    public ResponseEntity<?> getExamAdminNumberByByAdmin(String typeId, Integer enterType, Integer pageNumber, Integer pageSize) {
+        PageInfo<ReviewPersonnel> reviewPersonnelPageInfo = new PageInfo<>(examManagementService.getExamAdminNumberByExamTypeId(typeId, enterType, pageNumber, pageSize));
+
+        return ResponseEntity
+                .ok(reviewPersonnelPageInfo);
+    }
+
+    @ApiOperation(value = "添加考试审核员/录入员", notes = "top admin add manager")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "typeId", value = "考试类别ID", dataType = "String", paramType = "query", required = true),
+            @ApiImplicitParam(name = "userId", value = "审核员/录入员ID", dataType = "String", paramType = "query", required = true),
+            @ApiImplicitParam(name = "enterType", value = "管理员类型，0为审核人员，1为录入人员", dataType = "Integer", paramType = "query", required = true)
+    })
+    @PostMapping("/admin/exam/review/add")
+    @ControllerLog(description = "添加考试审核员/录入员")
+    public ResponseEntity<?> addReviewPersonByAdmin(String typeId, String userId, Integer enterType) {
+        if (examManagementService.addReviewPerson(typeId, userId, enterType)) {
+            return ResponseEntity
+                    .ok("添加成功！");
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("添加失败！请稍后重试！");
+        }
+    }
+
+    @ApiOperation(value = "删除考试审核员/录入员", notes = "top admin delete manager")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "enterPId", value = "录入人员表ID主键", dataType = "Integer", paramType = "query", required = true)
+    })
+    @PostMapping("/admin/exam/review/delete")
+    @ControllerLog(description = "删除考试审核员/录入员")
+    public ResponseEntity<?> deleteReviewPersonByAdmin(Integer enterPId) {
+        if (examManagementService.deleteReviewPerson(enterPId)) {
+            return ResponseEntity
+                    .ok("删除成功！");
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("删除失败！请稍后重试！");
+        }
+    }
     /********************************** HELPER METHOD **********************************/
 
     /**

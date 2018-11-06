@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import studio.beita.hdxg.beitasystem.model.domain.ExamInfo;
+import studio.beita.hdxg.beitasystem.model.domain.ReviewPersonnel;
 import studio.beita.hdxg.beitasystem.repository.ExamManagementDao;
 import studio.beita.hdxg.beitasystem.service.ExamManagementService;
 import studio.beita.hdxg.beitasystem.utils.GetUidUtils;
@@ -90,6 +91,24 @@ public class ExamManagementServiceImpl implements ExamManagementService {
     @Override
     public Optional<ExamInfo> adminGetExamDetails(String examId) {
         return Optional.ofNullable(examManagementDao.adminGetExamDetails(examId));
+    }
+
+    @Override
+    public List<ReviewPersonnel> getExamAdminNumberByExamTypeId(String typeId, Integer enterType, Integer pageNumber, Integer pageSize) {
+        PageHelper.startPage(pageNumber, pageSize);
+        return examManagementDao.getExamAdminNumberByExamTypeId(typeId, enterType);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean addReviewPerson(String typeId, String userId, Integer enterType) {
+        return examManagementDao.addReviewPerson(typeId, userId, enterType) > 0;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean deleteReviewPerson(Integer enterPId) {
+        return examManagementDao.deleteReviewPerson(enterPId) > 0;
     }
 
 }

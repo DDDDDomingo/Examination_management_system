@@ -1,5 +1,7 @@
 package studio.beita.hdxg.beitasystem.model.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.io.Serializable;
 
 /**
@@ -15,21 +17,18 @@ public class ReviewPersonnel implements Serializable {
 
     private Integer enterPId;
     private String typeId;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String examName;
     private String userId;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String account;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private boolean isCheck;
     private String startReview;
     private String endReview;
     private boolean enterType;
 
-    public ReviewPersonnel() {}
-    public ReviewPersonnel(Integer enterPId, String typeId, String userId, boolean isCheck, String startReview, String endReview, boolean enterType) {
-        this.enterPId = enterPId;
-        this.typeId = typeId;
-        this.userId = userId;
-        this.isCheck = isCheck;
-        this.startReview = startReview;
-        this.endReview = endReview;
-        this.enterType = enterType;
+    public ReviewPersonnel() {
     }
 
     public static long getSerialVersionUID() {
@@ -52,12 +51,28 @@ public class ReviewPersonnel implements Serializable {
         this.typeId = typeId;
     }
 
+    public String getExamName() {
+        return examName;
+    }
+
+    public void setExamName(String examName) {
+        this.examName = examName;
+    }
+
     public String getUserId() {
         return userId;
     }
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
     }
 
     public boolean isCheck() {
@@ -97,7 +112,9 @@ public class ReviewPersonnel implements Serializable {
         return "ReviewPersonnel{" +
                 "enterPId=" + enterPId +
                 ", typeId='" + typeId + '\'' +
+                ", examName='" + examName + '\'' +
                 ", userId='" + userId + '\'' +
+                ", account='" + account + '\'' +
                 ", isCheck=" + isCheck +
                 ", startReview='" + startReview + '\'' +
                 ", endReview='" + endReview + '\'' +

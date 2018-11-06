@@ -124,6 +124,7 @@ public interface ExamSignUpDao {
     @Select("SELECT idcard_reverse_photo_url FROM idcard_photo WHERE userinfo_id = #{userId} ")
     String getReversePhotoUrlByUserId(String userId);
 
+    // TODO: 2018/11/6 @Results 如果取出为空的话
     /**
      * 查询对应考试的管理员列表（对应列表的）
      *

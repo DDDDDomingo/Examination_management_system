@@ -92,5 +92,4 @@ public interface PermissionManagementDao {
     )
     List<UserInfo> getUserByUserIdList(List<Integer> userInfoIdList);
 
-
 }

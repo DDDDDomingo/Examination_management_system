@@ -3,6 +3,7 @@ package studio.beita.hdxg.beitasystem.service;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 import studio.beita.hdxg.beitasystem.model.domain.ExamInfo;
+import studio.beita.hdxg.beitasystem.model.domain.ReviewPersonnel;
 
 import javax.swing.text.html.Option;
 import java.util.List;
@@ -97,8 +98,6 @@ public interface ExamManagementService {
      */
     List<ExamInfo> getSignUpExamList(Integer pageNumber, Integer pageSize);
 
-    // TODO: 2018/10/28 考试场次部分 管理员分配考场
-
     /**
      * 管理员添加考试场次
      *
@@ -111,6 +110,7 @@ public interface ExamManagementService {
 
     /**
      * 管理员根据考试场次ID删除考场
+     *
      * @param examId
      * @return
      */
@@ -118,8 +118,39 @@ public interface ExamManagementService {
 
     /**
      * 管理员获取考场列表
+     *
      * @param examId
      * @return
      */
     Optional<ExamInfo> adminGetExamDetails(String examId);
+
+    /**
+     * 获取该考试的管理员列表
+     *
+     * @param typeId
+     * @param enterType
+     * @param pageNumber
+     * @param pageSize
+     * @return
+     */
+    List<ReviewPersonnel> getExamAdminNumberByExamTypeId(String typeId, Integer enterType, Integer pageNumber, Integer pageSize);
+
+    /**
+     * 添加考试审核员
+     *
+     * @param typeId
+     * @param userId
+     * @param enterType
+     * @return
+     */
+    boolean addReviewPerson(String typeId, String userId, Integer enterType);
+
+    /**
+     * 删除考试审核员
+     *
+     * @param enterPId
+     * @return
+     */
+    boolean deleteReviewPerson(Integer enterPId);
+
 }

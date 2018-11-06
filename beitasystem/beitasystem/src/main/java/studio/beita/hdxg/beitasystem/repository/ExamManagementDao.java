@@ -3,6 +3,7 @@ package studio.beita.hdxg.beitasystem.repository;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 import studio.beita.hdxg.beitasystem.model.domain.ExamInfo;
+import studio.beita.hdxg.beitasystem.model.domain.ReviewPersonnel;
 import studio.beita.hdxg.beitasystem.repository.provider.ExamManagementDaoProvider;
 
 import javax.websocket.Session;
@@ -196,4 +197,62 @@ public interface ExamManagementDao {
             }
     )
     List<Session> getExamSessionByExamTypeId(String examId);
+
+    /**
+     * 获取该考试的管理员列表
+     *
+     * @param typeId
+     * @param enterType
+     * @return
+     */
+    @Select("SELECT enter_p_id, exam_type_id, userinfo_id FROM review_personnel WHERE exam_type_id = #{typeId} AND enter_type = #{enterType} ORDER BY enter_p_id ASC")
+    @Results(
+            id = "reviewList",
+            value = {
+                    @Result(id = true, property = "enterPId", column = "enter_p_id"),
+                    @Result(property = "typeId", column = "exam_type_id"),
+                    @Result(property = "examName", column = "exam_type_id", one = @One(select = "studio.beita.hdxg.beitasystem.repository.ExamManagementDao.getExamName")),
+                    @Result(property = "userId", column = "userinfo_id"),
+                    @Result(property = "account", column = "userinfo_id", one = @One(select = "studio.beita.hdxg.beitasystem.repository.ExamManagementDao.getAccount"))
+            }
+    )
+    List<ReviewPersonnel> getExamAdminNumberByExamTypeId(String typeId, Integer enterType);
+
+    /**
+     * 通过ID获取考试名称
+     *
+     * @param typeId
+     * @return
+     */
+    @Select("SELECT exam_name FROM exam_type WHERE exam_type_id=#{typeId}")
+    String getExamName(String typeId);
+
+    /**
+     * 通过用户ID获取用户账号
+     *
+     * @param userId
+     * @return
+     */
+    @Select("SELECT userinfo_account FROM user_info WHERE userinfo_id=#{userId}")
+    String getAccount(String userId);
+
+    /**
+     * 给考试添加审核员、录入员
+     *
+     * @param typeId
+     * @param userId
+     * @param enterType
+     * @return
+     */
+    @Insert("INSERT INTO review_personnel(exam_type_id, userinfo_id, start_review, enter_type) VALUES (#{typeId},#{userId},now(),#{enterType})")
+    Integer addReviewPerson(@Param("typeId") String typeId, @Param("userId") String userId, @Param("enterType") Integer enterType);
+
+    /**
+     * 删除考试审核员
+     *
+     * @param enterPId
+     * @return
+     */
+    @Delete("DELETE FROM review_personnel WHERE enter_p_id = #{enterPId}")
+    Integer deleteReviewPerson(Integer enterPId);
 }
