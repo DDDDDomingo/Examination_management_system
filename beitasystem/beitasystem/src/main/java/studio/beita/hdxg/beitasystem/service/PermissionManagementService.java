@@ -1,7 +1,9 @@
 package studio.beita.hdxg.beitasystem.service;
 
 import studio.beita.hdxg.beitasystem.model.domain.UserGroup;
+import studio.beita.hdxg.beitasystem.model.domain.UserRole;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -47,4 +49,11 @@ public interface PermissionManagementService {
      * @return
      */
     UserGroup getUserByGroupId(Integer groupId);
+
+    /**
+     * 管理员查看用户组权限.
+     *
+     * @return
+     */
+    Optional<List<UserRole>> getPermissionByAdmin();
 }

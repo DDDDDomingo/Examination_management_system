@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import studio.beita.hdxg.beitasystem.model.domain.UserGroup;
+import studio.beita.hdxg.beitasystem.model.domain.UserRole;
 import studio.beita.hdxg.beitasystem.repository.PermissionManagementDao;
 import studio.beita.hdxg.beitasystem.service.PermissionManagementService;
 import studio.beita.hdxg.beitasystem.utils.GetUidUtils;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -48,5 +50,10 @@ public class PermissionManagementServiceImpl implements PermissionManagementServ
     @Override
     public UserGroup getUserByGroupId(Integer groupId) {
         return permissionManagementDao.getUserByGroupId(groupId);
+    }
+
+    @Override
+    public Optional<List<UserRole>> getPermissionByAdmin() {
+        return Optional.ofNullable(permissionManagementDao.getPermissionByAdmin());
     }
 }
