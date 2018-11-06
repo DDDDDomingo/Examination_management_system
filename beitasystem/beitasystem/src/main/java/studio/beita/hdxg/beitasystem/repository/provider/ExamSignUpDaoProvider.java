@@ -28,12 +28,12 @@ public class ExamSignUpDaoProvider {
         return new SQL() {
             {
                 INSERT_INTO("user_details");
-                VALUES("examTypeId", "#{examTypeId}");
-                VALUES("detailsId", "#{detailsId}");
-                VALUES("signUpPic", "#{signUpPic}");
-                VALUES("signUpTime", "#{signUpTime}");
-                VALUES("isConfirm", "#{isConfirm}");
-                VALUES("birthMonth", "#{birthMonth}");
+                VALUES("exam_type_id", "#{examTypeId}");
+                VALUES("details_id", "#{detailsId}");
+                VALUES("signup_pic", "#{signUpPic}");
+                VALUES("signup_time", "#{signUpTime}");
+                VALUES("signup_isconfirm", "#{isConfirm}");
+                VALUES("signup_birth_month", "#{birthMonth}");
             }
         }.toString();
     }
