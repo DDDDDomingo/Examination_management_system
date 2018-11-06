@@ -159,7 +159,7 @@ public interface WebPortalsDao {
      * @param newsId
      * @return
      */
-    @UpdateProvider(type = ExamSignUpDaoProvider.class, method = "changeExamNewsVisits")
+    @UpdateProvider(type = WebPortalsDaoProvider.class, method = "changeExamNewsVisits")
     Integer changeExamNewsVisits(@Param("newsId")Integer newsId);
-    
+
 }
