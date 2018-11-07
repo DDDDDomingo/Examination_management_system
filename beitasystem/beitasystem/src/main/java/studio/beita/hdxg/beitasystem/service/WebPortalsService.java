@@ -1,12 +1,18 @@
 package studio.beita.hdxg.beitasystem.service;
 
-import org.apache.ibatis.annotations.Param;
 import studio.beita.hdxg.beitasystem.model.domain.ExamNews;
 import studio.beita.hdxg.beitasystem.model.domain.ExamNewsType;
 
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author zr
+ * @program: beitasystem
+ * @Title: WebPortalsService
+ * @package: studio.beita.hdxg.beitasystem.service
+ * @description: 门户网站模块表Service层接口
+ **/
 public interface WebPortalsService {
 
     /**

@@ -10,6 +10,13 @@ import studio.beita.hdxg.beitasystem.service.WebPortalsService;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author zr
+ * @program: beitasystem
+ * @Title: WebPortalsServiceImpl
+ * @package: studio.beita.hdxg.beitasystem.service.impl
+ * @description:
+ **/
 @Service
 public class WebPortalsServiceImpl implements WebPortalsService {
     @Autowired

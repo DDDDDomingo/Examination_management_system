@@ -19,7 +19,6 @@ import java.util.List;
 @Mapper
 @Repository
 public interface WebPortalsDao {
-    // TODO: 2018/11/6  管理员增删改查考试新闻（富文本，html格式，新闻资源），游客和用户获取考试新闻列表（随时间倒置排列），游客点击增加阅读量，可以下载新闻资源
 
     /**
      * 管理员增加考试新闻

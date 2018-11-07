@@ -45,11 +45,12 @@ public class ExamSignUpDaoProvider {
      */
     public String changeExamSignupList(Map<String, Object> esMap) {
         String userId = (String) esMap.get("userId");
+        String typeId = (String) esMap.get("typeId");
         return new SQL() {
             {
                 UPDATE("exam_signup_list");
                 SET("signup_isconfirm=1");
-                WHERE("details_id =" + userId);
+                WHERE("details_id =" + userId+"AND exam_type_id =" + typeId);
             }
         }.toString();
     }
@@ -64,7 +65,7 @@ public class ExamSignUpDaoProvider {
         String typeId = (String) cnMap.get("typeId");
         return new SQL() {
             {
-                UPDATE("exam_type");
+                UPDATE("exam_signup_list");
                 SET("exam_audited_num = exam_audited_num + 1");
                 WHERE("exam_type_id =" + typeId);
             }
