@@ -173,4 +173,6 @@ public class PersonalInformationController {
         return ResponseEntity
                .ok(personalInformationService.getPermissionByUserId(userId));
     }
+
+
 }

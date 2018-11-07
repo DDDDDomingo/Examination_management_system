@@ -92,7 +92,7 @@ public interface WebPortalsDao {
      * @param visits
      * @return
      */
-    @UpdateProvider(type = WebPortalsDaoProvider.class, method = "changeExamSignupList")
+    @UpdateProvider(type = WebPortalsDaoProvider.class, method = "changeExamNewsByAdmin")
     Integer changeExamNewsByAdmin(@Param("newsId")Integer newsId,@Param("etypeId")Integer etypeId, @Param("content")String content, @Param("time")String time, @Param("isNew")boolean isNew, @Param("visits")Integer visits);
 
     /**
@@ -145,13 +145,13 @@ public interface WebPortalsDao {
     List<ExamNews> getExamNewsByExamTypeId(Integer etypeId);
 
     /**
-     * 根据新闻类别id查看考试新闻资源
+     * 根据新闻id查看考试新闻资源
      *
-     * @param etypeId
+     * @param newsId
      * @return
      */
-    @Select("SELECT resource_id,news_id, res_link_address, res_savepath, res_createtime FROM exam_news WHERE etype_id = #{etypeId} ORDER BY resource_id DESC")
-    List<ExamNews> getResourceByExamTypeId(Integer etypeId);
+    @Select("SELECT resource_id,news_id, res_link_address, res_savepath, res_createtime FROM resource WHERE news_id = #{newsId} ORDER BY resource_id DESC")
+    List<ExamNews> getResourceByNewsId(Integer newsId);
 
     /**
      * 游客点击新闻增加阅读量，下载新闻资源
@@ -161,5 +161,15 @@ public interface WebPortalsDao {
      */
     @UpdateProvider(type = WebPortalsDaoProvider.class, method = "changeExamNewsVisits")
     Integer changeExamNewsVisits(@Param("newsId")Integer newsId);
+
+    /**
+     * 更改是否为最新新闻状态
+     *
+     * @param newsId
+     * @param isNew
+     * @return
+     */
+    @UpdateProvider(type = WebPortalsDaoProvider.class, method = "changeIsNewByAdmin")
+    Integer changeIsNewByAdmin(@Param("newsId")Integer newsId, @Param("isNew")boolean isNew);
 
 }

@@ -1,16 +1,17 @@
 package studio.beita.hdxg.beitasystem.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import studio.beita.hdxg.beitasystem.model.domain.ExamNews;
 import studio.beita.hdxg.beitasystem.model.domain.ExamNewsType;
-import studio.beita.hdxg.beitasystem.repository.PersonalInformationDao;
 import studio.beita.hdxg.beitasystem.repository.WebPortalsDao;
-import studio.beita.hdxg.beitasystem.service.WebPortalsDaoService;
+import studio.beita.hdxg.beitasystem.service.WebPortalsService;
 
 import java.util.List;
 import java.util.Optional;
 
-public class WebPortalsDaoServiceImpl implements WebPortalsDaoService {
+@Service
+public class WebPortalsServiceImpl implements WebPortalsService {
     @Autowired
     private WebPortalsDao webPortalsDao;
 
@@ -55,6 +56,11 @@ public class WebPortalsDaoServiceImpl implements WebPortalsDaoService {
     }
 
     @Override
+    public boolean changeExamNewsByAdmin(Integer newsId, Integer etypeId, String content, String time, boolean isNew, Integer visits) {
+        return webPortalsDao.changeExamNewsByAdmin(newsId, etypeId, content, time, isNew, visits)>0;
+    }
+
+    @Override
     public Optional<List<ExamNewsType>> getAllExamNews() {
         return Optional.ofNullable(webPortalsDao.getAllExamNews());
     }
@@ -65,12 +71,17 @@ public class WebPortalsDaoServiceImpl implements WebPortalsDaoService {
     }
 
     @Override
-    public Optional<List<ExamNews>> getResourceByExamTypeId(Integer etypeId) {
-        return Optional.ofNullable(webPortalsDao.getResourceByExamTypeId(etypeId));
+    public Optional<List<ExamNews>> getResourceByNewsId(Integer newsId) {
+        return Optional.ofNullable(webPortalsDao.getResourceByNewsId(newsId));
     }
 
     @Override
     public boolean changeExamNewsVisits(Integer newsId) {
         return webPortalsDao.changeExamNewsVisits(newsId)>0;
+    }
+
+    @Override
+    public boolean changeIsNewByAdmin(Integer newsId, boolean isNew) {
+        return  webPortalsDao.changeIsNewByAdmin(newsId,isNew)>0;
     }
 }

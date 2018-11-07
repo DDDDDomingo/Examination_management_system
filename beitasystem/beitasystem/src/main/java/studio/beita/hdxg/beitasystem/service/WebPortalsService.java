@@ -7,7 +7,7 @@ import studio.beita.hdxg.beitasystem.model.domain.ExamNewsType;
 import java.util.List;
 import java.util.Optional;
 
-public interface WebPortalsDaoService {
+public interface WebPortalsService {
 
     /**
      * 管理员增加考试新闻
@@ -86,6 +86,19 @@ public interface WebPortalsDaoService {
     boolean changeExamNewsTypeByAdmin(Integer etypeId,String typeName);
 
     /**
+     * 管理员更改考试新闻
+     *
+     * @param newsId
+     * @param etypeId
+     * @param content
+     * @param time
+     * @param isNew
+     * @param visits
+     * @return
+     */
+    boolean changeExamNewsByAdmin(Integer newsId,Integer etypeId, String content, String time, boolean isNew, Integer visits);
+
+    /**
      * 查看全部新闻
      *
      * @return
@@ -103,10 +116,10 @@ public interface WebPortalsDaoService {
     /**
      * 根据新闻类别id查看考试新闻资源
      *
-     * @param etypeId
+     * @param newsId
      * @return
      */
-    Optional<List<ExamNews>> getResourceByExamTypeId(Integer etypeId);
+    Optional<List<ExamNews>> getResourceByNewsId(Integer newsId);
 
     /**
      * 游客点击新闻增加阅读量，下载新闻资源
@@ -115,4 +128,13 @@ public interface WebPortalsDaoService {
      * @return
      */
     boolean changeExamNewsVisits(Integer newsId);
+
+    /**
+     * 更改是否为最新新闻状态
+     *
+     * @param newsId
+     * @param isNew
+     * @return
+     */
+    boolean changeIsNewByAdmin(Integer newsId, boolean isNew);
 }
