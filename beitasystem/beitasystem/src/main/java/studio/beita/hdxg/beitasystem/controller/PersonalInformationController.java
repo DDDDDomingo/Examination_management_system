@@ -62,7 +62,6 @@ public class PersonalInformationController {
             @ApiImplicitParam(name = "idCard", value = "身份证", dataType = "String", paramType = "query", required = true)
     })
     @PutMapping("/Information/update")
-    @ControllerLog(description = "用户修改头像")
     public ResponseEntity<?> changeUserDetails(@RequestParam("detailsId")String detailsId, @RequestParam("avatar") MultipartFile file, @RequestParam("phone")String phone,
                                                @RequestParam("address")String address, @RequestParam("realName")String realName, @RequestParam("idCard")String idCard) {
         String fileName = UploadUtils.uploadPhoto(file, USER_AVATAR_FILE_REPOSITORY);
@@ -88,7 +87,6 @@ public class PersonalInformationController {
             @ApiImplicitParam(name = "avatar", value = "头像", dataType = "String", paramType = "query", required = true)
     })
     @PutMapping("/avatar/update")
-    @ControllerLog(description = "用户修改头像")
     public ResponseEntity<?> changeUserAvatar(@RequestParam("detailsId")String detailsId, @RequestParam("avatar") MultipartFile file) {
         String fileName = UploadUtils.uploadPhoto(file, USER_AVATAR_FILE_REPOSITORY);
         if(fileName != null){
@@ -108,7 +106,6 @@ public class PersonalInformationController {
             @ApiImplicitParam(name = "idCard", value = "身份证", dataType = "String", paramType = "query", required = true)
     })
     @PutMapping("/identity/update")
-    @ControllerLog(description = "用户修改身份信息")
     public ResponseEntity<?> changeUserIdentity(@RequestParam("detailsId")String detailsId, @RequestParam("realName")String realName, @RequestParam("idCard")String idCard) {
         if(personalInformationService.changeUserIdentity(detailsId, realName, idCard)){
             return ResponseEntity.ok("身份信息更改成功！");
@@ -141,7 +138,6 @@ public class PersonalInformationController {
             @ApiImplicitParam(name = "userId", value = "用户ID", dataType = "String", paramType = "query", required = true)
     })
     @GetMapping("/userInfo/get")
-    @ControllerLog(description = "用户获取个人信息")
     public ResponseEntity<?> getUserInfoById(@RequestParam("userId")String userId) {
         return ResponseEntity
                 .ok(personalInformationService.getUserInfoById(userId));
