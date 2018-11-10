@@ -29,14 +29,11 @@ public class WebPortalsController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "etypeId", value = "新闻类别ID", dataType = "Integer", paramType = "query", required = true),
             @ApiImplicitParam(name = "content", value = "新闻内容", dataType = "String", paramType = "query", required = true),
-            @ApiImplicitParam(name = "time", value = "新闻发布时间", dataType = "String", paramType = "query", required = true),
-            @ApiImplicitParam(name = "isNew", value = "是否为最新新闻", dataType = "String", paramType = "query", required = true),
-            @ApiImplicitParam(name = "visits", value = "考试新闻访问次数", dataType = "String", paramType = "query", required = true)
+            @ApiImplicitParam(name = "time", value = "新闻发布时间", dataType = "String", paramType = "query", required = true)
     })
     @PostMapping("/admin/examNews/add")
-    public ResponseEntity<?> insertExamNewsByAdmin(@RequestParam("etypeId")Integer etypeId, @RequestParam("content")String content, @RequestParam("time")String time,
-                                                   @RequestParam("isNew")boolean isNew,  @RequestParam("visits")Integer visits) {
-        if(webPortalsService.insertExamNewsByAdmin(etypeId,content,time,isNew,visits)){
+    public ResponseEntity<?> insertExamNewsByAdmin(@RequestParam("etypeId")Integer etypeId, @RequestParam("content")String content, @RequestParam("time")String time) {
+        if(webPortalsService.insertExamNewsByAdmin(etypeId,content,time,true,0)){
             return ResponseEntity.ok("增加新闻成功！");
         }else{
             return ResponseEntity

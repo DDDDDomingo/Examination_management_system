@@ -86,7 +86,7 @@ public interface ExamScoreManagementDao {
                     @Result(property = "examId", column = "exam_type_id"),
                     @Result(property = "examName", column = "ticket_info_identifier",one = @One(select = "studio.beita.hdxg.beitasystem.repository.ExamScoreManagementDao.getRealNameByIdentifier")),
                     @Result(property = "identifier",column = "ticket_info_identifier"),
-                    @Result(property = "scoreNum", column = "score_num"),
+                    @Result(property = "scoreNum", column = "score_num")
             }
     )
     List<ExamScore> getExamScoreListBySession(Integer sessionId);
@@ -130,7 +130,7 @@ public interface ExamScoreManagementDao {
      *
      * @return
      */
-    @Select("SELECT session_id, exam_type_id, session_place, session_time, session_capacity FROM exam_session ORDER BY session_time DESC")
+    @Select("SELECT es.session_id, es.exam_type_id, es.session_place, es.session_time, es.session_capacity FROM exam_session es, exam_type et WHERE et.exam_issignup = 0 AND et.exam_isclosed = 0 AND et.exam_isquery = 0 ORDER BY session_time DESC")
     List<ExamSession> getExamSessionList();
 
 }
