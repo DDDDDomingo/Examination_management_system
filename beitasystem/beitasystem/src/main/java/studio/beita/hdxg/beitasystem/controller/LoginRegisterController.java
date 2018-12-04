@@ -18,8 +18,10 @@ import studio.beita.hdxg.beitasystem.exception.LoginRegister.LoginErrorException
 import studio.beita.hdxg.beitasystem.exception.LoginRegister.OldPasswordWrongException;
 import studio.beita.hdxg.beitasystem.model.domain.UserInfo;
 import studio.beita.hdxg.beitasystem.service.LoginRegisterService;
+import studio.beita.hdxg.beitasystem.utils.JwtUtil;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.Optional;
 
 /**
@@ -68,9 +70,16 @@ public class LoginRegisterController {
     public ResponseEntity<?> assertLogin(String account, String email, String password) {
         //验证登陆信息
         assertLoginAccount(account, email, password);
-        // TODO: 2018/10/27 添加JWT
+
+        String jwt = JwtUtil.generateToken(account);
+
+        HashMap<String, Object> results = new HashMap<>();
+        results.put("token", jwt);
+        // TODO: 2018/10/27 添加JWT到Redis
+        results.put("message",ResponseConstant.ASSERT_LOGIN_SUCCESS);
+
         //登陆成功
-        return ResponseEntity.ok(ResponseConstant.ASSERT_LOGIN_SUCCESS);
+        return ResponseEntity.ok(results);
     }
 
     @ApiOperation(value = "管理员登陆验证", notes = "admin login")

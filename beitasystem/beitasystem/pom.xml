@@ -111,6 +111,17 @@
 			<scope>test</scope>
 		</dependency>-->
 		<!-- POI-->
+		<!--<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.10-FINAL</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.10-FINAL</version>
+		</dependency>-->
+		<!-- 以下是POI相关使用     注：版本号不可轻易更改 -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
@@ -131,12 +142,6 @@
 			<artifactId>poi-scratchpad</artifactId>
 			<version>3.17</version>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml-schemas</artifactId>
-			<version>3.10-FINAL</version>
-		</dependency>
-
 		<!--mail-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
