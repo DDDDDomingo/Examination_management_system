@@ -78,4 +78,18 @@ public class PermissionManagementController {
         }
     }
 
+    @ApiOperation(value = "管理员获取用户组权限", notes = "administrator get permission")
+    @DeleteMapping("/admin/group/get")
+    @ControllerLog(description = "管理员获取用户组权限")
+    public ResponseEntity<?> getPermissionByAdmin(){
+        if(permissionManagementService.getPermissionByAdmin()!=null){
+            return ResponseEntity
+                    .ok("权限查询成功！");
+        }else{
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("服务器繁忙！查询失败！请稍后重试！");
+        }
+    }
+
 }

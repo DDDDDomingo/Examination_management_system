@@ -18,11 +18,7 @@ import java.util.List;
 @Mapper
 @Repository
 public interface ExamSignUpDao {
-    // TODO: 2018/11/5  用户报名时，身份验证（真实姓名，身份证是否完善），取出可以报名的考试类别表清单，选取考试类别，考生上传转账截图，点击报名。
-    // TODO: 2018/11/5  审核员审核，查询审核对应出生月份的考生（先查询考试报名审核员人数），将其报名表改为通过，对审核结果发送通知（审核完就发）是否通过都发，计算审核通过人数，超出则直接结束报名（直接调用）
-    // TODO: 2018/11/5  select添加升降序
     // TODO: 2018/11/5  限定考试审核员添加时间
-    //管理员增删改查考试新闻（富文本，html格式，新闻资源），新闻类别未确定，游客和用户获取考试新闻列表（随时间倒置排列），游客点击增加阅读量，可以下载新闻资源
 
     /**
      * 身份验证（是否有反面身份证照片）
@@ -31,7 +27,7 @@ public interface ExamSignUpDao {
      * @return
      */
     @Select("SELECT idcard_reverse_photo_url FROM idcard_photo WHERE userinfo_id = #{userId}")
-    String userAuthentication(Integer userId);
+    String userAuthentication(String userId);
 
     /**
      * 取出可以报名的考试类别表清单
@@ -54,7 +50,7 @@ public interface ExamSignUpDao {
      * @return
      */
     @InsertProvider(type = ExamSignUpDaoProvider.class, method = "insertExamSignupListByUser")
-    ExamSignupList insertExamSignupListByUser(@Param("examTypeId")String examTypeId, @Param("detailsId")String detailsId, @Param("signUpPic")String signUpPic,
+    Integer insertExamSignupListByUser(@Param("examTypeId")String examTypeId, @Param("detailsId")String detailsId, @Param("signUpPic")String signUpPic,
                                               @Param("signUpTime")Date signUpTime, @Param("isConfirm")boolean isConfirm,@Param("birthMonth")Integer birthMonth);
 
     /**
@@ -65,7 +61,7 @@ public interface ExamSignUpDao {
      * @return
      */
     @Select("SELECT enter_p_id FROM review_personnel WHERE userinfo_id = #{userId} AND exam_type_id = #{typeId}")
-    String verifyAdministrator(String typeId,Integer userId);
+    String verifyAdministrator(String typeId,String userId);
 
     /**
      * 根据出生月份，选择对应未审核的考生
@@ -83,15 +79,15 @@ public interface ExamSignUpDao {
             "AND exam_type_id = #{item1.typeId} AND signup_isconfirm = 0 ORDER BY details_id ASC" +
             "</script>")
     @Results(
-            id = "userGroupList",
+            id = "reviewCandidateInformation",
             value = {
                     @Result(id = true, property = "signup_id", column = "signup_id"),
                     @Result(property = "examTypeId", column = "exam_type_id"),
                     @Result(property = "name", column = "details_id",one = @One(select = "studio.beita.hdxg.beitasystem.repository.ExamSignUpDao.getUserNameByUserId")),
                     @Result(property = "signUpPic", column = "signup_pic"),
                     @Result(property = "signUpTime", column = "signup_time"),
-                    @Result(property = "frontPhotoUrl", column = "exam_type_id",one = @One(select = "studio.beita.hdxg.beitasystem.repository.ExamSignUpDao.getFrontPhotoUrlByUserId")),
-                    @Result(property = "reversePhotoUrl", column = "exam_type_id",one = @One(select = "studio.beita.hdxg.beitasystem.repository.ExamSignUpDao.getReversePhotoUrlByUserId")),
+                    @Result(property = "frontPhotoUrl", column = "details_id",one = @One(select = "studio.beita.hdxg.beitasystem.repository.ExamSignUpDao.getFrontPhotoUrlByUserId")),
+                    @Result(property = "reversePhotoUrl", column = "details_id",one = @One(select = "studio.beita.hdxg.beitasystem.repository.ExamSignUpDao.getReversePhotoUrlByUserId")),
                     @Result(property = "isConfirm", column = "signup_isconfirm")
             }
     )
@@ -140,8 +136,8 @@ public interface ExamSignUpDao {
      * @param userId
      * @return
      */
-    @Delete("DELETE FROM exam_signup_list WHERE userinfo_id = #{userId}")
-    Integer deleteCandidateByUserId(String userId);
+    @Delete("DELETE FROM exam_signup_list WHERE userinfo_id = #{userId} AND exam_type_id = #{typeId}")
+    Integer deleteCandidateByUserId(String userId,String typeId);
 
     /**
      * 审核通过者，发邮件告知，更改审核状态为1
@@ -150,7 +146,7 @@ public interface ExamSignUpDao {
      * @return
      */
     @UpdateProvider(type = ExamSignUpDaoProvider.class, method = "changeExamSignupList")
-    Integer changeExamSignupList(@Param("userId") String userId);
+    Integer changeExamSignupList(@Param("userId") String userId,@Param("typeId") String typeId);
 
     /**
      * 审核通过,更改考试类别表的审核人数
@@ -160,5 +156,16 @@ public interface ExamSignUpDao {
      */
     @UpdateProvider(type = ExamSignUpDaoProvider.class, method = "changeCandidateNum")
     Integer changeCandidateNum(@Param("typeId") String typeId);
+
+    /**
+     * 计算该考试的过审人数
+     *
+     * @param typeId
+     * @return
+     */
+    @Select("SELECT count(signup_id) FROM exam_signup_list WHERE exam_type_id = #{typeId}")
+    Integer getPassNumByAdmin(@Param("typeId") String typeId);
+
+
 
 }

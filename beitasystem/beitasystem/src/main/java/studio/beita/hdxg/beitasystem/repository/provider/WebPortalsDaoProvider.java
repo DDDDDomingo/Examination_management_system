@@ -83,7 +83,7 @@ public class WebPortalsDaoProvider {
      * @param cesMap
      * @return
      */
-    public String changeExamSignupList(Map<String, Object> cesMap) {
+    public String changeExamNewsByAdmin(Map<String, Object> cesMap) {
         Integer newsId = (Integer) cesMap.get("newsId");
         Integer etypeId = (Integer) cesMap.get("etypeId");
         String content = (String) cesMap.get("content");
@@ -164,6 +164,24 @@ public class WebPortalsDaoProvider {
             {
                 UPDATE("exam_news");
                 SET("news_visits = news_visits + 1");
+                WHERE("news_id =" + newsId);
+            }
+        }.toString();
+    }
+
+    /**
+     *游客点击新闻增加阅读量，下载新闻资源
+     *
+     * @param cinMap
+     * @return
+     */
+    public String changeIsNewByAdmin(Map<String, Object> cinMap) {
+        Integer newsId = (Integer) cinMap.get("newsId");
+        boolean isNew = (boolean) cinMap.get("newsId");
+        return new SQL() {
+            {
+                UPDATE("exam_news");
+                SET("news_isnew ='" + isNew + "'");
                 WHERE("news_id =" + newsId);
             }
         }.toString();

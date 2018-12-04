@@ -34,8 +34,7 @@ import java.util.Optional;
 @RestController
 public class PersonalInformationController {
     // TODO: 2018/10/30 图片存储功能待更改 头像更改（除了初始头像，其他直接删除）修改信息除了包含图片的，其他都测试过了
-    // TODO: 2018/11/1 loginService 更改密码 
-    // TODO: 2018/11/5 controller mapping规范
+    // TODO: 2018/11/1 loginService 更改密码
 
     @Value("${WEBSITE_ADDRESS}")
     private String WEBSITE_ADDRESS;
@@ -62,7 +61,7 @@ public class PersonalInformationController {
             @ApiImplicitParam(name = "realName", value = "真实姓名", dataType = "String", paramType = "query", required = true),
             @ApiImplicitParam(name = "idCard", value = "身份证", dataType = "String", paramType = "query", required = true)
     })
-    @PutMapping("/user/Information/changePI")
+    @PutMapping("/Information/update")
     public ResponseEntity<?> changeUserDetails(@RequestParam("detailsId")String detailsId, @RequestParam("avatar") MultipartFile file, @RequestParam("phone")String phone,
                                                @RequestParam("address")String address, @RequestParam("realName")String realName, @RequestParam("idCard")String idCard) {
         String fileName = UploadUtils.uploadPhoto(file, USER_AVATAR_FILE_REPOSITORY);
@@ -87,7 +86,7 @@ public class PersonalInformationController {
             @ApiImplicitParam(name = "detailsId", value = "用户ID", dataType = "String", paramType = "query", required = true),
             @ApiImplicitParam(name = "avatar", value = "头像", dataType = "String", paramType = "query", required = true)
     })
-    @PutMapping("/user/Information/changeAvatar")
+    @PutMapping("/avatar/update")
     public ResponseEntity<?> changeUserAvatar(@RequestParam("detailsId")String detailsId, @RequestParam("avatar") MultipartFile file) {
         String fileName = UploadUtils.uploadPhoto(file, USER_AVATAR_FILE_REPOSITORY);
         if(fileName != null){
@@ -106,8 +105,8 @@ public class PersonalInformationController {
             @ApiImplicitParam(name = "realName", value = "真实姓名", dataType = "String", paramType = "query", required = true),
             @ApiImplicitParam(name = "idCard", value = "身份证", dataType = "String", paramType = "query", required = true)
     })
-    @PutMapping("/user/Information/changeIdentity")
-    public ResponseEntity<?> changeUserIdentity(String detailsId, String realName, String idCard) {
+    @PutMapping("/identity/update")
+    public ResponseEntity<?> changeUserIdentity(@RequestParam("detailsId")String detailsId, @RequestParam("realName")String realName, @RequestParam("idCard")String idCard) {
         if(personalInformationService.changeUserIdentity(detailsId, realName, idCard)){
             return ResponseEntity.ok("身份信息更改成功！");
         }else{
@@ -123,8 +122,8 @@ public class PersonalInformationController {
             @ApiImplicitParam(name = "phone", value = "电话", dataType = "String", paramType = "query", required = true),
             @ApiImplicitParam(name = "address", value = "地址", dataType = "String", paramType = "query", required = true)
     })
-    @PutMapping("/user/Information/changePhoneAddress")
-    public ResponseEntity<?> changeUserPhoneAddress(String detailsId, String phone, String address) {
+    @PutMapping("/phoneAddress/update")
+    public ResponseEntity<?> changeUserPhoneAddress(@RequestParam("detailsId")String detailsId, @RequestParam("phone")String phone, @RequestParam("address")String address) {
         if(personalInformationService.changeUserPhoneAddress(detailsId, phone, address)){
             return ResponseEntity.ok("身份信息更改成功！");
         }else{
@@ -138,8 +137,8 @@ public class PersonalInformationController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId", value = "用户ID", dataType = "String", paramType = "query", required = true)
     })
-    @GetMapping("/user/Information/getUserInfo")
-    public ResponseEntity<?> getUserInfoById(String userId) {
+    @GetMapping("/userInfo/get")
+    public ResponseEntity<?> getUserInfoById(@RequestParam("userId")String userId) {
         return ResponseEntity
                 .ok(personalInformationService.getUserInfoById(userId));
     }
@@ -148,7 +147,7 @@ public class PersonalInformationController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "receiveId", value = "接受者ID", dataType = "String", paramType = "query", required = true)
     })
-    @GetMapping("/admin/Information/getSystemNotice")
+    @GetMapping("/admin/SystemNotice/get")
     @ControllerLog(description = "管理员获取系统通知")
     public ResponseEntity<?> getSystemNoticeByIdByAdmin(String receiveId) {
         return ResponseEntity
@@ -156,7 +155,7 @@ public class PersonalInformationController {
     }
 
     @ApiOperation(value = "获取用户组List", notes = "user get getUserGroupList")
-    @GetMapping("/admin/userInformation/getUserGroupList")
+    @GetMapping("/admin/UserGroupList/get")
     @ControllerLog(description = "管理员获取用户组List")
     public ResponseEntity<?> getUserGroupListByAdmin() {
         return ResponseEntity
@@ -167,10 +166,11 @@ public class PersonalInformationController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId", value = "发送者ID", dataType = "String", paramType = "query", required = true)
     })
-    @GetMapping("/admin/Information/getPermission")
+    @GetMapping("/admin/Permission/get")
     @ControllerLog(description = "管理员获取权限信息")
     public ResponseEntity<?> getPermissionByUserIdByAdmin(String userId) {
         return ResponseEntity
                .ok(personalInformationService.getPermissionByUserId(userId));
     }
+
 }
