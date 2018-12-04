@@ -15,16 +15,14 @@ public class ExamNewsType implements Serializable {
     private Integer etypeId;
     private String typeName;
     private List<ExamNews> examNewsList;
-    private List<Resource> resourceList;
 
     public ExamNewsType() {
     }
 
-    public ExamNewsType(Integer etypeId, String typeName, List<ExamNews> examNewsList, List<Resource> resourceList) {
+    public ExamNewsType(Integer etypeId, String typeName, List<ExamNews> examNewsList) {
         this.etypeId = etypeId;
         this.typeName = typeName;
         this.examNewsList = examNewsList;
-        this.resourceList = resourceList;
     }
 
     public Integer getEtypeId() {
@@ -51,21 +49,12 @@ public class ExamNewsType implements Serializable {
         this.examNewsList = examNewsList;
     }
 
-    public List<Resource> getResourceList() {
-        return resourceList;
-    }
-
-    public void setResourceList(List<Resource> resourceList) {
-        this.resourceList = resourceList;
-    }
-
     @Override
     public String toString() {
         return "ExamNewsType{" +
                 "etypeId=" + etypeId +
                 ", typeName='" + typeName + '\'' +
                 ", examNewsList=" + examNewsList +
-                ", resourceList=" + resourceList +
                 '}';
     }
 }

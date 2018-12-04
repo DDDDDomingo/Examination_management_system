@@ -122,14 +122,13 @@ public interface WebPortalsDao {
      *
      * @return
      */
-    @Select("SELECT etype_id, etype_name FROM review_personnel ORDER BY etype_id ASC")
-    @Results(
+    @Select("SELECT etype_id, etype_name FROM exam_news_type ORDER BY etype_id ASC")
+            @Results(
             id = "getAllExamNews",
             value = {
-                    @Result(id = true, property = "signup_id", column = "etype_id"),
-                    @Result(property = "examTypeId", column = "etype_name"),
-                    @Result(property = "examNewsList", column = "etype_id",many = @Many(select = "studio.beita.hdxg.beitasystem.repository.WebPortalsDao.getExamNewsByExamTypeId")),
-                    @Result(property = "resourceList", column = "etype_id",many = @Many(select = "studio.beita.hdxg.beitasystem.repository.WebPortalsDao.getResourceByExamTypeId")),
+                    @Result(id = true, property = "etypeId", column = "etype_id"),
+                    @Result(property = "typeName", column = "etype_name"),
+                    @Result(property = "examNewsList", column = "etypeId",many = @Many(select = "studio.beita.hdxg.beitasystem.repository.WebPortalsDao.getExamNewsByExamTypeId"))
             }
     )
     List<ExamNewsType> getAllExamNews();
@@ -141,6 +140,18 @@ public interface WebPortalsDao {
      * @return
      */
     @Select("SELECT news_id, etype_id, news_content, news_time, news_isnew, news_visits FROM exam_news WHERE etype_id = #{etypeId} ORDER BY news_time DESC")
+            @Results(
+            id = "getAllExamNewAndResource",
+            value = {
+                    @Result(id = true, property = "newsId", column = "news_id"),
+                    @Result(property = "etypeId", column = "etype_id"),
+                    @Result(property = "content", column = "news_content"),
+                    @Result(property = "time", column = "news_time"),
+                    @Result(property = "isNew", column = "news_isnew"),
+                    @Result(property = "visits", column = "news_visits"),
+                    @Result(property = "resourceList", column = "newsId",many = @Many(select = "studio.beita.hdxg.beitasystem.repository.WebPortalsDao.getResourceByExamTypeId"))
+            }
+    )
     List<ExamNews> getExamNewsByExamTypeId(Integer etypeId);
 
     /**

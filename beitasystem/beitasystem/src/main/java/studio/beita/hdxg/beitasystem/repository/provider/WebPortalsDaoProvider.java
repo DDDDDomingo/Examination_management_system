@@ -22,7 +22,7 @@ public class WebPortalsDaoProvider {
         Integer etypeId = (Integer) ienMap.get("etypeId");
         String content = (String) ienMap.get("content");
         String time = (String) ienMap.get("time");
-        String isNew = (String) ienMap.get("isNew");
+        boolean isNew = (boolean) ienMap.get("isNew");
         Integer visits = (Integer) ienMap.get("visits");
 
         return new SQL() {
@@ -88,7 +88,7 @@ public class WebPortalsDaoProvider {
         Integer etypeId = (Integer) cesMap.get("etypeId");
         String content = (String) cesMap.get("content");
         String time = (String) cesMap.get("time");
-        String isNew = (String) cesMap.get("isNew");
+        boolean isNew = (boolean) cesMap.get("isNew");
         Integer visits = (Integer) cesMap.get("visits");
 
         return new SQL() {
@@ -98,9 +98,9 @@ public class WebPortalsDaoProvider {
                 SET("etype_id='" + etypeId + "'");
                 SET("news_content='" + content + "'");
                 SET("news_time='" + time + "'");
-                SET("news_isnew='" + isNew + "'");
+                SET("news_isnew=" + isNew + "");
                 SET("news_visits='" + visits + "'");
-                WHERE("details_id =" + newsId);
+                WHERE("news_id =" + newsId);
             }
         }.toString();
     }
@@ -139,14 +139,14 @@ public class WebPortalsDaoProvider {
      */
     public String changeExamNewsTypeByAdmin(Map<String, Object> centMap) {
         Integer etypeId = (Integer) centMap.get("etypeId");
-        Integer typeName = (Integer) centMap.get("typeName");
+        String typeName = (String) centMap.get("typeName");
 
         return new SQL() {
             {
                 UPDATE("exam_news_type");
                 SET("etype_id='" + etypeId + "'");
                 SET("etype_name='" + typeName + "'");
-                WHERE("resource_id =" + etypeId);
+                WHERE("etype_id =" + etypeId);
             }
         }.toString();
     }
@@ -177,11 +177,11 @@ public class WebPortalsDaoProvider {
      */
     public String changeIsNewByAdmin(Map<String, Object> cinMap) {
         Integer newsId = (Integer) cinMap.get("newsId");
-        boolean isNew = (boolean) cinMap.get("newsId");
+        boolean isNew = (boolean) cinMap.get("isNew");
         return new SQL() {
             {
                 UPDATE("exam_news");
-                SET("news_isnew ='" + isNew + "'");
+                SET("news_isnew =" + isNew + "");
                 WHERE("news_id =" + newsId);
             }
         }.toString();

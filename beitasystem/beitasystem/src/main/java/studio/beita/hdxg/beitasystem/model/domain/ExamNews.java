@@ -3,6 +3,7 @@ package studio.beita.hdxg.beitasystem.model.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author zr
@@ -20,16 +21,19 @@ public class ExamNews implements Serializable {
     private String time;
     private boolean isNew;
     private Integer visits;
+    private List<Resource> resourceList;
 
     public ExamNews() {
     }
-    public ExamNews(Integer newsId, Integer etypeId, String content, String time, boolean isNew, Integer visits) {
+
+    public ExamNews(Integer newsId, Integer etypeId, String content, String time, boolean isNew, Integer visits, List<Resource> resourceList) {
         this.newsId = newsId;
         this.etypeId = etypeId;
         this.content = content;
         this.time = time;
         this.isNew = isNew;
         this.visits = visits;
+        this.resourceList = resourceList;
     }
 
     public Integer getNewsId() {
@@ -80,6 +84,14 @@ public class ExamNews implements Serializable {
         this.visits = visits;
     }
 
+    public List<Resource> getResourceList() {
+        return resourceList;
+    }
+
+    public void setResourceList(List<Resource> resourceList) {
+        this.resourceList = resourceList;
+    }
+
     @Override
     public String toString() {
         return "ExamNews{" +
@@ -89,6 +101,7 @@ public class ExamNews implements Serializable {
                 ", time='" + time + '\'' +
                 ", isNew=" + isNew +
                 ", visits=" + visits +
+                ", resourceList=" + resourceList +
                 '}';
     }
 }
