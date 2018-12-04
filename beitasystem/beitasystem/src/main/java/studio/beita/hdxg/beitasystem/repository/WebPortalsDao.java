@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 import studio.beita.hdxg.beitasystem.model.domain.ExamNews;
 import studio.beita.hdxg.beitasystem.model.domain.ExamNewsType;
+import studio.beita.hdxg.beitasystem.model.domain.Resource;
 import studio.beita.hdxg.beitasystem.repository.provider.ExamSignUpDaoProvider;
 import studio.beita.hdxg.beitasystem.repository.provider.WebPortalsDaoProvider;
 
@@ -128,7 +129,7 @@ public interface WebPortalsDao {
             value = {
                     @Result(id = true, property = "etypeId", column = "etype_id"),
                     @Result(property = "typeName", column = "etype_name"),
-                    @Result(property = "examNewsList", column = "etypeId",many = @Many(select = "studio.beita.hdxg.beitasystem.repository.WebPortalsDao.getExamNewsByExamTypeId"))
+                    @Result(property = "examNewsList", column = "etype_id",many = @Many(select = "studio.beita.hdxg.beitasystem.repository.WebPortalsDao.getExamNewsByExamTypeId"))
             }
     )
     List<ExamNewsType> getAllExamNews();
@@ -149,7 +150,7 @@ public interface WebPortalsDao {
                     @Result(property = "time", column = "news_time"),
                     @Result(property = "isNew", column = "news_isnew"),
                     @Result(property = "visits", column = "news_visits"),
-                    @Result(property = "resourceList", column = "newsId",many = @Many(select = "studio.beita.hdxg.beitasystem.repository.WebPortalsDao.getResourceByExamTypeId"))
+                    @Result(property = "resourceList", column = "news_id",many = @Many(select = "studio.beita.hdxg.beitasystem.repository.WebPortalsDao.getResourceByNewsId"))
             }
     )
     List<ExamNews> getExamNewsByExamTypeId(Integer etypeId);
@@ -161,7 +162,17 @@ public interface WebPortalsDao {
      * @return
      */
     @Select("SELECT resource_id,news_id, res_link_address, res_savepath, res_createtime FROM resource WHERE news_id = #{newsId} ORDER BY resource_id DESC")
-    List<ExamNews> getResourceByNewsId(Integer newsId);
+    @Results(
+            id = "getResourceNewAndResource",
+            value = {
+                @Result(id = true, property = "resourceId", column = "resource_id"),
+                @Result(property = "newsId", column = "news_id"),
+                @Result(property = "address", column = "res_link_address"),
+                @Result(property = "savePath", column = "res_savepath"),
+                @Result(property = "createTime", column = "res_createtime")
+            }
+    )
+    List<Resource> getResourceByNewsId(Integer newsId);
 
     /**
      * 游客点击新闻增加阅读量，下载新闻资源

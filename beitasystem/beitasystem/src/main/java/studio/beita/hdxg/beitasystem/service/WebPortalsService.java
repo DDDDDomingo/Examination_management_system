@@ -2,6 +2,7 @@ package studio.beita.hdxg.beitasystem.service;
 
 import studio.beita.hdxg.beitasystem.model.domain.ExamNews;
 import studio.beita.hdxg.beitasystem.model.domain.ExamNewsType;
+import studio.beita.hdxg.beitasystem.model.domain.Resource;
 
 import java.util.List;
 import java.util.Optional;
@@ -125,7 +126,7 @@ public interface WebPortalsService {
      * @param newsId
      * @return
      */
-    Optional<List<ExamNews>> getResourceByNewsId(Integer newsId);
+    Optional<List<Resource>> getResourceByNewsId(Integer newsId);
 
     /**
      * 游客点击新闻增加阅读量，下载新闻资源

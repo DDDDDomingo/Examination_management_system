@@ -196,7 +196,7 @@ public class WebPortalsController {
 
     @ApiOperation(value = "游客根据新闻类别id查看新闻", notes = "user get examNews")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "newsId", value = "新闻类别ID", dataType = "Integer", paramType = "query", required = true)
+            @ApiImplicitParam(name = "etypeId", value = "新闻类别ID", dataType = "Integer", paramType = "query", required = true)
     })
     @GetMapping("/examNewsType/get")
     @ControllerLog(description = "游客根据新闻类别id查看新闻")
@@ -220,7 +220,7 @@ public class WebPortalsController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "newsId", value = "新闻ID", dataType = "Integer", paramType = "query", required = true)
     })
-    @GetMapping("/examNewsVisits/updata")
+    @PostMapping("/examNewsVisits/updata")
     @ControllerLog(description = "游客点击新闻增加阅读量，下载新闻资源")
     public ResponseEntity<?> changeExamNewsVisits(@RequestParam("newsId")Integer newsId){
         return ResponseEntity

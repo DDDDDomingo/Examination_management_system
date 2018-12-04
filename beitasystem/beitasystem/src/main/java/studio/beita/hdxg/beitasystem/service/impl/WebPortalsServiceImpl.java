@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import studio.beita.hdxg.beitasystem.model.domain.ExamNews;
 import studio.beita.hdxg.beitasystem.model.domain.ExamNewsType;
+import studio.beita.hdxg.beitasystem.model.domain.Resource;
 import studio.beita.hdxg.beitasystem.repository.WebPortalsDao;
 import studio.beita.hdxg.beitasystem.service.WebPortalsService;
 
@@ -78,7 +79,7 @@ public class WebPortalsServiceImpl implements WebPortalsService {
     }
 
     @Override
-    public Optional<List<ExamNews>> getResourceByNewsId(Integer newsId) {
+    public Optional<List<Resource>> getResourceByNewsId(Integer newsId) {
         return Optional.ofNullable(webPortalsDao.getResourceByNewsId(newsId));
     }
 
