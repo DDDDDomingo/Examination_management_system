@@ -24,8 +24,8 @@ public class WebPortalsServiceImpl implements WebPortalsService {
     private WebPortalsDao webPortalsDao;
 
     @Override
-    public boolean insertExamNewsByAdmin(Integer etypeId, String content, String time, boolean isNew, Integer visits) {
-        return webPortalsDao.insertExamNewsByAdmin(etypeId,content,time,isNew,visits)>0;
+    public boolean insertExamNewsByAdmin(Integer etypeId, String title, String content, String time, boolean isNew, Integer visits) {
+        return webPortalsDao.insertExamNewsByAdmin(etypeId,title,content,time,isNew,visits)>0;
     }
 
     @Override
@@ -64,8 +64,8 @@ public class WebPortalsServiceImpl implements WebPortalsService {
     }
 
     @Override
-    public boolean changeExamNewsByAdmin(Integer newsId, Integer etypeId, String content, String time, boolean isNew, Integer visits) {
-        return webPortalsDao.changeExamNewsByAdmin(newsId, etypeId, content, time, isNew, visits)>0;
+    public boolean changeExamNewsByAdmin(Integer newsId, Integer etypeId, String title, String content, String time, boolean isNew, Integer visits) {
+        return webPortalsDao.changeExamNewsByAdmin(newsId, etypeId, title, content, time, isNew, visits)>0;
     }
 
     @Override

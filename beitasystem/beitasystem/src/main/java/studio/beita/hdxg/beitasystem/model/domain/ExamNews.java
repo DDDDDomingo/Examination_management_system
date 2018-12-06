@@ -16,6 +16,7 @@ public class ExamNews implements Serializable {
 
     private Integer newsId;
     private Integer etypeId;
+    private String title;
     private String content;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private String time;
@@ -26,9 +27,10 @@ public class ExamNews implements Serializable {
     public ExamNews() {
     }
 
-    public ExamNews(Integer newsId, Integer etypeId, String content, String time, boolean isNew, Integer visits, List<Resource> resourceList) {
+    public ExamNews(Integer newsId, Integer etypeId, String title, String content, String time, boolean isNew, Integer visits, List<Resource> resourceList) {
         this.newsId = newsId;
         this.etypeId = etypeId;
+        this.title = title;
         this.content = content;
         this.time = time;
         this.isNew = isNew;
@@ -50,6 +52,14 @@ public class ExamNews implements Serializable {
 
     public void setEtypeId(Integer etypeId) {
         this.etypeId = etypeId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getContent() {
@@ -97,6 +107,7 @@ public class ExamNews implements Serializable {
         return "ExamNews{" +
                 "newsId=" + newsId +
                 ", etypeId=" + etypeId +
+                ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", time='" + time + '\'' +
                 ", isNew=" + isNew +

@@ -33,8 +33,8 @@ public class WebPortalsController {
     })
     @PostMapping("/admin/examNews/add")
     @ControllerLog(description = "管理员增加新闻")
-    public ResponseEntity<?> insertExamNewsByAdmin(@RequestParam("etypeId")Integer etypeId, @RequestParam("content")String content, @RequestParam("time")String time) {
-        if(webPortalsService.insertExamNewsByAdmin(etypeId,content,time,true,0)){
+    public ResponseEntity<?> insertExamNewsByAdmin(@RequestParam("etypeId")Integer etypeId, @RequestParam("title")String title, @RequestParam("content")String content, @RequestParam("time")String time) {
+        if(webPortalsService.insertExamNewsByAdmin(etypeId,title,content,time,true,0)){
             return ResponseEntity.ok("增加新闻成功！");
         }else{
             return ResponseEntity
@@ -90,9 +90,9 @@ public class WebPortalsController {
     })
     @PutMapping("/admin/examNews/updata")
     @ControllerLog(description = "管理员更改新闻")
-    public ResponseEntity<?> changeExamNewsByAdmin(@RequestParam("newsId")Integer newsId,@RequestParam("etypeId")Integer etypeId, @RequestParam("content")String content, @RequestParam("time")String time,
+    public ResponseEntity<?> changeExamNewsByAdmin(@RequestParam("newsId")Integer newsId,@RequestParam("etypeId")Integer etypeId, @RequestParam("title")String title,@RequestParam("content")String content, @RequestParam("time")String time,
                                                    @RequestParam("isNew")boolean isNew,  @RequestParam("visits")Integer visits) {
-        if(webPortalsService.changeExamNewsByAdmin(newsId, etypeId, content, time, isNew, visits)){
+        if(webPortalsService.changeExamNewsByAdmin(newsId, etypeId,title, content, time, isNew, visits)){
             return ResponseEntity.ok("更改新闻成功！");
         }else{
             return ResponseEntity

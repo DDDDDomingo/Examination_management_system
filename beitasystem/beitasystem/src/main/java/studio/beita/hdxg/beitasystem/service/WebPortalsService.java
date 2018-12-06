@@ -26,7 +26,7 @@ public interface WebPortalsService {
      * @param visits
      * @return
      */
-    boolean insertExamNewsByAdmin(Integer etypeId, String content, String time, boolean isNew, Integer visits);
+    boolean insertExamNewsByAdmin(Integer etypeId, String title, String content, String time, boolean isNew, Integer visits);
 
     /**
      * 管理员增加考试新闻资源
@@ -103,7 +103,7 @@ public interface WebPortalsService {
      * @param visits
      * @return
      */
-    boolean changeExamNewsByAdmin(Integer newsId,Integer etypeId, String content, String time, boolean isNew, Integer visits);
+    boolean changeExamNewsByAdmin(Integer newsId,Integer etypeId, String title, String content, String time, boolean isNew, Integer visits);
 
     /**
      * 查看全部新闻

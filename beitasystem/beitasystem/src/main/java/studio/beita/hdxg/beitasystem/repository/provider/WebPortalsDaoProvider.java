@@ -20,6 +20,7 @@ public class WebPortalsDaoProvider {
      */
     public String insertExamNewsByAdmin(Map<String, Object> ienMap) {
         Integer etypeId = (Integer) ienMap.get("etypeId");
+        String title = (String) ienMap.get("title");
         String content = (String) ienMap.get("content");
         String time = (String) ienMap.get("time");
         boolean isNew = (boolean) ienMap.get("isNew");
@@ -29,6 +30,7 @@ public class WebPortalsDaoProvider {
             {
                 INSERT_INTO("exam_news");
                 VALUES("etype_id", "#{etypeId}");
+                VALUES("news_title", "#{title}");
                 VALUES("news_content", "#{content}");
                 VALUES("news_time", "#{time}");
                 VALUES("news_isnew", "#{isNew}");
@@ -86,6 +88,7 @@ public class WebPortalsDaoProvider {
     public String changeExamNewsByAdmin(Map<String, Object> cesMap) {
         Integer newsId = (Integer) cesMap.get("newsId");
         Integer etypeId = (Integer) cesMap.get("etypeId");
+        String title = (String) cesMap.get("title");
         String content = (String) cesMap.get("content");
         String time = (String) cesMap.get("time");
         boolean isNew = (boolean) cesMap.get("isNew");
@@ -96,6 +99,7 @@ public class WebPortalsDaoProvider {
                 UPDATE("exam_news");
                 SET("news_id='" + newsId + "'");
                 SET("etype_id='" + etypeId + "'");
+                SET("news_title='" + title + "'");
                 SET("news_content='" + content + "'");
                 SET("news_time='" + time + "'");
                 SET("news_isnew=" + isNew + "");

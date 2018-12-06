@@ -25,6 +25,7 @@ public interface WebPortalsDao {
      * 管理员增加考试新闻
      *
      * @param etypeId
+     * @param title
      * @param content
      * @param time
      * @param isNew
@@ -32,7 +33,7 @@ public interface WebPortalsDao {
      * @return
      */
     @InsertProvider(type = WebPortalsDaoProvider.class, method = "insertExamNewsByAdmin")
-    Integer insertExamNewsByAdmin(@Param("etypeId")Integer etypeId, @Param("content")String content, @Param("time")String time, @Param("isNew")boolean isNew, @Param("visits")Integer visits);
+    Integer insertExamNewsByAdmin(@Param("etypeId")Integer etypeId,@Param("title")String title, @Param("content")String content, @Param("time")String time, @Param("isNew")boolean isNew, @Param("visits")Integer visits);
 
     /**
      * 管理员增加考试新闻资源
@@ -93,7 +94,7 @@ public interface WebPortalsDao {
      * @return
      */
     @UpdateProvider(type = WebPortalsDaoProvider.class, method = "changeExamNewsByAdmin")
-    Integer changeExamNewsByAdmin(@Param("newsId")Integer newsId,@Param("etypeId")Integer etypeId, @Param("content")String content, @Param("time")String time, @Param("isNew")boolean isNew, @Param("visits")Integer visits);
+    Integer changeExamNewsByAdmin(@Param("newsId")Integer newsId,@Param("etypeId")Integer etypeId,@Param("title")String title, @Param("content")String content, @Param("time")String time, @Param("isNew")boolean isNew, @Param("visits")Integer visits);
 
     /**
      * 管理员更改考试新闻资源
@@ -140,12 +141,13 @@ public interface WebPortalsDao {
      * @param etypeId
      * @return
      */
-    @Select("SELECT news_id, etype_id, news_content, news_time, news_isnew, news_visits FROM exam_news WHERE etype_id = #{etypeId} ORDER BY news_time DESC")
+    @Select("SELECT news_id, etype_id,news_title, news_content, news_time, news_isnew, news_visits FROM exam_news WHERE etype_id = #{etypeId} ORDER BY news_time DESC")
             @Results(
             id = "getAllExamNewAndResource",
             value = {
                     @Result(id = true, property = "newsId", column = "news_id"),
                     @Result(property = "etypeId", column = "etype_id"),
+                    @Result(property = "title", column = "news_title"),
                     @Result(property = "content", column = "news_content"),
                     @Result(property = "time", column = "news_time"),
                     @Result(property = "isNew", column = "news_isnew"),
