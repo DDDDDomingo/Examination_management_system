@@ -92,4 +92,9 @@ public class WebPortalsServiceImpl implements WebPortalsService {
     public boolean changeIsNewByAdmin(Integer newsId, boolean isNew) {
         return  webPortalsDao.changeIsNewByAdmin(newsId,isNew)>0;
     }
+
+    @Override
+    public Optional<List<ExamNews>> getExamNewsByTitel(String title) {
+        return Optional.ofNullable(webPortalsDao.getExamNewsByTitel(title));
+    }
 }

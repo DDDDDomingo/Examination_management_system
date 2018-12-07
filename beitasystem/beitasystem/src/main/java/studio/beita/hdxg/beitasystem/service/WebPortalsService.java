@@ -144,4 +144,12 @@ public interface WebPortalsService {
      * @return
      */
     boolean changeIsNewByAdmin(Integer newsId, boolean isNew);
+
+    /**
+     * 标题模糊查询新闻
+     *
+     * @param title
+     * @return
+     */
+    Optional<List<ExamNews>> getExamNewsByTitel(String title);
 }

@@ -244,4 +244,14 @@ public class WebPortalsController {
         }
     }
 
+    @ApiOperation(value = "模糊查询新闻标题", notes = "user search news")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "title", value = "搜索", dataType = "String", paramType = "query", required = true),
+    })
+    @GetMapping("/examNewsTitle/get")
+    @ControllerLog(description = "模糊查询新闻标题")
+    public ResponseEntity<?> getExamNewsByTitel(@RequestParam("title")String title){
+        return ResponseEntity
+                .ok(webPortalsService.getExamNewsByTitel(title));
+    }
 }

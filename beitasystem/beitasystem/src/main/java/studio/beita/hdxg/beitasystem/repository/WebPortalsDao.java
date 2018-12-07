@@ -195,4 +195,25 @@ public interface WebPortalsDao {
     @UpdateProvider(type = WebPortalsDaoProvider.class, method = "changeIsNewByAdmin")
     Integer changeIsNewByAdmin(@Param("newsId")Integer newsId, @Param("isNew")boolean isNew);
 
+    /**
+     * 标题模糊查询新闻
+     *
+     * @param title
+     * @return
+     */
+    @Select("SELECT news_id, etype_id,news_title, news_content, news_time, news_isnew, news_visits FROM exam_news WHERE  news_title LIKE \"%\"#{title}\"%\" ORDER BY news_time DESC")
+    @Results(
+            id = "getExamNewsByTitel",
+            value = {
+                    @Result(id = true, property = "newsId", column = "news_id"),
+                    @Result(property = "etypeId", column = "etype_id"),
+                    @Result(property = "title", column = "news_title"),
+                    @Result(property = "content", column = "news_content"),
+                    @Result(property = "time", column = "news_time"),
+                    @Result(property = "isNew", column = "news_isnew"),
+                    @Result(property = "visits", column = "news_visits"),
+                    @Result(property = "resourceList", column = "news_id",many = @Many(select = "studio.beita.hdxg.beitasystem.repository.WebPortalsDao.getResourceByNewsId"))
+            }
+    )
+    List<ExamNews> getExamNewsByTitel(@Param("title")String title);
 }
