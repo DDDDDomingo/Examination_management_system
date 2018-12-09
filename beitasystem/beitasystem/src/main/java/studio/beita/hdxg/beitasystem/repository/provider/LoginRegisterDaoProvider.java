@@ -27,7 +27,7 @@ public class LoginRegisterDaoProvider {
         String password = (String) uiMap.get("password");
         return new SQL() {
             {
-                SELECT("userinfo_account");
+                SELECT("userinfo_id");
                 FROM("user_info");
                 WHERE("userinfo_password='" + password + "'");
                 if (account != null && !account.equals("")) {

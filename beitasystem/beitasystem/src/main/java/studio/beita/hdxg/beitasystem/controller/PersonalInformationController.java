@@ -61,7 +61,8 @@ public class PersonalInformationController {
             @ApiImplicitParam(name = "realName", value = "真实姓名", dataType = "String", paramType = "query", required = true),
             @ApiImplicitParam(name = "idCard", value = "身份证", dataType = "String", paramType = "query", required = true)
     })
-    @PutMapping("/Information/update")
+    @PutMapping("/information/update")
+    @ControllerLog(description = "用户修改个人信息")
     public ResponseEntity<?> changeUserDetails(@RequestParam("detailsId")String detailsId, @RequestParam("avatar") MultipartFile file, @RequestParam("phone")String phone,
                                                @RequestParam("address")String address, @RequestParam("realName")String realName, @RequestParam("idCard")String idCard) {
         String fileName = UploadUtils.uploadPhoto(file, USER_AVATAR_FILE_REPOSITORY);
@@ -87,6 +88,7 @@ public class PersonalInformationController {
             @ApiImplicitParam(name = "avatar", value = "头像", dataType = "String", paramType = "query", required = true)
     })
     @PutMapping("/avatar/update")
+    @ControllerLog(description = "用户修改头像")
     public ResponseEntity<?> changeUserAvatar(@RequestParam("detailsId")String detailsId, @RequestParam("avatar") MultipartFile file) {
         String fileName = UploadUtils.uploadPhoto(file, USER_AVATAR_FILE_REPOSITORY);
         if(fileName != null){
@@ -106,6 +108,7 @@ public class PersonalInformationController {
             @ApiImplicitParam(name = "idCard", value = "身份证", dataType = "String", paramType = "query", required = true)
     })
     @PutMapping("/identity/update")
+    @ControllerLog(description = "用户修改身份信息")
     public ResponseEntity<?> changeUserIdentity(@RequestParam("detailsId")String detailsId, @RequestParam("realName")String realName, @RequestParam("idCard")String idCard) {
         if(personalInformationService.changeUserIdentity(detailsId, realName, idCard)){
             return ResponseEntity.ok("身份信息更改成功！");
@@ -123,6 +126,7 @@ public class PersonalInformationController {
             @ApiImplicitParam(name = "address", value = "地址", dataType = "String", paramType = "query", required = true)
     })
     @PutMapping("/phoneAddress/update")
+    @ControllerLog(description = "用户修改电话地址")
     public ResponseEntity<?> changeUserPhoneAddress(@RequestParam("detailsId")String detailsId, @RequestParam("phone")String phone, @RequestParam("address")String address) {
         if(personalInformationService.changeUserPhoneAddress(detailsId, phone, address)){
             return ResponseEntity.ok("身份信息更改成功！");
@@ -133,14 +137,15 @@ public class PersonalInformationController {
         }
     }
     
-    @ApiOperation(value = "用户获取个人信息", notes = "user get userInfo")
+    @ApiOperation(value = "用户获取个人信息", notes = "user get UserDetails")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId", value = "用户ID", dataType = "String", paramType = "query", required = true)
     })
-    @GetMapping("/userInfo/get")
-    public ResponseEntity<?> getUserInfoById(@RequestParam("userId")String userId) {
+    @GetMapping("/userDetails/get")
+    @ControllerLog(description = "用户获取个人信息")
+    public ResponseEntity<?> getUserDetailsById(@RequestParam("userId")String userId) {
         return ResponseEntity
-                .ok(personalInformationService.getUserInfoById(userId));
+                .ok(personalInformationService.getUserDetailsById(userId));
     }
 
     @ApiOperation(value = "管理员获取系统通知", notes = "user get systemNotice")

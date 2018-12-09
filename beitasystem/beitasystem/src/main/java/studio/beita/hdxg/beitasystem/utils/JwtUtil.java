@@ -21,7 +21,7 @@ public class JwtUtil {
                 .signWith(SignatureAlgorithm.HS512, SECRET)
                 .compact();
         //jwt前面一般都会加Bearer
-        return "Bearer "+jwt;
+        return "Beita "+jwt;
     }
 
     public static void validateToken(String token) {

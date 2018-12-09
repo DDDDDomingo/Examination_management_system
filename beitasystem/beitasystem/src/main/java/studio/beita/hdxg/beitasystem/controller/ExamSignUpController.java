@@ -82,7 +82,7 @@ public class ExamSignUpController {
     })
     @PostMapping("/examSignup/add")
     public ResponseEntity<?> insertExamSignupListByUser(@RequestParam("examTypeId")String examTypeId, @RequestParam("detailsId")String detailsId, @RequestParam("signUpPic") MultipartFile file) {
-        String idCard = personalInformationService.getUserInfoById(detailsId).get().getIdCard();
+        String idCard = personalInformationService.getUserDetailsById(detailsId).get().getIdCard();
         String fileName = UploadUtils.uploadPhoto(file, USER_SIGNUPPIC_FILE_REPOSITORY);
         if(examSignUpService.insertExamSignupListByUser(examTypeId, detailsId, WEBSITE_ADDRESS + USER_SIGNUPPIC_PATTERN + "/" +fileName, new Date(), false, getBirthMonth(idCard))){
             return ResponseEntity.ok("报名成功！");

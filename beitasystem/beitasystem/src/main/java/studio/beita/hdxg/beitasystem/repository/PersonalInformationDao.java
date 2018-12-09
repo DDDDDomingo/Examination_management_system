@@ -91,6 +91,18 @@ public interface PersonalInformationDao {
      * @return
      */
     @Select("SELECT details_id, details_avatar, details_savepath, details_phone, details_address, details_realname, details_idcard FROM user_details WHERE details_id = #{userId}")
+    @Results(
+            id = "getUserDetailsById",
+            value = {
+                    @Result(id = true, property = "detailsId", column = "details_id"),
+                    @Result(property = "detailsAvatar", column = "details_avatar"),
+                    @Result(property = "detailsSavepath", column = "details_savepath"),
+                    @Result(property = "phone", column = "details_phone"),
+                    @Result(property = "address", column = "details_address"),
+                    @Result(property = "realName", column = "details_realname"),
+                    @Result(property = "idCard", column = "details_idcard")
+            }
+    )
     UserDetails getUserDetailsById(String userId);
 
     /**

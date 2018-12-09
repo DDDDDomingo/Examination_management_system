@@ -69,12 +69,13 @@ public class LoginRegisterController {
     @GetMapping("/user/login")
     public ResponseEntity<?> assertLogin(String account, String email, String password) {
         //验证登陆信息
-        assertLoginAccount(account, email, password);
+        String id = assertLoginAccount(account, email, password);
 
         String jwt = JwtUtil.generateToken(account);
 
         HashMap<String, Object> results = new HashMap<>();
         results.put("token", jwt);
+        results.put("id", id);
         // TODO: 2018/10/27 添加JWT到Redis
         results.put("message",ResponseConstant.ASSERT_LOGIN_SUCCESS);
 
@@ -138,8 +139,8 @@ public class LoginRegisterController {
      * @param email
      * @param password
      */
-    private void assertLoginAccount(String account, String email, String password) {
-        loginRegisterService
+    private String assertLoginAccount(String account, String email, String password) {
+        return loginRegisterService
                 .assertLogin(account, email, password)
                 .orElseThrow(
                         () -> new LoginErrorException());

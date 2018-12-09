@@ -82,7 +82,7 @@ public interface PersonalInformationService {
      * @param userId
      * @return
      */
-    Optional<UserDetails> getUserInfoById(String userId);
+    Optional<UserDetails> getUserDetailsById(String userId);
 
     /**
      * 管理员通过receiveId获取系统通知

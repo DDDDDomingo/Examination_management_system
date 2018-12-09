@@ -51,8 +51,8 @@ public class PersonalInformationImpl implements PersonalInformationService {
     }
 
     @Override
-    public Optional<UserDetails> getUserInfoById(String userId) {
-        return Optional.empty();
+    public Optional<UserDetails> getUserDetailsById(String userId) {
+        return Optional.ofNullable(personalInformationDao.getUserDetailsById(userId));
     }
 
     @Override
