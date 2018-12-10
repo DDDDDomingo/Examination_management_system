@@ -16,6 +16,7 @@ import studio.beita.hdxg.beitasystem.service.ExamSignUpService;
 import studio.beita.hdxg.beitasystem.service.PersonalInformationService;
 import studio.beita.hdxg.beitasystem.utils.UploadUtils;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -175,7 +176,10 @@ public class ExamSignUpController {
             @ApiImplicitParam(name = "schoolName", value = "学校名称", dataType = "String", paramType = "query", required = true)
     })
     @GetMapping("/admin/ticket/generate")
-    public ResponseEntity<?> generateAdmissionTicketByAdmin(String examId, String schoolName){
-        return ResponseEntity.ok("");
+    public ResponseEntity<?> generateAdmissionTicketByAdmin(String examId, String schoolName) throws IOException {
+
+        String message = examSignUpService.generateAdmissionTicketByAdmin(examId,schoolName,USER_TICKET_FILE_REPOSITORY);
+
+        return ResponseEntity.ok(message);
     }
 }

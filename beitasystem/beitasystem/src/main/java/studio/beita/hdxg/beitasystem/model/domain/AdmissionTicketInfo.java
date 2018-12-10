@@ -22,6 +22,10 @@ public class AdmissionTicketInfo implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private String time;
     private Integer duration;
+    /**
+     * 考试场次
+     */
+    private String place;
     private Integer seatNum;
     private String school;
 
@@ -71,6 +75,14 @@ public class AdmissionTicketInfo implements Serializable {
 
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
     }
 
     public String getTime() {

@@ -2,6 +2,8 @@ package studio.beita.hdxg.beitasystem.repository.provider;
 
 import org.apache.ibatis.jdbc.SQL;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -68,6 +70,35 @@ public class ExamSignUpDaoProvider {
                 UPDATE("exam_signup_list");
                 SET("exam_audited_num = exam_audited_num + 1");
                 WHERE("exam_type_id =" + typeId);
+            }
+        }.toString();
+    }
+
+    /**
+     * 生成的准考证信息插入数据库
+     * @param atlMap
+     * @return
+     */
+    public String insertAdmissionTicketInfo(HashMap<String, Object> atlMap){
+        String userId = (String) atlMap.get("userId");
+        String realName = (String) atlMap.get("realName");
+        String identifier = (String) atlMap.get("identifier");
+        Date time = (Date) atlMap.get("time");
+        int duration = (int) atlMap.get("duration");
+        String place = (String) atlMap.get("place");
+        int seatnum = (int) atlMap.get("seatnum");
+        String school = (String) atlMap.get("school");
+        return new SQL() {
+            {
+                INSERT_INTO("admission_ticket_info");
+                VALUES("userinfo_id", "#{userId}");
+                VALUES("ticket_info_name", "#{realName}");
+                VALUES("ticket_info_identifier", "#{identifier}");
+                VALUES("ticket_info_time", "#{time}");
+                VALUES("ticket_info_duration", "#{duration}");
+                VALUES("ticket_info_place", "#{place}");
+                VALUES("ticket_info_seatnum", "#{seatnum}");
+                VALUES("ticket_info_school", "#{school}");
             }
         }.toString();
     }

@@ -7,6 +7,7 @@ import studio.beita.hdxg.beitasystem.model.domain.ReviewCandidate;
 import studio.beita.hdxg.beitasystem.model.domain.ReviewPersonnel;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -134,7 +135,9 @@ public interface ExamSignUpService {
      * 管理员生成准考证
      * @param examId
      * @param schoolName
+     * @param saveDir
      * @return
+     * @throws IOException
      */
-    boolean generateAdmissionTicketByAdmin(String examId, String schoolName, String saveDir) throws FileNotFoundException;
+    String generateAdmissionTicketByAdmin(String examId, String schoolName, String saveDir) throws IOException;
 }

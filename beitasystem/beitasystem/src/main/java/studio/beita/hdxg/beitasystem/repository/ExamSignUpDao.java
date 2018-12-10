@@ -166,8 +166,8 @@ public interface ExamSignUpDao {
     @Select("SELECT count(signup_id) FROM exam_signup_list WHERE exam_type_id = #{typeId}")
     Integer getPassNumByAdmin(@Param("typeId") String typeId);
 
-    @Select("SELECT ticket_info_name FROM admission_ticket_info WHERE ticket_info_identifier = #{identifier}")
-    String assertTicket(String identifier);
+    @Select("SELECT ticket_info_name FROM admission_ticket_info WHERE ticket_info_identifier = #{identifier} AND ticket_info_place=#{place}")
+    String assertTicket(@Param("identifier") String identifier,@Param("place") String place);
 
     /**
      * 获取考试报名列表
@@ -175,7 +175,7 @@ public interface ExamSignUpDao {
      * @return
      */
     @Select("SELECT esl.signup_id, esl.exam_type_id, esl.details_id, ud.details_realname, ud.details_idcard, ud.details_savepath FROM exam_signup_list esl LEFT JOIN user_details ud ON esl.details_id = ud.details_id " +
-            "WHERE esl.exam_type_id=#{examId} AND esl.signup_isconfirm = 0")
+            "WHERE esl.exam_type_id=#{examId} AND esl.signup_isconfirm = 0 limit #{startNum},#{num}")
     @Results(
             id = "generateAdmissionTicket",
             value = {
@@ -187,12 +187,39 @@ public interface ExamSignUpDao {
                     @Result(property = "photoPath", column = "details_savepath")
             }
     )
-    List<ExamSignupList> getExamSignupListByExamId(String examId);
+    List<ExamSignupList> getExamSignupListByExamId(@Param("examId") String examId,@Param("startNum") int startNum,@Param("num") int num);
 
     /**
-     * 插入准考证信息
-     * @param admissionTicketInfoList
+     * 获取考试场次
+     * @param examId
      * @return
      */
-    Integer insertAdmissionTicketInfo(List<AdmissionTicketInfo> admissionTicketInfoList);
+    @Select("SELECT session_id, exam_type_id, session_place, session_time, session_capacity FROM exam_session WHERE exam_type_id = #{examId}")
+    @Results(
+            id = "generateAdmissionTicketSession",
+            value = {
+                    @Result(id = true, property = "signup_id", column = "signup_id"),
+                    @Result(property = "examTypeId", column = "exam_type_id"),
+                    @Result(property = "detailsId", column = "details_id"),
+                    @Result(property = "realName", column = "details_realname"),
+                    @Result(property = "idCard", column = "details_idcard"),
+                    @Result(property = "photoPath", column = "details_savepath")
+            }
+    )
+    List<ExamSession> getExamSessionByTypeId(String examId);
+
+    /**
+     * 生成的准考证信息插入数据库
+     * @param userId
+     * @param realName
+     * @param identifier
+     * @param time
+     * @param duration
+     * @param place
+     * @param seatnum
+     * @param school
+     * @return
+     */
+    @InsertProvider(type = ExamSignUpDaoProvider.class, method = "insertAdmissionTicketInfo")
+    Integer insertAdmissionTicketInfo(@Param("userId") String userId,@Param("realName") String realName,@Param("identifier") String identifier,@Param("time") Date time,@Param("duration") int duration,@Param("place") String place,@Param("seatnum") int seatnum,@Param("school") String school);
 }
