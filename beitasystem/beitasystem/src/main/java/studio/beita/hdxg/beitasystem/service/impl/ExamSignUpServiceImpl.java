@@ -148,6 +148,12 @@ public class ExamSignUpServiceImpl implements ExamSignUpService {
                     admissMap.put("${seatNum}",j+1);
                     //生成word
                     CustomXWPFDocument doc = WordUtils.generateWord(admissMap, saveDir+"\\moban.docx");
+                    //判断目录是否存在，不存在就新建
+                    File savePath = new File(saveDir+"\\"+examId);
+                    if (!savePath.exists()) {
+                        savePath.mkdir();
+                    }
+                    //输出到指定目录
                     FileOutputStream fopts = new FileOutputStream(saveDir+"\\"+examId+"\\"+identifier.toString()+".docx");
                     doc.write(fopts);
                     fopts.close();
