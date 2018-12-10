@@ -176,6 +176,6 @@ public class ExamSignUpController {
     })
     @GetMapping("/admin/ticket/generate")
     public ResponseEntity<?> generateAdmissionTicketByAdmin(String examId, String schoolName){
-
+        return ResponseEntity.ok("");
     }
 }

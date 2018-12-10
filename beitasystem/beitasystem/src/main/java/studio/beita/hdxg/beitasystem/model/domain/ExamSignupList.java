@@ -21,13 +21,21 @@ public class ExamSignupList implements Serializable {
     private Integer signUpId;
     private String examTypeId;
     private String detailsId;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String userName;
     private String signUpPic;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date signUpTime;
     private boolean isConfirm;
     private Integer birthMonth;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String realName;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String idCard;
+    /**
+     * 用户头像存储地址
+     */
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String photoPath;
 
     public ExamSignupList(){}
 
@@ -69,12 +77,12 @@ public class ExamSignupList implements Serializable {
         this.detailsId = detailsId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getRealName() {
+        return realName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 
     public String getSignUpPic() {
@@ -107,6 +115,22 @@ public class ExamSignupList implements Serializable {
 
     public void setBirthMonth(Integer birthMonth) {
         this.birthMonth = birthMonth;
+    }
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
+    }
+
+    public String getPhotoPath() {
+        return photoPath;
+    }
+
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
     }
 
     @Override

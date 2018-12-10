@@ -1,3 +1,4 @@
+/*
 package studio.beita.hdxg.beitasystem.utils;
 
 import java.io.ByteArrayInputStream;
@@ -23,9 +24,11 @@ import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
+*/
 /**
  * @author zhenwei.shi
- */
+ *//*
+
 public class DocxUtils {
     //word模板的标签为【string】
     //标签左侧
@@ -40,7 +43,8 @@ public class DocxUtils {
     //预览替换word模板标签
     public static final String PREVIEW_REPLACE = "   /   ";
 
-    /**
+    */
+/**
      * <br>
      * 描 述: doc内容改变 <br>
      * 作 者: shizhenwei <br>
@@ -50,7 +54,8 @@ public class DocxUtils {
      * @param params key value 将模板里的可以替换为响应VALUE
      * @return
      * @throws IOException
-     */
+     *//*
+
     public static byte[] docContentChange(InputStream is, Map<String, String> params) throws IOException {
         if (null == params) {
             params = new HashMap<String, String>();
@@ -71,7 +76,8 @@ public class DocxUtils {
         return bytes;
     }
 
-    /**
+    */
+/**
      * <br>描 述:    改变word内容，讲word标签【*】替换为指定内容
      * <br>作 者: shizhenwei
      * <br>历 史: (版本) 作者 时间 注释
@@ -79,13 +85,15 @@ public class DocxUtils {
      * @return
      * @throws IOException
      * @throws XWPFConverterException
-     */
+     *//*
+
     public static byte[] docxContentChange(InputStream is, Map<String, String> params) throws XWPFConverterException, IOException {
         return docxContentChange(is, params, NULL_REPLACE);
     }
 
 
-    /**
+    */
+/**
      * <br>描 述: docx内容改变
      * <br>作 者: shizhenwei
      * <br>历 史: (版本) 作者 时间 注释
@@ -95,7 +103,8 @@ public class DocxUtils {
      * @return
      * @throws IOException
      * @throws XWPFConverterException
-     */
+     *//*
+
     public static byte[] docxContentChange(InputStream is, Map<String, String> params, String replace) throws XWPFConverterException, IOException {
         if (null == params) {
             params = new HashMap<String, String>();
@@ -129,7 +138,8 @@ public class DocxUtils {
         return bytes;
     }
 
-    /**
+    */
+/**
      * <br>描 述:    将docx字节数组流转换为pdf字节数组流
      * <br>作 者: shizhenwei
      * <br>历 史: (版本) 作者 时间 注释
@@ -138,7 +148,8 @@ public class DocxUtils {
      * @return
      * @throws XWPFConverterException
      * @throws IOException            注：需在部署系统安装word对应的中文字体
-     */
+     *//*
+
     public static byte[] docx2pdf(byte[] docxBytes) throws XWPFConverterException, IOException {
         PdfOptions options = PdfOptions.create();
         XWPFDocument document = new XWPFDocument(new ByteArrayInputStream(docxBytes));
@@ -148,7 +159,8 @@ public class DocxUtils {
     }
 
 
-    /**
+    */
+/**
      * <br>描 述:    将Word模板流改变内容后转换为pdf字节数组流
      * <br>作 者: shizhenwei
      * <br>历 史: (版本) 作者 时间 注释
@@ -158,7 +170,8 @@ public class DocxUtils {
      * @return
      * @throws IOException
      * @throws XWPFConverterException * 注：需在部署系统安装word对应的中文字体
-     */
+     *//*
+
     public static byte[] docx2pdf(InputStream is, Map<String, String> params, String replace) throws XWPFConverterException, IOException {
         if (null == params) {
             params = new HashMap<String, String>();
@@ -198,7 +211,8 @@ public class DocxUtils {
         return " " + old + " ";
     }
 
-    /**
+    */
+/**
      * <br>描 述: 替换段落内容
      * <br>作 者: shizhenwei
      * <br>历 史: (版本) 作者 时间 注释
@@ -208,13 +222,16 @@ public class DocxUtils {
      * @param replace
      * @param underline
      * @return
-     */
+     *//*
+
     public static String replaceParagraph(XWPFParagraph paragraph, Map<String, String> params, String replace, boolean underline) {
         //字符串过长，调用matches方法报堆溢出错误
-        /*String regex = REGEX;//【string】匹配
+        */
+/*String regex = REGEX;//【string】匹配
         if(!paragraph.getText().matches(regex)){
             continue;
-        }*/
+        }*//*
+
         //改为contains
         String pghTxt = paragraph.getText();
         if (!(pghTxt.contains(FLAG_L) && pghTxt.contains(FLAG_R))) {
@@ -267,7 +284,8 @@ public class DocxUtils {
         return StringUtils.isEmpty(params.get(key)) ? replace : getReplaceValue(params.get(key));
     }
 
-    /**
+    */
+/**
      * <br>描 述: 添加下划线
      * <br>作 者: shizhenwei
      * <br>历 史: (版本) 作者 时间 注释
@@ -275,7 +293,8 @@ public class DocxUtils {
      * @param run
      * @param underline
      * @return
-     */
+     *//*
+
     public static XWPFRun addUnderline(XWPFRun run, boolean underline) {
         //是否添加下划线
         if (underline) {
@@ -286,3 +305,4 @@ public class DocxUtils {
         return run;
     }
 }
+*/

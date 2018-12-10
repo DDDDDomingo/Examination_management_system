@@ -166,12 +166,15 @@ public interface ExamSignUpDao {
     @Select("SELECT count(signup_id) FROM exam_signup_list WHERE exam_type_id = #{typeId}")
     Integer getPassNumByAdmin(@Param("typeId") String typeId);
 
+    @Select("SELECT ticket_info_name FROM admission_ticket_info WHERE ticket_info_identifier = #{identifier}")
+    String assertTicket(String identifier);
+
     /**
      * 获取考试报名列表
      * @param examId
      * @return
      */
-    @Select("SELECT esl.signup_id, esl.exam_type_id, esl.details_id, ud.details_realname FROM exam_signup_list esl LEFT JOIN user_details ud ON esl.details_id = ud.details_id " +
+    @Select("SELECT esl.signup_id, esl.exam_type_id, esl.details_id, ud.details_realname, ud.details_idcard, ud.details_savepath FROM exam_signup_list esl LEFT JOIN user_details ud ON esl.details_id = ud.details_id " +
             "WHERE esl.exam_type_id=#{examId} AND esl.signup_isconfirm = 0")
     @Results(
             id = "generateAdmissionTicket",
@@ -179,7 +182,9 @@ public interface ExamSignUpDao {
                     @Result(id = true, property = "signup_id", column = "signup_id"),
                     @Result(property = "examTypeId", column = "exam_type_id"),
                     @Result(property = "detailsId", column = "details_id"),
-                    @Result(property = "userName", column = "details_realname")
+                    @Result(property = "realName", column = "details_realname"),
+                    @Result(property = "idCard", column = "details_idcard"),
+                    @Result(property = "photoPath", column = "details_savepath")
             }
     )
     List<ExamSignupList> getExamSignupListByExamId(String examId);
