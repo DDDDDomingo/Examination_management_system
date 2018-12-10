@@ -122,7 +122,7 @@ public class ExamSignUpController {
             @ApiImplicitParam(name = "userId", value = "用户个人信息表id", dataType = "String", paramType = "query", required = true)
     })
     @PostMapping("/authentication/get")
-    public ResponseEntity<?> checkAuthenticationByadmin(@RequestParam("typeId")String typeId,@RequestParam("userId")String userId) {
+    public ResponseEntity<?> checkAuthenticationByAdmin(@RequestParam("typeId")String typeId,@RequestParam("userId")String userId) {
         List<ReviewPersonnel> reviewPersonnelList = examSignUpService.getExamAdminNumberByExamTypeId(typeId).get();
         int examAdminNumber = reviewPersonnelList.size();
         return ResponseEntity
@@ -135,7 +135,7 @@ public class ExamSignUpController {
             @ApiImplicitParam(name = "typeId", value = "考试类别id", dataType = "String", paramType = "query", required = true)
     })
     @PutMapping("/admin/authentication/updata")
-    public ResponseEntity<?> changeExamSignupListByadmin(@RequestParam("userId")String userId,@RequestParam("typeId")String typeId){
+    public ResponseEntity<?> changeExamSignupListByAdmin(@RequestParam("userId")String userId,@RequestParam("typeId")String typeId){
         if(examSignUpService.changeExamSignupList(userId,typeId)){
             examSignUpService.changeCandidateNum(typeId);
             // TODO: 2018/11/7 发送邮件
@@ -158,7 +158,7 @@ public class ExamSignUpController {
             @ApiImplicitParam(name = "typeId", value = "考试类别id", dataType = "String", paramType = "query", required = true)
     })
     @DeleteMapping("/admin/authentication/delete")
-    public ResponseEntity<?> deleteCandidateByUserIdByadmin(@RequestParam("userId")String userId,@RequestParam("typeId")String typeId){
+    public ResponseEntity<?> deleteCandidateByUserIdByAdmin(@RequestParam("userId")String userId,@RequestParam("typeId")String typeId){
         if(examSignUpService.deleteCandidateByUserId(userId,typeId)){
             // TODO: 2018/11/7 发送邮件
             return ResponseEntity.ok("删除考生成功！");
@@ -175,7 +175,7 @@ public class ExamSignUpController {
             @ApiImplicitParam(name = "schoolName", value = "学校名称", dataType = "String", paramType = "query", required = true)
     })
     @GetMapping("/admin/ticket/generate")
-    public ResponseEntity<?> generateAdmissionTicketByadmin(String examId, String schoolName){
+    public ResponseEntity<?> generateAdmissionTicketByAdmin(String examId, String schoolName){
 
     }
 }

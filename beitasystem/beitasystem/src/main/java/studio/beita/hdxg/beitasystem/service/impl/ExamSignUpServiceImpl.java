@@ -93,7 +93,7 @@ public class ExamSignUpServiceImpl implements ExamSignUpService {
     }
 
     @Override
-    public boolean generateAdmissionTicketByadmin(String examId, String schoolName, String saveDir) {
+    public boolean generateAdmissionTicketByAdmin(String examId, String schoolName, String saveDir) {
         //获取考试信息
         ExamInfo examInfo = examManagementDao.getExamDetails(examId);
         //获取报名信息考生列表

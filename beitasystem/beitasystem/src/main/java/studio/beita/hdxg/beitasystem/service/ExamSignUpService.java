@@ -135,5 +135,5 @@ public interface ExamSignUpService {
      * @param schoolName
      * @return
      */
-    boolean generateAdmissionTicketByadmin(String examId, String schoolName, String saveDir);
+    boolean generateAdmissionTicketByAdmin(String examId, String schoolName, String saveDir);
 }
