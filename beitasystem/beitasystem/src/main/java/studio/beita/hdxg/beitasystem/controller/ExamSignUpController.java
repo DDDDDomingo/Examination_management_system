@@ -107,7 +107,7 @@ public class ExamSignUpController {
 
     })
     @GetMapping("/administrator/get")
-    public ResponseEntity<?> verifyAdministrator(@RequestParam("typeId")String typeId,@RequestParam("userId")String userId){
+    public ResponseEntity<?> verifyAdministratorByAdmin(@RequestParam("typeId")String typeId,@RequestParam("userId")String userId){
         if(examSignUpService.verifyAdministrator(typeId, userId)!=null) {
             return ResponseEntity
                     .ok("审核通过");
