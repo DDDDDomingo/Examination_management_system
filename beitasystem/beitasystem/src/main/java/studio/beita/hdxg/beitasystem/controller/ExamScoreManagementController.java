@@ -54,7 +54,7 @@ public class ExamScoreManagementController {
             @ApiImplicitParam(name = "identifier", value = "准考证", dataType = "String", paramType = "query", required = true),
             @ApiImplicitParam(name = "name", value = "姓名", dataType = "String", paramType = "query", required = true)
     })
-    @GetMapping("/examScore/get")
+    @GetMapping("/user/examScore/get")
     public ResponseEntity<?> getExamScoreByIdentifier(String identifier,String name){
         if(!examScoreManagementService.getIsQueryByIdentifier(identifier)){
             return ResponseEntity.ok("该考试成绩查询未开放");

@@ -187,7 +187,7 @@ public class WebPortalsController {
     }
 
     @ApiOperation(value = "游客获取所有新闻", notes = "user get allExamNews")
-    @GetMapping("/examNews/get")
+    @GetMapping("/user/examNews/get")
     @ControllerLog(description = "游客获取所有新闻")
     public ResponseEntity<?> getAllExamNews() {
         return ResponseEntity
@@ -198,7 +198,7 @@ public class WebPortalsController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "etypeId", value = "新闻类别ID", dataType = "Integer", paramType = "query", required = true)
     })
-    @GetMapping("/examNewsType/get")
+    @GetMapping("/user/examNewsType/get")
     @ControllerLog(description = "游客根据新闻类别id查看新闻")
     public ResponseEntity<?> getExamNewsByExamTypeId(@RequestParam("etypeId")Integer etypeId){
         return ResponseEntity
@@ -209,7 +209,7 @@ public class WebPortalsController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "newsId", value = "新闻ID", dataType = "Integer", paramType = "query", required = true)
     })
-    @GetMapping("/resource/get")
+    @GetMapping("/user/resource/get")
     @ControllerLog(description = "游客根据新闻id查看新闻资源")
     public ResponseEntity<?> getResourceByExamTypeId(@RequestParam("newsId")Integer newsId){
         return ResponseEntity
@@ -220,7 +220,7 @@ public class WebPortalsController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "newsId", value = "新闻ID", dataType = "Integer", paramType = "query", required = true)
     })
-    @PostMapping("/examNewsVisits/updata")
+    @PostMapping("/user/examNewsVisits/updata")
     @ControllerLog(description = "游客点击新闻增加阅读量，下载新闻资源")
     public ResponseEntity<?> changeExamNewsVisits(@RequestParam("newsId")Integer newsId){
         return ResponseEntity
@@ -232,7 +232,7 @@ public class WebPortalsController {
             @ApiImplicitParam(name = "newsId", value = "新闻ID", dataType = "Integer", paramType = "query", required = true),
             @ApiImplicitParam(name = "isNew", value = "考试新闻是否为新", dataType = "boolean", paramType = "query", required = true)
     })
-    @PostMapping("/admin/isNew/updata")
+    @PostMapping("/user/admin/isNew/updata")
     @ControllerLog(description = "更改是否为最新新闻状态")
     public ResponseEntity<?> changeIsNewByAdmin(@RequestParam("newsId")Integer newsId, @RequestParam("isNew")boolean isNew){
         if(webPortalsService.changeIsNewByAdmin(newsId,isNew)){
@@ -248,7 +248,7 @@ public class WebPortalsController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "title", value = "搜索", dataType = "String", paramType = "query", required = true),
     })
-    @GetMapping("/examNewsTitle/get")
+    @GetMapping("/user/examNewsTitle/get")
     @ControllerLog(description = "模糊查询新闻标题")
     public ResponseEntity<?> getExamNewsByTitel(@RequestParam("title")String title){
         return ResponseEntity
