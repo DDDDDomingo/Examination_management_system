@@ -166,6 +166,28 @@ public interface ExamSignUpDao {
     @Select("SELECT count(signup_id) FROM exam_signup_list WHERE exam_type_id = #{typeId}")
     Integer getPassNumByAdmin(@Param("typeId") String typeId);
 
+    /**
+     * 获取考试报名列表
+     * @param examId
+     * @return
+     */
+    @Select("SELECT esl.signup_id, esl.exam_type_id, esl.details_id, ud.details_realname FROM exam_signup_list esl LEFT JOIN user_details ud ON esl.details_id = ud.details_id " +
+            "WHERE esl.exam_type_id=#{examId} AND esl.signup_isconfirm = 0")
+    @Results(
+            id = "generateAdmissionTicket",
+            value = {
+                    @Result(id = true, property = "signup_id", column = "signup_id"),
+                    @Result(property = "examTypeId", column = "exam_type_id"),
+                    @Result(property = "detailsId", column = "details_id"),
+                    @Result(property = "userName", column = "details_realname")
+            }
+    )
+    List<ExamSignupList> getExamSignupListByExamId(String examId);
 
-
+    /**
+     * 插入准考证信息
+     * @param admissionTicketInfoList
+     * @return
+     */
+    Integer insertAdmissionTicketInfo(List<AdmissionTicketInfo> admissionTicketInfoList);
 }

@@ -8,6 +8,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import studio.beita.hdxg.beitasystem.model.domain.ExamScore;
 import studio.beita.hdxg.beitasystem.model.domain.ExamSession;
@@ -61,8 +62,14 @@ public class ExamScoreManagementServiceImpl implements ExamScoreManagementServic
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean changeExamScoreByReturnScore(List<ReturnScore> returnScore) {
-        return examScoreManagementDao.changeExamScoreByReturnScore(returnScore)>0;
+        int flag = 0;
+        for (ReturnScore rs:returnScore) {
+            examScoreManagementDao.changeExamScoreByReturnScore(rs.getScoreNum(),rs.getIdentifier());
+            flag=1;
+        }
+        return flag>0;
     }
 
     @Override

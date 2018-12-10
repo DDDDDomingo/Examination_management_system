@@ -128,4 +128,12 @@ public interface ExamSignUpService {
      * @return
      */
     Integer getPassNumByAdmin(String typeId);
+
+    /**
+     * 管理员生成准考证
+     * @param examId
+     * @param schoolName
+     * @return
+     */
+    boolean generateAdmissionTicketByadmin(String examId, String schoolName, String saveDir);
 }

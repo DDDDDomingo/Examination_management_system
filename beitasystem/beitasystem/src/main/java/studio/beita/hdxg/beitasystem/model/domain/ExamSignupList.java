@@ -1,6 +1,7 @@
 package studio.beita.hdxg.beitasystem.model.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -20,6 +21,8 @@ public class ExamSignupList implements Serializable {
     private Integer signUpId;
     private String examTypeId;
     private String detailsId;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String userName;
     private String signUpPic;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date signUpTime;
@@ -64,6 +67,14 @@ public class ExamSignupList implements Serializable {
 
     public void setDetailsId(String detailsId) {
         this.detailsId = detailsId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getSignUpPic() {

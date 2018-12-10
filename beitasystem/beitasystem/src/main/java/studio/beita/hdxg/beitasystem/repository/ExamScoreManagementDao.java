@@ -60,17 +60,12 @@ public interface ExamScoreManagementDao {
 
     /**
      * 通过前台返回的准考证和成绩更改考试成绩
-     *
-     * @param returnScore
+     * @param scoreNum
+     * @param identifier
      * @return
      */
-    @Update("<script>" +
-            "UPDATE exam_score SET" +
-            "<foreach item=\"item\" index=\"index\" collection=\"list\" open=\"\" separator=\"; UPDATE exam_score SET\" close=\"\">" +
-            "score_num = #{item.scoreNum} WHERE ticket_info_identifier = #{item.identifier}" +
-            "</foreach>" +
-            "</script>")
-    Integer changeExamScoreByReturnScore(List<ReturnScore> returnScore);
+    @Update("UPDATE exam_score SET score_num = #{scoreNum} WHERE ticket_info_identifier = #{identifier}")
+    Integer changeExamScoreByReturnScore(@Param("scoreNum") Integer scoreNum, @Param("identifier") String identifier);
 
     /**
      * 录入管理员查看某场次录入成绩表

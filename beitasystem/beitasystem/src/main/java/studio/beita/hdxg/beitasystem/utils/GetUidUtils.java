@@ -62,4 +62,24 @@ public class GetUidUtils {
 
         return examId;
     }
+
+    public static String getTicket() {
+        // TODO: 2018/10/27 代码待美化
+        SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
+        String time = sdf.format(new Date(System.currentTimeMillis()));
+        /**
+         * 根据日期生成UUID
+         */
+        String uuid = time + "$" + UUID.randomUUID().toString().replaceAll("-", "").toUpperCase();
+        /**
+         * 生成ID后缀
+         */
+        long suffix = Math.abs(uuid.hashCode() % 1000000);
+        /**
+         * 生成ID前缀
+         */
+        String userId = String.valueOf(suffix);
+
+        return userId;
+    }
 }
