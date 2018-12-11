@@ -23,13 +23,13 @@ public class ExamSignUpDaoProvider {
         String examTypeId = (String) iesMap.get("examTypeId");
         String detailsId = (String) iesMap.get("detailsId");
         String signUpPic = (String) iesMap.get("signUpPic");
-        String signUpTime = (String) iesMap.get("signUpTime");
-        String isConfirm = (String) iesMap.get("isConfirm");
-        String birthMonth = (String) iesMap.get("birthMonth");
+        Date signUpTime = (Date) iesMap.get("signUpTime");
+        boolean isConfirm = (boolean) iesMap.get("isConfirm");
+        Integer birthMonth = (Integer) iesMap.get("birthMonth");
 
         return new SQL() {
             {
-                INSERT_INTO("user_details");
+                INSERT_INTO("exam_signup_list");
                 VALUES("exam_type_id", "#{examTypeId}");
                 VALUES("details_id", "#{detailsId}");
                 VALUES("signup_pic", "#{signUpPic}");
