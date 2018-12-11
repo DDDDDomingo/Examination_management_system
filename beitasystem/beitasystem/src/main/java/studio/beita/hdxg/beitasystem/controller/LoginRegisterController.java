@@ -93,10 +93,10 @@ public class LoginRegisterController {
     @ControllerLog(description = "管理员登陆验证")
     public ResponseEntity<?> adminAssertLogin(String account, String email, String password) {
         //验证登陆信息
-        assertLoginAccount(account, email, password);
+        String id = assertLoginAccount(account, email, password);
         // TODO: 2018/10/27 添加JWT
         //登陆成功
-        return ResponseEntity.ok(ResponseConstant.ASSERT_LOGIN_SUCCESS);
+        return ResponseEntity.ok(id);
     }
 
     @ApiOperation(value = "用户修改密码", notes = "user change password")
