@@ -36,6 +36,21 @@ public interface ExamSignUpDao {
      */
     @Select("SELECT exam_type_id, exam_name, exam_isclosed, exam_issignup, exam_isquery, exam_audited_num, exam_capacity, " +
             "exam_starttime, exam_endtime FROM exam_type WHERE exam_issignup = 1 GROUP BY exam_type_id DESC")
+    @Results(
+            id = "getExamInfoList",
+            value = {
+                    @Result(id = true, property = "examId", column = "exam_type_id"),
+                    @Result(property = "examName", column = "exam_name"),
+                    @Result(property = "isClosed", column = "exam_isclosed"),
+                    @Result(property = "isSignUp", column = "exam_issignup"),
+                    @Result(property = "isQuery", column = "exam_isquery"),
+                    @Result(property = "auditedNum", column = "exam_audited_num"),
+                    @Result(property = "capacity", column = "exam_capacity"),
+                    @Result(property = "startTime", column = "exam_starttime"),
+                    @Result(property = "endTime", column = "exam_endtime"),
+
+            }
+    )
     List<ExamInfo> getExamInfoList();
 
     /**
