@@ -178,7 +178,7 @@
 				for(var i = 0; i < length; i++) {
 					var time = data[typeNumber].examNewsList[i].time.split(' ');
 					html = html + "<li>" +
-						"<a href=\"#\" onclick=\"newsLink(this)\" id=" + data[typeNumber].examNewsList[i].newsId + ">" +
+						"<a href=\"#\" onclick=\"newsLink(this)\" id=" +(parseInt(typeNumber)+1)+"-"+ data[typeNumber].examNewsList[i].newsId + ">" +
 						data[typeNumber].examNewsList[i].title +
 						"</a><span>" + time[0] +
 						"</span></li>";
@@ -200,7 +200,9 @@
 			}
 
 			newsLink = function(obj) {
-				sessionStorage.setItem("newsId", obj.id);
+				var id = obj.id.split("-");
+				sessionStorage.setItem("typeId", id[0]);
+				sessionStorage.setItem("newsId", id[1]);
 				window.location.href = 'detail.html';
 			}
 			newsTypeLink = function(obj) {
