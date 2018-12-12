@@ -143,7 +143,7 @@
 						<li class="nav-item nav-profile">
 							<a href="#" class="nav-link">
 								<div class="nav-profile-image">
-									<!--<img src="../images/faces/face1.jpg" alt="profile">-->
+									<img src="../images/faces/face1.jpg" alt="profile">
 									<span class="login-status online"></span>
 									<!--change to offline or busy as needed-->
 								</div>
@@ -374,8 +374,6 @@
 			</div>
 			<!-- page-body-wrapper ends -->
 		</div>
-		<!--用于取出个人信息用-->
-		<form id="useById"><input type="hidden" class="form-control" id="userId" name="userId"></form>
 		<script type="text/javascript">
 			$(document).ready(function(){
 				var id = sessionStorage.getItem("id");
@@ -384,22 +382,20 @@
 					window.location.href = "login.html";
 				}
 				//用户头像，昵称
-				document.getElementById('userId').value = JSON.parse(sessionStorage.getItem("id"));
-				$.ajax({
-					type: "Get",
-					url: 'http://localhost:8080/user/userDetails/get',
-					data:$('#useById').serialize(),
-					async: false,
-					cache: false,
-					contentType: false,
-					processData: false,
-				}).always(function(data, status, xhr) {
-					if(status == "success") {
-						var copyData = data;
-						addTopHtml(copyData);
-					}
-				});
+				var account = sessionStorage.getItem("account");
+
+				addTopHtml(account);
+
 			});
+			//更改头像和名称
+			function addTopHtml(account) {
+				$(".nav-profile-text p").detach();
+				$(".nav-profile-text span").detach();
+				var headHtml = "<p class=\"mb-1 text-black\">"+account+"</p>";
+				$(".nav-profile-text").append(headHtml);
+				var headHtml2 = "<span class=\"text-secondary text-small\">Project Manager</span>";
+				$(".container-fluid .nav-profile-text").append(headHtml2);
+			}
 			
 			//访问后台获取所有新闻
 			$(document).ready(function() {
@@ -490,21 +486,7 @@
 					$(".content-wrapper").append(bodyHtml);
 				}
 			}
-			//for(var j=0;j<data[i].examNewsList.length;j++){
-			//更改头像和名称
-			function addTopHtml(data) {
-				$(".nav-profile-text p").detach();
-				$(".nav-profile-text span").detach();
-				var headHtml = "<p class=\"mb-1 text-black\">"+data.realName+"</p>";
-				//<img id=\"img1\" style=\"height: 50px;width: 50px;\" src=\""+data.detailsSavepath+"\">"
-				$(".nav-profile-text").append(headHtml);
-				$(".nav-profile-img img").detach();
-				var headHtml1 = "<img id=\"img1\" src=\""+data.detailsSavepath+"\" alt=\"image\">";
-				$(".nav-profile-image").append(headHtml1);
-				$(".nav-profile-img").append(headHtml1);
-				var headHtml2 = "<span class=\"text-secondary text-small\">Project Manager</span>";
-				$(".container-fluid .nav-profile-text").append(headHtml2);
-			}
+			
 		</script>
 
 		<script src="../vendors/js/vendor.bundle.base.js"></script>
