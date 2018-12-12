@@ -77,7 +77,7 @@ public class LoginRegisterController {
         results.put("token", jwt);
         results.put("id", id);
         // TODO: 2018/10/27 添加JWT到Redis
-        results.put("message",ResponseConstant.ASSERT_LOGIN_SUCCESS);
+        results.put("message", ResponseConstant.ASSERT_LOGIN_SUCCESS);
 
         //登陆成功
         return ResponseEntity.ok(results);
@@ -94,9 +94,13 @@ public class LoginRegisterController {
     public ResponseEntity<?> adminAssertLogin(String account, String email, String password) {
         //验证登陆信息
         String id = assertLoginAccount(account, email, password);
+        //返回信息
+        HashMap<String, Object> results = new HashMap<>();
+        results.put("id", id);
+        results.put("account", account);
         // TODO: 2018/10/27 添加JWT
         //登陆成功
-        return ResponseEntity.ok(id);
+        return ResponseEntity.ok(results);
     }
 
     @ApiOperation(value = "用户修改密码", notes = "user change password")
