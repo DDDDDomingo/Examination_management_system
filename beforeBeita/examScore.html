@@ -1,0 +1,209 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>贝塔考试管理系统</title>
+		<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+		<link rel="stylesheet" href="css/personInformate.css" type="text/css" media="all" />
+		<script src="js/jquery-1.8.3.min.js"></script>
+		<script type="text/javascript" src="js/script.js"></script>
+	</head>
+
+	<body>
+		<div id="hearder2" class="clearfix">
+			<div class="logo">
+				<img style="width: 120%;height: 78%; padding: 10px;" src="images/logo.png">
+			</div>
+			<div class="form-tools">
+				<div class="tools-link">
+					<a href="login.html" target="_blank">学生登录入口</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				</div>
+				<form id="search" name="search" method="post">
+					<div class="search-box">
+						<input type="text" name="textfield" id="textfield" class="input-text" placeholder="请输入搜索关键词">
+						<input type="image" src="images/search.png" class="input-submit" />
+					</div>
+				</form>
+			</div>
+		</div>
+		<div id="menu-box" class="clearfix">
+			<ul></ul>
+		</div>
+		<div id="slider-box" style="background:url(images/slider4.jpg) center center;"></div>
+		<!-- detail -->
+		<div id="detail2-box" class="clearfix">
+			<div class="tit-80">
+				<a href="examScore.html">查询成绩</a> - 查看详情</div>
+			<div class="tabula-box">
+				<div class="max-tit">完善信息</div>
+				<ul>
+					<li>
+						<a href="#" id="changeUserAvatar" onclick="aLink(this)">修改头像</a>
+					</li>
+					<li>
+						<a href="#" id="changeUserIdentity" onclick="aLink(this)">身份完善</a>
+					</li>
+					<li>
+						<a href="#" id="changeUserPwd" onclick="aLink(this)">更改密码</a>
+					</li>
+					<li>
+						<a href="#" id="changeUserPhoneAddress" onclick="aLink(this)">其他信息</a>
+					</li>
+				</ul>
+			</div>
+			<div class="content-box">
+				<h1>查询成绩</h1>
+				<div class="content">
+					<!-- form -->
+					<div class="body_main clearfix">
+						<div id="register" class="register clearfix">
+							<form id="form">
+								<div id="form_submit" class="form_submit clearfix">
+									<div class="fieldset"><input type="hidden" class="form-control" id="detailsId" name="detailsId"></div>
+								</div>
+								<div id="div_submit" class="div_submit">
+									<input type="reset" name="reset" id="reset" value="重置" class='button_button disabled'>
+									<input id="submit"  value="提交" onclick="sub()" class='button_button disabled'>
+								</div>
+							</form>
+						</div>
+					</div>
+					<!-- form end -->
+				</div>
+			</div>
+		</div>
+
+		<div id="div6">Copyright &copy; 2016 物理与核工程虚拟仿真教学中心 All rights reserved.</div>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var token = sessionStorage.getItem("token");
+				$.ajax({
+					type: "Get",
+					url: 'http://localhost:8080/user/examNews/get',
+					async: false,
+					cache: false,
+					contentType: false,
+					processData: false,
+				}).always(function(data, status, xhr) {
+					if(status == "success") {
+						var copyData = data;
+						var dataLength = copyData.length;
+						addTopHtml(copyData, dataLength);
+						addBodyHtml();
+						if(token != null) {
+							login();
+						}
+					}
+				});
+			});
+			
+			sub = function(obj) {
+				if(checkName(document.getElementById('name').value) == true) {
+					$.ajax({
+						type: "Get",
+						url: 'http://localhost:8080/user/examScore/get',
+						data:$('#form').serialize(),
+						async: false,
+						cache: false,
+						contentType: false,
+						processData: false,
+					}).always(function(data, status, xhr) {
+						if(status == "success") {
+							if(data=="该考试成绩查询未开放"||data=="准考证和姓名不符！"){
+								alert(data);
+							}else{
+								replaceHtml(data);
+							}
+						}
+					});
+				}
+			}
+			//主体代码替换
+			function replaceHtml(data){
+				$(".fieldset div").detach();
+				$(".fieldset input").detach();
+				var replaceHtml = "<div class=\"field-group\">" +
+									"<label class=\"required title\">准考证号：</label>" +
+									"<span class=\"control-group\" id=\"identifier_input\">" +
+										"<div class=\"input_add_long_background\">"+data.identifier+"</div>" +
+									"</span>" +
+								"</div>" +
+								"<div class=\"field-group\">" +
+									"<label class=\"required title\">姓名：</label>" +
+									"<span class=\"control-group\" id=\"realName_input\">" +
+										"<div class=\"input_add_long_background\">"+data.realName+"</div>" +
+									"</span>" +
+								"</div>"+
+								"<div class=\"field-group\">" +
+									"<label class=\"required title\">成绩：</label>" +
+									"<span class=\"control-group\" id=\"avatar_input\">" +
+										"<div class=\"input_add_long_background\">"+data.scoreNum+"</div>" +
+									"</span>" +
+								"</div>";
+				$(".fieldset").append(replaceHtml);
+				$(".div_submit").detach();
+			}
+			//添加顶部连接
+			function addTopHtml(data, length) {
+				$("#menu-box ul li").detach();
+				//首页连接只能写死	
+				var indexHtml = "<li><a href=\"index.html\">首页</a></li>";
+				$("#menu-box ul").append(indexHtml);
+				for(var i = 0; i < length; i++) {
+					var html = "<li><a href=\"#\" onclick=\"newsTypeLink(this)\" id=" + data[i].etypeId + ">" + data[i].typeName + "</a></li>";
+					$("#menu-box ul").append(html);
+				}
+			}
+			//添加主体代码
+			function addBodyHtml() {
+				changeHtml = "<div class=\"field-group\">" +
+								"<label class=\"required title\">准考证号：</label>" +
+								"<span class=\"control-group\" id=\"avatar_input\">" +
+									"<div class=\"input_add_long_background\">" +
+										"<input type=\"text\" id=\"identifier\" name=\"identifier\">" +
+									"</div>" +
+								"</span>" +
+								"<label class=\"tips\">请输入x位准考证号</label>" +
+							"</div>" +
+							"<div class=\"field-group\">" +
+								"<label class=\"required title\">姓名：</label>" +
+								"<span class=\"control-group\" id=\"avatar_input\">" +
+									"<div class=\"input_add_long_background\">" +
+										"<input type=\"text\" id=\"name\" name=\"name\">" +
+									"</div>" +
+								"</span>" +
+								"<label class=\"tips\">请输入您的姓名</label>" +
+							"</div>";
+				$(".fieldset").append(changeHtml);
+			}
+
+			newsTypeLink = function(obj) {
+				sessionStorage.setItem("typeId", obj.id);
+				sessionStorage.setItem("newsId", 0);
+				window.location.href = 'list-text.html';
+			}
+			aLink = function(obj) {
+				sessionStorage.setItem("change", obj.id);
+				window.location.href = 'changeInformate.html';
+			}
+			//登录后的处理
+			function login() {
+				$(".form-tools a").detach();
+				var html = "<a href=\"#\" onclick=\"piLink(this)\">个人信息</a>&nbsp;&nbsp;&nbsp;&nbsp;" +
+					"<a href=\"login.html\" target=\"_blank\">注销</a><br />";
+				$(".form-tools .tools-link").append(html);
+			}
+			//检查姓名格式
+			function checkName(name) {
+				reg =  /^[\u4e00-\u9fa5]{2,4}$/i;
+				if(!reg.test(name)){
+				    alert('姓名的格式不符合标准！');
+				    return false;
+				}
+				return true;
+			}
+		</script>
+	</body>
+
+</html>

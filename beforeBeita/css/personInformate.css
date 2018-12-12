@@ -1,0 +1,234 @@
+input[type="submit"] {
+				background: #0067ca;
+				font-size: 15px;
+				color: #FFFFFF;
+				border: 0;
+				text-shadow: 0 -1px 0 #535353;
+				margin: 5px 5px 0 0;
+				padding: 0 0 3px 0;
+				display: block;
+				width: 106px;
+				height: 35px;
+				text-align: center;
+				font-weight: bold;
+				line-height: 33px;
+				border-radius: 3px;
+			}
+			
+			input[type="button"] {
+				background: #0067ca;
+				font-size: 15px;
+				color: #FFFFFF;
+				border: 0;
+				text-shadow: 0 -1px 0 #535353;
+				margin: 5px 5px 0 0;
+				padding: 0 0 3px 0;
+				display: block;
+				width: 106px;
+				height: 35px;
+				text-align: center;
+				font-weight: bold;
+				line-height: 33px;
+				border-radius: 3px;
+			}
+			
+			input.button_button {
+				background: #0067ca;
+				margin: 0;
+				width: 106px;
+				height: 35px;
+				border: 0;
+				font-size: 15px;
+				color: #FFFFFF;
+				text-shadow: 0 -1px 0 #535353;
+				padding: 0 0 3px 0;
+				text-align: center;
+				font-weight: bold;
+				line-height: 33px;
+				cursor: pointer;
+				display: inline-block;
+				margin-right: 30px;
+				border-radius: 3px;
+			}
+			/*Tooltips*/
+			
+			.tooltips_main {
+				position: absolute;
+				left: 0;
+				margin: -5px 0 0 2px;
+				z-index: 999;
+			}
+			
+			.tooltips_box,
+			.tooltips,
+			.msg {
+				display: inline-block;
+				*display: inline;
+				*zoom: 1;
+				position: relative;
+				border-style: solid;
+				border-color: #FF1F1F;
+			}
+			
+			.tooltips,
+			.msg {
+				border-width: 0 1px;
+				*left: -2px;
+				background-color: #FFCFCF;
+			}
+			
+			.tooltips_box {
+				border-width: 1px;
+				line-height: 1.5;
+			}
+			
+			.tooltips {
+				margin: 0 -2px;
+			}
+			
+			.msg {
+				margin: 1px -2px;
+				padding: 0 6px;
+				color: #2F2C2C;
+				text-shadow: 0 1px 0 #FFFFFF;
+				font-size: 12px;
+			}
+			
+			.ov {
+				background: url('images/tri.gif') no-repeat scroll 0 0 transparent;
+				position: absolute;
+				left: 30%;
+				overflow: hidden;
+				width: 15px;
+				height: 15px;
+				margin: 16px 0 0 0;
+				display: inline;
+			}
+			/*regist*/
+			
+			.register .form_submit {
+				border-bottom: 1px dotted #0f62c5;
+			}
+			
+			.register .form_submit .fieldset .field-group {
+				min-height: 55px;
+			}
+			
+			.register .form_submit .fieldset .field-group .title {
+				float: left;
+				width: 120px;
+				text-align: right;
+				margin: 4px 0 0 0;
+				font-size: 14px;
+			}
+			
+			.register .form_submit .fieldset .field-group .control-group {
+				float: left;
+				width: 300px;
+				margin: 0 10px;
+			}
+			
+			.register .form_submit .fieldset .field-group .tips {
+				float: left;
+				width: 250px;
+				color: #8E8E8E;
+			}
+			
+			.register .div_submit {
+				width: 100%;
+				margin: 10px 0;
+				text-align: center;
+			}
+			/*end regist*/
+			
+			.fieldset .input_add_background {
+				height: 30px;
+				width: 112px;
+				float: left;
+				margin: 0 2px 0 0;
+			}
+			
+			.fieldset .input_add_background input.register_input_ot {
+				background-color: #f9f9f9;
+				border: 1px solid #ccc;
+				border-radius: 3px;
+				color: #4F4F4F;
+				font-size: 12px;
+				height: 18px;
+				outline: medium none;
+				width: 100px;
+				padding: 5px 10px;
+			}
+			
+			.fieldset .input_add_long_background {
+				height: 30px;
+				width: 286px;
+				float: left;
+				margin: 5px 0 15px 0;
+				display: inline;
+			}
+			
+			.fieldset .input_add_long_light_background {
+				height: 30px;
+				width: 286px;
+				float: left;
+			}
+			
+			.fieldset .input_add_long_background input.register_input {
+				background-color: #f9f9f9;
+				border: 1px solid #ccc;
+				border-radius: 3px;
+				color: #4F4F4F;
+				font-size: 12px;
+				height: 18px;
+				outline: medium none;
+				width: 270px;
+				padding: 5px 10px;
+			}
+			
+			.fieldset .input_text {
+				display: inline-block;
+				position: absolute;
+				vertical-align: top;
+				margin: 6px 0 0 10px;
+				z-index: 2;
+				font-style: italic;
+				color: #BFBFBF;
+			}
+			
+			.select-style {
+				background-color: #f9f9f9;
+				border: 1px solid #ccc;
+				border-radius: 3px;
+				color: #4F4F4F;
+				font-size: 12px;
+				height: 30px;
+				outline: medium none;
+				width: 270px;
+				padding: 1px;
+			}
+			
+			.textarea-style {
+				background-color: #f9f9f9;
+				border: 1px solid #ccc;
+				border-radius: 3px;
+				color: #4F4F4F;
+				font-size: 12px;
+				outline: medium none;
+				width: 270px;
+				height: 58px;
+				padding: 1px;
+			}
+			
+			.fieldset .input_add_long_background input.time_input {
+				background-color: #f9f9f9;
+				border: 1px solid #ccc;
+				border-radius: 3px;
+				color: #4F4F4F;
+				font-size: 12px;
+				height: 18px;
+				outline: medium none;
+				width: 30px;
+				padding: 5px 10px;
+				text-align: center;
+			}

@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>深圳大学物理与核工程虚拟仿真教学中心</title>
+		<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+		<script src="js/jquery.js"></script>
+	</head>
+
+	<body>
+		<div id="hearder2" class="clearfix">
+			<div class="logo">
+				<img style="width: 120%;height: 78%; padding: 10px;" src="images/logo.png">
+			</div>
+			<div class="form-tools">
+				<form id="search" name="search" method="post">
+					<div class="tools-link">
+						<a href="login.html" target="_blank">学生登录入口</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+						<a href="login.html" target="_blank">管理员登录入口</a><br />
+					</div>
+					<div class="search-box">
+						<input type="text" name="textfield" id="textfield" class="input-text" placeholder="请输入搜索关键词">
+						<input type="image" src="images/search.png" class="input-submit" />
+					</div>
+				</form>
+			</div>
+		</div>
+		<div id="menu-box" class="clearfix">
+			<ul></ul>
+		</div>
+
+		<div id="slider-box" style="background:url(images/slider4.jpg) center center;"></div>
+		<!-- detail -->
+		<div id="detail2-box" class="clearfix">
+			<div class="tit-80"></div>
+			<div class="tabula-box">
+				<div class="max-tit">最多浏览</div>
+				<ul>
+				</ul>
+			</div>
+			<div class="content-box">
+				<h1></h1>
+				<div class="content">
+					<br><br>
+				</div>
+			</div>
+		</div>
+		<div id="div6">Copyright &copy; 2016 物理与核工程虚拟仿真教学中心 All rights reserved.</div>
+		<script type="text/javascript">
+			var typeId = JSON.parse(sessionStorage.getItem("typeId"));
+			//访问后台获取所有新闻
+			$(document).ready(function() {
+				//var token = JSON.parse(sessionStorage.getItem("login"));
+				$.ajax({
+					type: "Get",
+					url: 'http://localhost:8080/user/examNews/get',
+					async: false,
+					cache: false,
+					contentType: false,
+					processData: false,
+				}).always(function(data, status, xhr) {
+					if(status == "success") {
+						var copyData = data;
+						var dataLength = copyData.length;
+						ctypeId(copyData, dataLength);
+						addTopHtml(copyData, dataLength);
+						var topHot = bubbleSort(copyData,typeId);
+						addLeftHtml(topHot, dataLength);
+						addBodyHtml(copyData, dataLength);
+					}
+				});
+			});
+			//最多浏览（冒泡排序）
+			function bubbleSort(data,typeId) {
+			    var i = data[typeId].examNewsList.length;
+			    var j = 0;
+			    var tempExchangVal;
+			    while (i > 0) {
+			        for (j = 0; j < i - 1; j++) {
+			            if (data[typeId].examNewsList[j].visits > data[typeId].examNewsList[j + 1].visits) {
+			                tempExchangVal = data[typeId].examNewsList[j];
+			                data[typeId].examNewsList[j] = data[typeId].examNewsList[j + 1];
+			                data[typeId].examNewsList[j + 1] = tempExchangVal;
+			            }
+			        }
+			        i--;
+			    }
+			    return data;
+			}
+			function ctypeId(data, length) {
+				for(var i = 0; i < length; i++) {
+					if(typeId == data[i].etypeId) {
+						typeId = i;
+					}
+				}
+			}
+			//添加顶部连接
+			function addTopHtml(data, length) {
+				$("#menu-box ul li").detach();
+				//首页连接只能写死	
+				var indexHtml = "<li><a href=\"index.html\">首页</a></li>";
+				$("#menu-box ul").append(indexHtml);
+				for(var i = 0; i < length; i++) {
+					var html = "<li><a href=\"#\" onclick=\"newsTypeLink(this)\" id=" + data[i].etypeId + ">" + data[i].typeName + "</a></li>";
+					$("#menu-box ul").append(html);
+				}
+			}
+			//新闻正文跳转
+			newsLink = function(obj) {
+				sessionStorage.setItem("newsId", obj.id);
+				window.location.href='detail.html'
+			}
+			//新闻类别跳转
+			newsTypeLink = function(obj) {
+				sessionStorage.setItem("typeId", obj.id);
+				sessionStorage.setItem("newsId", 0);
+				window.location.href='list-text.html'
+			}
+			//中部小链接跳转
+			function addTopHtml(data, length) {
+				$("#menu-box ul li").detach();
+				//首页连接只能写死	
+				var indexHtml = "<li><a href=\"index.html\">首页</a></li>";
+				$("#menu-box ul").append(indexHtml);
+				for(var i = 0; i < length; i++) {
+					var html = "<li><a href=\"#\" onclick=\"newsTypeLink(this)\" id=" + data[i].etypeId + ">" + data[i].typeName + "</a></li>";
+					$("#menu-box ul").append(html);
+				}
+			}
+			//添加左边热榜
+			function addLeftHtml(data, dataLength) {
+				$(".tabula-box ul li").detach();
+				var label = data[typeId].typeName + " - 查看详情";
+				$("#detail2-box .tit-80").append(label);
+				var length = data[typeId].examNewsList.length;
+				var topNum;
+				if(length < 10) {
+					topNum = 0;
+				} else { 
+					topNum = length - 10;
+				}
+				for(var i = length - 1; i >= topNum; i--) {
+					//对标题过长的进行切割
+					if(data[typeId].examNewsList[i].title.length > 11) {
+						var title = data[typeId].examNewsList[i].title.substring(0, 11) + "..";
+					} else {
+						var title = data[typeId].examNewsList[i].title;
+					}
+					var html = "<li><a href=\"#\" onclick=\"newsLink(this)\" id=\""+ data[typeId].examNewsList[i].newsId + "\" style=\"overflow: hidden;\">" + title + "</a></li>";
+					$(".tabula-box ul").append(html);
+				}
+			}
+			//添加新闻
+			function addBodyHtml(data, dataLength) {
+				var newsId = JSON.parse(sessionStorage.getItem("newsId"));
+				var length = data[typeId].examNewsList.length;
+				for(var i = 0; i < length; i++) {
+					if(newsId == data[typeId].examNewsList[i].newsId) {
+						newsId = i;
+					}
+				}
+				var etitle = data[typeId].examNewsList[newsId].title;
+				$(".content-box h1").append(etitle);
+				var content = data[typeId].examNewsList[newsId].content;
+				$(".content-box .content").append(content);
+			}
+		</script>
+	</body>
+</html>
