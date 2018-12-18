@@ -136,8 +136,9 @@ public interface ExamSignUpService {
      * @param examId
      * @param schoolName
      * @param saveDir
+     * @param duration
      * @return
      * @throws IOException
      */
-    String generateAdmissionTicketByAdmin(String examId, String schoolName, String saveDir) throws IOException;
+    String generateAdmissionTicketByAdmin(String examId, String schoolName, String saveDir, int duration) throws IOException;
 }

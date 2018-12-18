@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 import org.apache.poi.POIXMLDocument;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.usermodel.*;
+import org.omg.CORBA.INTERNAL;
 import studio.beita.hdxg.beitasystem.model.domain.CustomXWPFDocument;
 
 /**
@@ -93,7 +94,7 @@ public class WordUtils {
                                         //int ind = doc.addPicture(byteInputStream, picType);
                                         //doc.createPicture(ind, width, height, paragraph);
                                         doc.addPictureData(byteInputStream, XWPFDocument.PICTURE_TYPE_JPEG);
-                                        doc.createPicture(doc.createParagraph(), doc.getAllPictures().size() - 1, width, height, "    ");
+                                        doc.createPicture(doc.createParagraph(), doc.getAllPictures().size() - 1, width, height, "");
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }

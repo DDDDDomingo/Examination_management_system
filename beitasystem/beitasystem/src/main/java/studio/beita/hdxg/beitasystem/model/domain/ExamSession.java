@@ -17,12 +17,21 @@ public class ExamSession implements Serializable{
     private static final long serialVersionUID = -7120869049562583734L;
 
     private Integer sessionId;
+    private String examTypeId;
     private String sessionPlace;
     private Integer sessionCapacity;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date sessionTime;
 
     public ExamSession() {
+    }
+
+    public String getExamTypeId() {
+        return examTypeId;
+    }
+
+    public void setExamTypeId(String examTypeId) {
+        this.examTypeId = examTypeId;
     }
 
     public static long getSerialVersionUID() {

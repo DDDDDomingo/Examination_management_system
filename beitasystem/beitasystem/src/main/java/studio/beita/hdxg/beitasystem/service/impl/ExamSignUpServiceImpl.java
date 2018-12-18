@@ -8,6 +8,7 @@ import studio.beita.hdxg.beitasystem.model.domain.*;
 import studio.beita.hdxg.beitasystem.repository.ExamManagementDao;
 import studio.beita.hdxg.beitasystem.repository.ExamSignUpDao;
 import studio.beita.hdxg.beitasystem.service.ExamSignUpService;
+import studio.beita.hdxg.beitasystem.utils.DateUtils;
 import studio.beita.hdxg.beitasystem.utils.GetUidUtils;
 import studio.beita.hdxg.beitasystem.utils.WordUtils;
 
@@ -95,17 +96,17 @@ public class ExamSignUpServiceImpl implements ExamSignUpService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String generateAdmissionTicketByAdmin(String examId, String schoolName, String saveDir) throws IOException {
+    public String generateAdmissionTicketByAdmin(String examId, String schoolName, String saveDir, int duration) throws IOException {
         //获取考试信息
         ExamInfo examInfo = examManagementDao.getExamDetails(examId);
         //用来存放word中需要替换的
         HashMap<String, Object> admissMap = new HashMap<>();
-        admissMap.put("${examName}", examInfo.getExamName());
-        admissMap.put("${school}", schoolName);
-        admissMap.put("${time}", examInfo.getStartTime());
+        admissMap.put("examName", examInfo.getExamName());
+        admissMap.put("school", schoolName);
+        admissMap.put("time", DateUtils.formatDate(examInfo.getStartTime(),"yyyy-MM-dd HH:mm:ss"));
         //计算考试时长
-        int duration = (int) getDatePoor(examInfo.getEndTime(), examInfo.getStartTime());
-        admissMap.put("${duration}", duration);
+        //int duration = (int) getDatePoor(examInfo.getEndTime(), examInfo.getStartTime());
+        admissMap.put("shichang", String.valueOf(duration));
         //获取考试场次信息
         List<ExamSession> examSessionList = examSignUpDao.getExamSessionByTypeId(examId);
         //用于计数
@@ -130,22 +131,28 @@ public class ExamSignUpServiceImpl implements ExamSignUpService {
                     identifier.append(examSignupListList.get(j).getDetailsId(), 4, 12);
                     identifier.append(GetUidUtils.getTicket());
                     //插入和创建 之前先判断是否已经存在了，已存在直接退出当前循环，执行下一循环
-                    String flag = examSignUpDao.assertTicket(identifier.toString(), sessionPlace);
+                    String flag = examSignUpDao.assertTicket(examSignupListList.get(j).getDetailsId(), sessionPlace);
                     if (!StringUtils.isEmpty(flag)) {
                         continue;
                     }
                     //加入准考证号
-                    admissMap.put("${identifier}", identifier.toString());
+                    admissMap.put("dentifier", identifier.toString());
                     //加入真实姓名
-                    admissMap.put("${name}", examSignupListList.get(j).getRealName());
+                    admissMap.put("same", examSignupListList.get(j).getRealName());
                     //加入证件号码
-                    admissMap.put("${idCard}", examSignupListList.get(j).getRealName());
+                    admissMap.put("dCard", examSignupListList.get(j).getIdCard());
                     //加入考场
-                    admissMap.put("${sessionPlace}", sessionPlace);
+                    admissMap.put("sessionPlace", sessionPlace);
                     //加入准考证头像
-                    admissMap.put("${photo}", WordUtils.inputStream2ByteArray(new FileInputStream(examSignupListList.get(j).getPhotoPath()), true));
+                    Map<String,Object> photo = new HashMap<>();
+                    photo.put("width",100);
+                    photo.put("height",150);
+                    // TODO: 2018/12/18 自动获取图片格式
+                    photo.put("type","jpg");
+                    photo.put("content",WordUtils.inputStream2ByteArray(new FileInputStream(examSignupListList.get(j).getPhotoPath()), true));
+                    admissMap.put("hoto", photo);
                     //计算出考场座位号
-                    admissMap.put("${seatNum}",j+1);
+                    admissMap.put("zuoweihao",String.valueOf(j+1));
                     //生成word
                     CustomXWPFDocument doc = WordUtils.generateWord(admissMap, saveDir+"\\moban.docx");
                     //判断目录是否存在，不存在就新建
@@ -160,6 +167,7 @@ public class ExamSignUpServiceImpl implements ExamSignUpService {
                     //插入数据库
                     examSignUpDao.insertAdmissionTicketInfo(examSignupListList.get(j).getDetailsId(), examSignupListList.get(j).getRealName(),
                             identifier.toString(), examInfo.getStartTime(), duration, sessionPlace, j+1, schoolName );
+                    //删除key
                 }
                 //添加用于下一次循环
                 currentNum = currentNum + sessionCapacity;

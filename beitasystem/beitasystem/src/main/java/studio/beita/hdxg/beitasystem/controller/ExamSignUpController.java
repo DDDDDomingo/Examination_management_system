@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import studio.beita.hdxg.beitasystem.annotation.ControllerLog;
 import studio.beita.hdxg.beitasystem.model.domain.ReviewPersonnel;
 import studio.beita.hdxg.beitasystem.service.ExamManagementService;
 import studio.beita.hdxg.beitasystem.service.ExamSignUpService;
@@ -160,6 +161,7 @@ public class ExamSignUpController {
             @ApiImplicitParam(name = "typeId", value = "考试类别id", dataType = "String", paramType = "query", required = true)
     })
     @DeleteMapping("/admin/authentication/delete")
+    @ControllerLog(description = "管理员点击不通过审核")
     public ResponseEntity<?> deleteCandidateByUserIdByAdmin(@RequestParam("userId")String userId,@RequestParam("typeId")String typeId){
         if(examSignUpService.deleteCandidateByUserId(userId,typeId)){
             // TODO: 2018/11/7 发送邮件
@@ -174,12 +176,14 @@ public class ExamSignUpController {
     @ApiOperation(value = "管理员生成准考证", notes = "admin generate ticket")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "examId", value = "考试类别ID", dataType = "String", paramType = "query", required = true),
-            @ApiImplicitParam(name = "schoolName", value = "学校名称", dataType = "String", paramType = "query", required = true)
+            @ApiImplicitParam(name = "schoolName", value = "学校名称", dataType = "String", paramType = "query", required = true),
+            @ApiImplicitParam(name = "duration", value = "考试时长", dataType = "Integer", paramType = "query", required = true)
     })
     @GetMapping("/admin/ticket/generate")
-    public ResponseEntity<?> generateAdmissionTicketByAdmin(String examId, String schoolName) throws IOException {
+    @ControllerLog(description = "管理员生成准考证")
+    public ResponseEntity<?> generateAdmissionTicketByAdmin(String examId, String schoolName, int duration) throws IOException {
 
-        String message = examSignUpService.generateAdmissionTicketByAdmin(examId,schoolName,USER_TICKET_FILE_REPOSITORY);
+        String message = examSignUpService.generateAdmissionTicketByAdmin(examId,schoolName,USER_TICKET_FILE_REPOSITORY,duration);
 
         return ResponseEntity.ok(message);
     }

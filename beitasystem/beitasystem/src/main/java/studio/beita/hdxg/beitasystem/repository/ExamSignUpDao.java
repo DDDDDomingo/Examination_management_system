@@ -181,8 +181,8 @@ public interface ExamSignUpDao {
     @Select("SELECT count(signup_id) FROM exam_signup_list WHERE exam_type_id = #{typeId}")
     Integer getPassNumByAdmin(@Param("typeId") String typeId);
 
-    @Select("SELECT ticket_info_name FROM admission_ticket_info WHERE ticket_info_identifier = #{identifier} AND ticket_info_place=#{place}")
-    String assertTicket(@Param("identifier") String identifier,@Param("place") String place);
+    @Select("SELECT ticket_info_name FROM admission_ticket_info WHERE userinfo_id = #{userId} AND ticket_info_place=#{place}")
+    String assertTicket(@Param("userId") String userId,@Param("place") String place);
 
     /**
      * 获取考试报名列表
@@ -190,11 +190,11 @@ public interface ExamSignUpDao {
      * @return
      */
     @Select("SELECT esl.signup_id, esl.exam_type_id, esl.details_id, ud.details_realname, ud.details_idcard, ud.details_savepath FROM exam_signup_list esl LEFT JOIN user_details ud ON esl.details_id = ud.details_id " +
-            "WHERE esl.exam_type_id=#{examId} AND esl.signup_isconfirm = 0 limit #{startNum},#{num}")
+            "WHERE esl.exam_type_id=#{examId} AND esl.signup_isconfirm = 1 limit #{startNum},#{num}")
     @Results(
             id = "generateAdmissionTicket",
             value = {
-                    @Result(id = true, property = "signup_id", column = "signup_id"),
+                    @Result(id = true, property = "signUpId", column = "signup_id"),
                     @Result(property = "examTypeId", column = "exam_type_id"),
                     @Result(property = "detailsId", column = "details_id"),
                     @Result(property = "realName", column = "details_realname"),
@@ -213,7 +213,7 @@ public interface ExamSignUpDao {
     @Results(
             id = "generateAdmissionTicketSession",
             value = {
-                    @Result(id = true, property = "signup_id", column = "signup_id"),
+                    @Result(id = true, property = "sessionId", column = "session_id"),
                     @Result(property = "examTypeId", column = "exam_type_id"),
                     @Result(property = "detailsId", column = "details_id"),
                     @Result(property = "realName", column = "details_realname"),
