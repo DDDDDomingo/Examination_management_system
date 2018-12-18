@@ -266,98 +266,17 @@
 				          </h3>
 							<a href="addExamNews.html"><button type="button" style="float:right" class="btn btn-gradient-warning btn-rounded btn-fw">+ Exam News</button></a>
 						</div>
-						<!--<div class="col-lg-12 grid-margin stretch-card">
-							<div class="card">
-								<div class="card-body">
-									<h4 class="card-title">新闻类别：xxxx</h4>
-									<br />
-									<table class="table table-bordered">
-										<thead>
-											<tr>
-												<th>新闻类别ID</th>
-												<th>新闻内容</th>
-												<th>发布时间</th>
-												<th>最新新闻</th>
-												<th>访问次数</th>
-												<th>新闻资源</th>
-												<th>操作</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td>1</td>
-												<td>Herman Beck</td>
-												<td>
-													2018年10月12日8点21分
-												</td>
-												<td>
-													<select class="form-control" id="userGroup">
-														<option>是</option>
-														<option>否</option>
-													</select>
-												</td>
-												<td>12312</td>
-												<td>
-													<a href="newsManagement.html">
-														<button type="button" class="btn btn-gradient-info btn-rounded btn-fw">管理</button>
-													</a>
-												</td>
-												<td>
-													<button type="button" class="btn btn-gradient-success btn-rounded btn-fw">更改</button>
-													<button type="button" class="btn btn-gradient-danger btn-rounded btn-fw">删除</button>
-												</td>
-											</tr>
-										</tbody>
-									</table>
+						<div class="examTitle">
+							<div class="col-lg-12 grid-margin stretch-card">
+								<div class="card">
+									<div class="card-body">
+										<h4 class="card-title">新闻类别选择</h4>
+										<br />
+										
+									</div>
 								</div>
 							</div>
-						</div>-->
-						<!--<div class="col-lg-12 grid-margin stretch-card">
-							<div class="card">
-								<div class="card-body">
-									<h4 class="card-title">新闻类别：xxxx</h4>
-									<br />
-									<table class="table table-bordered">
-										<thead>
-											<tr>
-												<th>新闻类别ID</th>
-												<th>新闻内容</th>
-												<th>发布时间</th>
-												<th>最新新闻</th>
-												<th>访问次数</th>
-												<th>新闻资源</th>
-												<th>操作</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td>1</td>
-												<td>Herman Beck</td>
-												<td>
-													2018年10月12日8点21分
-												</td>
-												<td>
-													<select class="form-control" id="userGroup">
-														<option>是</option>
-														<option>否</option>
-													</select>
-												</td>
-												<td>12312</td>
-												<td>
-													<a href="newsManagement.html">
-														<button type="button" class="btn btn-gradient-info btn-rounded btn-fw">管理</button>
-													</a>
-												</td>
-												<td>
-													<button type="button" class="btn btn-gradient-success btn-rounded btn-fw">更改</button>
-													<button type="button" class="btn btn-gradient-danger btn-rounded btn-fw">删除</button>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>-->
+						</div>
 					</div>
 					<!-- content-wrapper ends -->
 					<!-- partial:partials/_footer.html -->
@@ -374,29 +293,11 @@
 			</div>
 			<!-- page-body-wrapper ends -->
 		</div>
+		<script src="../js/common.js"></script>
 		<script type="text/javascript">
-			$(document).ready(function(){
-				var id = sessionStorage.getItem("id");
-				if(id==null){
-					alert("请先登录！");
-					window.location.href = "login.html";
-				}
-				//用户头像，昵称
-				var account = sessionStorage.getItem("account");
-
-				addTopHtml(account);
-
-			});
-			//更改头像和名称
-			function addTopHtml(account) {
-				$(".nav-profile-text p").detach();
-				$(".nav-profile-text span").detach();
-				var headHtml = "<p class=\"mb-1 text-black\">"+account+"</p>";
-				$(".nav-profile-text").append(headHtml);
-				var headHtml2 = "<span class=\"text-secondary text-small\">Project Manager</span>";
-				$(".container-fluid .nav-profile-text").append(headHtml2);
-			}
-			
+			var i=0;
+			var copyData;
+			var dataLength;
 			//访问后台获取所有新闻
 			$(document).ready(function() {
 				$.ajax({
@@ -408,87 +309,187 @@
 					processData: false,
 				}).always(function(data, status, xhr) {
 					if(status == "success") {
-						var copyData = data;
-						var dataLength = copyData.length;
+						var typeHtml = "";
+						for(var k=0;k<data.length;k++){
+							if(k%7==0&&k!=0){
+								typeHtml = typeHtml + "<br><br>";
+							}
+							typeHtml = typeHtml + "<button type=\"button\" class=\"btn btn-gradient-warning btn-rounded btn-fw\" id=\""+k+"\" onclick=\"examType(this)\">"+data[k].typeName+"</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+						}
+						$(".card-body").append(typeHtml);
+						copyData = data;
+						dataLength = copyData.length;
 						addBodyHtml(copyData,dataLength);
+						
 					}
 				});
 			});
 			
-			//添加主体部分html
-			function addBodyHtml(data,length) {
-				//$("#line1 #div1 .center450").detach();
+			examType = function(obj) {
+				$(".content-wrapper .col-lg-12:last").detach();
+				i = obj.id;
+				var data = copyData;
+				var length = dataLength;
 				var title = new Array();
 				var trHtml = new Array();
-				for(var i=0;i<length;i++){
-					title[i] = data[i].typeName;
-					trHtml[i] = "";
-					for(var j=0;j<data[i].examNewsList.length;j++){
-						//对过长新闻标题的进行切割
-						if(data[i].examNewsList[j].title.length>5){
-							var examtitle = "<td>" + data[i].examNewsList[j].title.substring(0, 5) + "..</td>";
-						}else{
-							var examtitle = "<td>" + data[i].examNewsList[j].title + "..</td>";
-						}
-						//对过长新闻内容的进行切割
-						if(data[i].examNewsList[j].title.length>5){
-							var examcontent = "<td>" + data[i].examNewsList[j].content.substring(0, 5) + "..</td>";
-						}else{
-							var examcontent = "<td>" + data[i].examNewsList[j].content + "..</td>";
-						}
-						//是否为最新新闻
-						if(data[i].examNewsList[j].new=="true"){
-							isnew = "<td>是</td>";
-						}else{
-							isnew = "<td>否</td>";
-						}
-						trHtml[i] = trHtml[i] + "<tr><td>"+data[i].examNewsList[j].newsId+"</td>"+
-												examtitle +
-												examcontent +
-												"<td>"+data[i].examNewsList[j].time+"</td>"+
-												isnew +
-												"<td>"+data[i].examNewsList[j].visits+"</td>"+
-												"<td>"+
-													"<a href=\"newsManagement.html\">"+
-														"<button type=\"button\" class=\"btn btn-gradient-info btn-rounded btn-fw\">管理</button>"+
-													"</a>"+
-												"</td>"+
-												"<td>"+
-													"<button type=\"button\" id=\"update-"+data[i].examNewsList[j].newsId+"\" class=\"btn btn-gradient-success btn-rounded btn-fw\">更改</button>"+
-													"<button type=\"button\" id=\"delete-"+data[i].examNewsList[j].newsId+"\" class=\"btn btn-gradient-danger btn-rounded btn-fw\">删除</button>"+
-												"</td></tr>";
+				title[i] = data[i].typeName;
+				trHtml[i] = "";
+				for(var j=0;j<data[i].examNewsList.length;j++){
+					//对过长新闻标题的进行切割
+					if(data[i].examNewsList[j].title.length>5){
+						var examtitle = "<td>" + data[i].examNewsList[j].title.substring(0, 5) + "..</td>";
+					}else{
+						var examtitle = "<td>" + data[i].examNewsList[j].title + "..</td>";
 					}
+					//对过长新闻内容的进行切割
+					if(data[i].examNewsList[j].title.length>5){
+						var examcontent = "<td>" + data[i].examNewsList[j].content.substring(0, 5) + "..</td>";
+					}else{
+						var examcontent = "<td>" + data[i].examNewsList[j].content + "..</td>";
+					}
+					//是否为最新新闻
+					if(data[i].examNewsList[j].new=="true"){
+						isnew = "<td>是</td>";
+					}else{
+						isnew = "<td>否</td>";
+					}
+					trHtml[i] = trHtml[i] + "<tr><td>"+data[i].examNewsList[j].newsId+"</td>"+
+											examtitle +
+											examcontent +
+											"<td>"+data[i].examNewsList[j].time+"</td>"+
+											isnew +
+											"<td>"+data[i].examNewsList[j].visits+"</td>"+
+											"<td>"+
+												"<a href=\"newsManagement.html\">"+
+													"<button type=\"button\" class=\"btn btn-gradient-info btn-rounded btn-fw\">管理</button>"+
+												"</a>"+
+											"</td>"+
+											"<td>"+
+												"<button type=\"button\" id=\"update-"+data[i].examNewsList[j].newsId+"\" onclick=\"update(this)\" class=\"btn btn-gradient-success btn-rounded btn-fw\">更改</button>"+
+												"<button type=\"button\" id=\"delete-"+data[i].examNewsList[j].newsId+"\" onclick=\"delete(this)\" class=\"btn btn-gradient-danger btn-rounded btn-fw\">删除</button>"+
+											"</td></tr>";
 				}
-				var bodyHtml;
-				for(var i=0;i<length;i++){
-					var bodyHtml = "<div class=\"col-lg-12 grid-margin stretch-card\">"+
-									"<div class=\"card\">"+
-										"<div class=\"card-body\">"+
-											"<h4 class=\"card-title\">新闻类别："+title[i]+"</h4>"+
-											"<br />"+
-											"<table class=\"table table-bordered\">"+
-												"<thead>"+
-													"<tr>"+
-													"<th>新闻ID</th>"+
-													"<th>新闻标题</th>"+
-													"<th>新闻内容</th>"+
-													"<th>发布时间</th>"+
-													"<th>最新新闻</th>"+
-													"<th>访问次数</th>"+
-													"<th>新闻资源</th>"+
-													"<th>操作</th><tr>"+
-													trHtml[i]+
-											"</tbody>"+
-										"</table>"+
-									"</div>"+
+		
+				var bodyHtml = "<div class=\"col-lg-12 grid-margin stretch-card\">"+
+								"<div class=\"card\">"+
+									"<div class=\"card-body\">"+
+										"<h4 class=\"card-title\">新闻类别："+title[i]+"</h4>"+
+										"<br />"+
+										"<table class=\"table table-bordered\">"+
+											"<thead>"+
+												"<tr>"+
+												"<th>新闻ID</th>"+
+												"<th>新闻标题</th>"+
+												"<th>新闻内容</th>"+
+												"<th>发布时间</th>"+
+												"<th>最新新闻</th>"+
+												"<th>访问次数</th>"+
+												"<th>新闻资源</th>"+
+												"<th>操作</th><tr>"+
+												trHtml[i]+
+										"</tbody>"+
+									"</table>"+
 								"</div>"+
-							"</div>";
-					$(".content-wrapper").append(bodyHtml);
+							"</div>"+
+						"</div>";
+				$(".content-wrapper").append(bodyHtml);
+			}
+			
+			//添加主体部分html
+			function addBodyHtml(data,length) {
+				var title = new Array();
+				var trHtml = new Array();
+				title[i] = data[i].typeName;
+				trHtml[i] = "";
+				for(var j=0;j<data[i].examNewsList.length;j++){
+					//对过长新闻标题的进行切割
+					if(data[i].examNewsList[j].title.length>5){
+						var examtitle = "<td>" + data[i].examNewsList[j].title.substring(0, 5) + "..</td>";
+					}else{
+						var examtitle = "<td>" + data[i].examNewsList[j].title + "..</td>";
+					}
+					//对过长新闻内容的进行切割
+					if(data[i].examNewsList[j].title.length>5){
+						var examcontent = "<td>" + data[i].examNewsList[j].content.substring(0, 5) + "..</td>";
+					}else{
+						var examcontent = "<td>" + data[i].examNewsList[j].content + "..</td>";
+					}
+					//是否为最新新闻
+					if(data[i].examNewsList[j].new=="true"){
+						isnew = "<td>是</td>";
+					}else{
+						isnew = "<td>否</td>";
+					}
+					trHtml[i] = trHtml[i] + "<tr><td>"+data[i].examNewsList[j].newsId+"</td>"+
+											examtitle +
+											examcontent +
+											"<td>"+data[i].examNewsList[j].time+"</td>"+
+											isnew +
+											"<td>"+data[i].examNewsList[j].visits+"</td>"+
+											"<td>"+
+												"<a href=\"newsManagement.html\">"+
+													"<button type=\"button\" class=\"btn btn-gradient-info btn-rounded btn-fw\">管理</button>"+
+												"</a>"+
+											"</td>"+
+											"<td>"+
+												"<button type=\"button\" id=\"update-"+data[i].examNewsList[j].newsId+"\" onclick=\"update(this)\" class=\"btn btn-gradient-success btn-rounded btn-fw\">更改</button>"+
+												"<button type=\"button\" id=\"delete-"+data[i].examNewsList[j].newsId+"\" onclick=\"delete(this)\" class=\"btn btn-gradient-danger btn-rounded btn-fw\">删除</button>"+
+											"</td></tr>";
 				}
+		
+				var bodyHtml = "<div class=\"col-lg-12 grid-margin stretch-card\">"+
+								"<div class=\"card\">"+
+									"<div class=\"card-body\">"+
+										"<h4 class=\"card-title\">新闻类别："+title[i]+"</h4>"+
+										"<br />"+
+										"<table class=\"table table-bordered\">"+
+											"<thead>"+
+												"<tr>"+
+												"<th>新闻ID</th>"+
+												"<th>新闻标题</th>"+
+												"<th>新闻内容</th>"+
+												"<th>发布时间</th>"+
+												"<th>最新新闻</th>"+
+												"<th>访问次数</th>"+
+												"<th>新闻资源</th>"+
+												"<th>操作</th><tr>"+
+												trHtml[i]+
+										"</tbody>"+
+									"</table>"+
+								"</div>"+
+							"</div>"+
+						"</div>";
+				$(".content-wrapper").append(bodyHtml);
+			}
+			
+			update = function(obj) {
+				var id = obj.id.split('-');
+
+			}
+			
+			delete = function(obj) {
+				var id = obj.id.split('-');
+				var formData = new FormData();
+             	formData.set("newsId", id);
+				$.ajax({
+					type: "DELETE",
+					url: 'http://localhost:8080/admin/examNews/delete',
+					data: formData,
+					//data: $('#form1').serialize(),
+					async: false,
+					cache: false,
+					contentType: false,
+					processData: false,
+				}).always(function(data, status, xhr) {
+					if(status == "success") {
+						alert("删除成功！");
+					} else {
+						alert("删除失败");
+					}
+				});
 			}
 			
 		</script>
-
 		<script src="../vendors/js/vendor.bundle.base.js"></script>
 		<script src="../vendors/js/vendor.bundle.addons.js"></script>
 		<!-- endinject -->
@@ -501,6 +502,77 @@
 		<!-- Custom js for this page-->
 		<script src="../js/dashboard.js"></script>
 		<!-- End custom js for this page-->
+		<!--//添加主体部分html
+//			function addBodyHtml(data,length) {
+//				//$("#line1 #div1 .center450").detach();
+//				var title = new Array();
+//				var trHtml = new Array();
+//				for(var i=0;i<length;i++){
+//					title[i] = data[i].typeName;
+//					trHtml[i] = "";
+//					for(var j=0;j<data[i].examNewsList.length;j++){
+//						//对过长新闻标题的进行切割
+//						if(data[i].examNewsList[j].title.length>5){
+//							var examtitle = "<td>" + data[i].examNewsList[j].title.substring(0, 5) + "..</td>";
+//						}else{
+//							var examtitle = "<td>" + data[i].examNewsList[j].title + "..</td>";
+//						}
+//						//对过长新闻内容的进行切割
+//						if(data[i].examNewsList[j].title.length>5){
+//							var examcontent = "<td>" + data[i].examNewsList[j].content.substring(0, 5) + "..</td>";
+//						}else{
+//							var examcontent = "<td>" + data[i].examNewsList[j].content + "..</td>";
+//						}
+//						//是否为最新新闻
+//						if(data[i].examNewsList[j].new=="true"){
+//							isnew = "<td>是</td>";
+//						}else{
+//							isnew = "<td>否</td>";
+//						}
+//						trHtml[i] = trHtml[i] + "<tr><td>"+data[i].examNewsList[j].newsId+"</td>"+
+//												examtitle +
+//												examcontent +
+//												"<td>"+data[i].examNewsList[j].time+"</td>"+
+//												isnew +
+//												"<td>"+data[i].examNewsList[j].visits+"</td>"+
+//												"<td>"+
+//													"<a href=\"newsManagement.html\">"+
+//														"<button type=\"button\" class=\"btn btn-gradient-info btn-rounded btn-fw\">管理</button>"+
+//													"</a>"+
+//												"</td>"+
+//												"<td>"+
+//													"<button type=\"button\" id=\"update-"+data[i].examNewsList[j].newsId+"\" class=\"btn btn-gradient-success btn-rounded btn-fw\">更改</button>"+
+//													"<button type=\"button\" id=\"delete-"+data[i].examNewsList[j].newsId+"\" class=\"btn btn-gradient-danger btn-rounded btn-fw\">删除</button>"+
+//												"</td></tr>";
+//					}
+//				}
+//				var bodyHtml;
+//				for(var i=0;i<length;i++){
+//					var bodyHtml = "<div class=\"col-lg-12 grid-margin stretch-card\">"+
+//									"<div class=\"card\">"+
+//										"<div class=\"card-body\">"+
+//											"<h4 class=\"card-title\">新闻类别："+title[i]+"</h4>"+
+//											"<br />"+
+//											"<table class=\"table table-bordered\">"+
+//												"<thead>"+
+//													"<tr>"+
+//													"<th>新闻ID</th>"+
+//													"<th>新闻标题</th>"+
+//													"<th>新闻内容</th>"+
+//													"<th>发布时间</th>"+
+//													"<th>最新新闻</th>"+
+//													"<th>访问次数</th>"+
+//													"<th>新闻资源</th>"+
+//													"<th>操作</th><tr>"+
+//													trHtml[i]+
+//											"</tbody>"+
+//										"</table>"+
+//									"</div>"+
+//								"</div>"+
+//							"</div>";
+//					$(".content-wrapper").append(bodyHtml);
+//				}
+//			}-->
 	</body>
 
 </html>

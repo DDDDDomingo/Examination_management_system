@@ -28,6 +28,7 @@ public class WebPortalsController {
     @ApiOperation(value = "管理员增加新闻", notes = "admin insert examNews")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "etypeId", value = "新闻类别ID", dataType = "Integer", paramType = "query", required = true),
+            @ApiImplicitParam(name = "title", value = "新闻标题", dataType = "String", paramType = "query", required = true),
             @ApiImplicitParam(name = "content", value = "新闻内容", dataType = "String", paramType = "query", required = true),
             @ApiImplicitParam(name = "time", value = "新闻发布时间", dataType = "String", paramType = "query", required = true)
     })

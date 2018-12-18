@@ -14,7 +14,6 @@
 		<link rel="shortcut icon" href="../images/favicon.png" />
 
 		<link rel="stylesheet" href="../js/kindeditor/themes/qq/qq.css" />
-		<link rel="stylesheet" href="../js/kindeditor/plugins/code/prettify.css" />
 		<script charset="UTF-8" src="../js/kindeditor/kindeditor-all-min.js"></script>
 		<script charset="UTF-8" src="../js/kindeditor/lang/zh-CN.js"></script>
 		<script charset="UTF-8" src="../js/kindeditor/plugins/code/prettify.js"></script>
@@ -267,17 +266,21 @@
 		      					<span class="page-title-icon bg-gradient-primary text-white mr-2">
 		        					<i class="mdi mdi-newspaper"></i>                 
 		      					</span>
-				              	添加新闻
+				              	新闻管理
 					        </h3>
 						</div>
 						<div class="row">
 							<div class="col-12 grid-margin stretch-card">
 								<div class="card">
 									<div class="card-body">
-										<form class="forms-sample">
+										<form class="forms-sample" id="form1">
 											<div class="form-group">
-												<label for="exampleInputName">新闻类别ID</label>
-												<input type="text" class="form-control" id="inputName" placeholder="Name">
+						                        <label for="exampleSelectGender">新闻类别</label>
+						                        <select class="form-control" id="etypeId" name="etypeId"></select>
+						                   </div>
+											<div class="form-group">
+												<label for="exampleInputName">新闻标题</label>
+												<input type="text" class="form-control" id="title" name="title" >
 											</div>
 											<div class="form-group">
 												<label for="exampleInputEmail3">新闻内容</label>
@@ -285,13 +288,9 @@
 											</div>
 											<div class="form-group">
 												<label for="exampleInputPassword4">新闻发布时间</label>
-												<input type="datetime-local" class="form-control" id="inputOpenTime" placeholder="Password">
+												<input type="datetime-local" class="form-control" id="time" name="time">
 											</div>
-											<div class="form-group">
-												<label for="exampleSelectGender">是否为最新新闻</label>
-												<input type="text" class="form-control" id="inputCloseTime" placeholder="Password">
-											</div>
-											<button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>
+											<button type="submit" id="submit" class="btn btn-gradient-primary mr-2">Submit</button>
 											<button class="btn btn-light">Cancel</button>
 										</form>
 									</div>
@@ -319,7 +318,7 @@
              var editor1;
              KindEditor.ready(function(K){
                    editor1=K.create('#content',{
-                     cssPath:'kindeditor/plugins/code/prettify.css',
+                     cssPath:'../js/kindeditor/plugins/code/prettify.css',
  //                    uploadJson:'../asp.net/upload_json.ashx',
  //                    fileManagerJson:'../asp.net/file_manager_json.ashx',
                      allowFileManager:true,
@@ -334,18 +333,58 @@
  //                            K('form[name=example]')[0].submit();
  //                        });
                      }
-                });
-                prettyPrint();
+               });
             });
-             function preSave(){
-                  var html = editor1.html();
-                 editor1.sync();
-                  var s =document.getElementById("t1").value;
-                  document.getElementById("t2").value = s;
-                 alert(s); 
-                 return false;
-             }
-         </script>
+            
+            $(document).ready(function() {
+				$.ajax({
+					type: "Get",
+					url: 'http://localhost:8080/user/examNews/get',
+					async: false,
+					cache: false,
+					contentType: false,
+					processData: false,
+				}).always(function(data, status, xhr) {
+					if(status == "success") {
+						var copyData = data;
+						var dataLength = copyData.length;
+						addInput(copyData,dataLength);
+					}
+				});
+			});
+			
+			function addInput(copyData,dataLength){
+				var html ="";
+				for(var i=0;i<dataLength;i++){
+					html = html + "<option value=\""+copyData[i].etypeId+"\">"+copyData[i].typeName+"</option>";	
+				}
+				$("#etypeId").append(html);
+			}
+            
+             $("#submit").click(function() {
+             	var formData = new FormData(document.getElementById("form1"));
+             	var content = editor1.html();
+             	formData.set("content", content);
+				$.ajax({
+					type: "POST",
+					url: 'http://localhost:8080/admin/examNews/add',
+					data: formData,
+					//data: $('#form1').serialize(),
+					async: false,
+					cache: false,
+					contentType: false,
+					processData: false,
+				}).always(function(data, status, xhr) {
+					if(status == "success") {
+						window.event.returnValue = false
+						window.location.href = "examNew.html";
+					} else {
+						alert("账号或者密码不正确，请重新输入");
+					}
+				});
+			});
+
+        </script>
 		<script src="../vendors/js/vendor.bundle.base.js"></script>
 		<script src="../vendors/js/vendor.bundle.addons.js"></script>
 		<!-- endinject -->
