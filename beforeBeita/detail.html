@@ -49,6 +49,7 @@
 		<div id="div6">Copyright &copy; 2016 物理与核工程虚拟仿真教学中心 All rights reserved.</div>
 		<script type="text/javascript">
 			var typeId = JSON.parse(sessionStorage.getItem("typeId"));
+			var newsId = JSON.parse(sessionStorage.getItem("newsId"));
 			//访问后台获取所有新闻
 			$(document).ready(function() {
 				//var token = JSON.parse(sessionStorage.getItem("login"));
@@ -153,7 +154,7 @@
 			}
 			//添加新闻
 			function addBodyHtml(data, dataLength) {
-				var newsId = JSON.parse(sessionStorage.getItem("newsId"));
+				newsId = JSON.parse(sessionStorage.getItem("newsId"));
 				var length = data[typeId].examNewsList.length;
 				for(var i = 0; i < length; i++) {
 					if(newsId == data[typeId].examNewsList[i].newsId) {
