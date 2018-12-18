@@ -122,7 +122,6 @@
     </springProfile>
 
     <root level="info">
-
         <appender-ref ref="DEBUG_FILE" />
         <appender-ref ref="INFO_FILE" />
         <appender-ref ref="WARN_FILE" />

@@ -65,24 +65,33 @@
 												<fieldset>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" placeholder="账户/用户名" />
+															<input type="text" class="form-control" id="userId" name="userId" placeholder="账户/用户名" />
+														</span>
+													</label>
+													<label class="block clearfix">
+														<span class="block input-icon input-icon-right">
+															<input type="text" class="form-control" id="account" name="account" placeholder="账户/用户名" />
 															<i class="ace-icon fa fa-user"></i>
 														</span>
 													</label>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" placeholder="旧密码" />
+															<input type="text" class="form-control" id="oldPwd" name="oldPwd" placeholder="旧密码" />
 															<i class="ace-icon fa fa-user"></i>
 														</span>
 													</label>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" placeholder="新密码" />
+															<input type="text" class="form-control" id="newPwd" name="newPwd" placeholder="新密码" />
 															<i class="ace-icon fa fa-user"></i>
 														</span>
 													</label>
-
-													
+													<div class="clearfix">
+														<button id="changePwd" type="submit" class="width-35 pull-right btn btn-sm btn-primary">
+															<i class="ace-icon fa fa-key"></i>
+															<span class="bigger-110">修改密码</span>
+														</button>
+													</div>
 												</fieldset>
 											</form>
 										</div><!-- /.widget-main -->
@@ -101,27 +110,51 @@
 				</div>
 			</div>
 		</div>
-		<!--[if !IE]> -->
+
 		<script src="assets/js/jquery.2.1.1.min.js"></script>
 
-		<!-- <![endif]-->
-
-		<!--[if IE]>
-<script src="assets/js/jquery.1.11.1.min.js"></script>
-<![endif]-->
-
-		<!--[if !IE]> -->
 		<script type="text/javascript">
 			window.jQuery || document.write("<script src='assets/js/jquery.min.js'>"+"<"+"/script>");
+			
+			$(document).ready(function() {
+				
+				var userId = sessionStorage['id'];
+				document.getElementById('userId').value=userId;
+				
+				
+				$("#changePwd").click(function() {
+					//var formData = new FormData(document.getElementById("login"));
+					$.ajax({
+						type: "Get",
+						url: 'http://localhost:8080/user/password/change',
+						//data: formData,
+						data:$('#forgetpass').serialize(),
+						async: false,
+						cache: false,
+						contentType: false,
+						processData: false,
+					}).always(function(data, status, xhr) {
+						if(data == "修改密码成功！") {
+							alert("修改密码成功！点击返回！");
+							window.event.returnValue=false
+							window.location.href = "personInformate.html";
+							alink();
+						} else {
+							alert("修改失败！账号或者旧密码错误！");
+						}
+					});
+				});
+//				if()
+//				window.location.href = "index.html";
+			});
+			
+			function alink() {
+				//location.href = "index.html";
+				window.location.href = "personInformate.html";
+			}
+			
 		</script>
 
-		<!-- <![endif]-->
-
-		<!--[if IE]>
-<script type="text/javascript">
- window.jQuery || document.write("<script src='assets/js/jquery1x.min.js'>"+"<"+"/script>");
-</script>
-<![endif]-->
 		<script type="text/javascript">
 			if('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 		</script>

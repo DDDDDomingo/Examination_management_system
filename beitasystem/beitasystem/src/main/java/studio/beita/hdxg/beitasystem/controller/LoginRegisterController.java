@@ -6,10 +6,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import studio.beita.hdxg.beitasystem.annotation.ControllerLog;
 import studio.beita.hdxg.beitasystem.constant.ResourceNameConstant;
 import studio.beita.hdxg.beitasystem.constant.ResponseConstant;
@@ -52,8 +49,7 @@ public class LoginRegisterController {
         //验证账号名是否已经被占用
         Optional<String> userInfo = loginRegisterService.isAccountUsed(account);
         if (userInfo.isPresent()) {
-            userInfo.orElseThrow(
-                    () -> new AccountIsUsedException());
+            return ResponseEntity.ok("用户名已存在！请重新输入！");
         }
         //注册账号
         loginRegisterService.register(account, password, email);
@@ -110,8 +106,8 @@ public class LoginRegisterController {
             @ApiImplicitParam(name = "oldPwd", value = "旧密码", dataType = "String", paramType = "query", required = true),
             @ApiImplicitParam(name = "newPwd", value = "新密码", dataType = "String", paramType = "query", required = true)
     })
-    @PutMapping("/user/password/change")
-    public ResponseEntity<?> changeUserPwd(String userId, String account, String oldPwd, String newPwd) {
+    @GetMapping("/user/password/change")
+    public ResponseEntity<?> changeUserPwd(@RequestParam("userId")String userId,@RequestParam("account") String account,@RequestParam("oldPwd") String oldPwd,@RequestParam("newPwd") String newPwd) {
         // TODO: 2018/10/28 待测试
         //验证账号信息是否正确
         assertOldPwd(userId, account, oldPwd);

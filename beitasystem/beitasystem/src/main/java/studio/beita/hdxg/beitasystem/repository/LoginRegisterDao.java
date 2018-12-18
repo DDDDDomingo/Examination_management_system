@@ -25,7 +25,7 @@ public interface LoginRegisterDao {
      * @return
      */
     @Insert("INSERT INTO rel_ui_ug (userinfo_id, group_id) VALUES (#{userId},#{groupId})")
-    Integer insertRelUiUg(String userId, Integer groupId);
+    Integer insertRelUiUg(@Param("userId")String userId, @Param("groupId") Integer groupId);
 
     /**
      * 游客注册用户
@@ -71,10 +71,10 @@ public interface LoginRegisterDao {
     @Results(
             id = "userVerify",
             value = {
-                    @Result(id = true, property = "id", column = "userinfo_id")
+                    @Result(id = true, property = "userId", column = "userinfo_id")
             }
     )
-    UserInfo assertOldPwd(String userId, String account, String oldPwd);
+    UserInfo assertOldPwd(@Param("userId") String userId,@Param("account") String account,@Param("oldPwd") String oldPwd);
 
     /**
      * 系统验证账号是否已被使用
@@ -92,8 +92,9 @@ public interface LoginRegisterDao {
      * @param newPwd
      * @return
      */
-    @Update("UPDATE user_info SET userinfo_password = #{newPwd} WHERE userinfo_id=#{userId} AND userinfo_password=#{newPwd}")
-    Integer changePassword(String userId, String newPwd);
+    //@Update("UPDATE user_info SET userinfo_password = #{newPwd} WHERE userinfo_id=#{userId} AND userinfo_password=#{newPwd}")
+    @Update("UPDATE user_info SET userinfo_password = #{newPwd} WHERE userinfo_id=#{userId}")
+    Integer changePassword(@Param("userId") String userId, @Param("newPwd") String newPwd);
 
 
 }

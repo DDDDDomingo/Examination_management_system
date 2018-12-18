@@ -15,7 +15,7 @@ public class ResponseConstant {
      */
 
     public static final String ACCOUNT_REGISTER_SUCCESS = "注册账号成功！";
-    public static final String CHANGE_PASSWORD_SUCCESS = "修改密码成功！";
+    public static final String CHANGE_PASSWORD_SUCCESS = "修改密码成功";
     public static final String ASSERT_LOGIN_SUCCESS = "登陆成功！";
 
     /**
