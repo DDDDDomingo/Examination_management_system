@@ -366,7 +366,7 @@
 											"</td>"+
 											"<td>"+
 												"<button type=\"button\" id=\"update-"+data[i].examNewsList[j].newsId+"\" onclick=\"update(this)\" class=\"btn btn-gradient-success btn-rounded btn-fw\">更改</button>"+
-												"<button type=\"button\" id=\"delete-"+data[i].examNewsList[j].newsId+"\" onclick=\"delete(this)\" class=\"btn btn-gradient-danger btn-rounded btn-fw\">删除</button>"+
+												"<button type=\"button\" id=\"delete-"+data[i].examNewsList[j].newsId+"\" onclick=\"delete1(this)\" class=\"btn btn-gradient-danger btn-rounded btn-fw\">删除</button>"+
 											"</td></tr>";
 				}
 		
@@ -433,46 +433,46 @@
 											"</td>"+
 											"<td>"+
 												"<button type=\"button\" id=\"update-"+data[i].examNewsList[j].newsId+"\" onclick=\"update(this)\" class=\"btn btn-gradient-success btn-rounded btn-fw\">更改</button>"+
-												"<button type=\"button\" id=\"delete-"+data[i].examNewsList[j].newsId+"\" onclick=\"delete(this)\" class=\"btn btn-gradient-danger btn-rounded btn-fw\">删除</button>"+
+												"<button type=\"button\" id=\"delete-"+data[i].examNewsList[j].newsId+"\" onclick=\"delete1(this)\" class=\"btn btn-gradient-danger btn-rounded btn-fw\">删除</button>"+
 											"</td></tr>";
 				}
 		
-				var bodyHtml = "<div class=\"col-lg-12 grid-margin stretch-card\">"+
-								"<div class=\"card\">"+
-									"<div class=\"card-body\">"+
-										"<h4 class=\"card-title\">新闻类别："+title[i]+"</h4>"+
-										"<br />"+
-										"<table class=\"table table-bordered\">"+
-											"<thead>"+
-												"<tr>"+
-												"<th>新闻ID</th>"+
-												"<th>新闻标题</th>"+
-												"<th>新闻内容</th>"+
-												"<th>发布时间</th>"+
-												"<th>最新新闻</th>"+
-												"<th>访问次数</th>"+
-												"<th>新闻资源</th>"+
-												"<th>操作</th><tr>"+
-												trHtml[i]+
-										"</tbody>"+
-									"</table>"+
-								"</div>"+
+			var bodyHtml = "<div class=\"col-lg-12 grid-margin stretch-card\">"+
+							"<div class=\"card\">"+
+								"<div class=\"card-body\">"+
+									"<h4 class=\"card-title\">新闻类别："+title[i]+"</h4>"+
+									"<br />"+
+									"<table class=\"table table-bordered\">"+
+										"<thead>"+
+											"<tr>"+
+											"<th>新闻ID</th>"+
+											"<th>新闻标题</th>"+
+											"<th>新闻内容</th>"+
+											"<th>发布时间</th>"+
+											"<th>最新新闻</th>"+
+											"<th>访问次数</th>"+
+											"<th>新闻资源</th>"+
+											"<th>操作</th><tr>"+
+											trHtml[i]+
+									"</tbody>"+
+								"</table>"+
 							"</div>"+
-						"</div>";
-				$(".content-wrapper").append(bodyHtml);
-			}
+						"</div>"+
+					"</div>";
+			$(".content-wrapper").append(bodyHtml);
+		}
 			
 			update = function(obj) {
 				var id = obj.id.split('-');
 
 			}
 			
-			delete = function(obj) {
+			delete1 = function(obj) {
 				var id = obj.id.split('-');
 				var formData = new FormData();
-             	formData.set("newsId", id);
+             	formData.append("newsId", id);
 				$.ajax({
-					type: "DELETE",
+					type: "Delete",
 					url: 'http://localhost:8080/admin/examNews/delete',
 					data: formData,
 					//data: $('#form1').serialize(),
@@ -484,7 +484,7 @@
 					if(status == "success") {
 						alert("删除成功！");
 					} else {
-						alert("删除失败");
+						alert("删除失败！");
 					}
 				});
 			}

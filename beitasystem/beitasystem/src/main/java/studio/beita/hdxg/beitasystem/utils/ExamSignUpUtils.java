@@ -6,12 +6,24 @@ import java.util.List;
 
 public class ExamSignUpUtils {
 
-
+    /**
+     * 获取考生出生日期
+     * @param idCard
+     * @return
+     */
     public static int getBirthMonth(String idCard){
         String month=idCard.substring(10, 12);
         Integer intMonth = Integer.valueOf(month);
         return intMonth;
     }
+
+    /**
+     * 根据管理员次序，获取相应的工作内容（提取相应月份的考生名单）
+     * @param examAdminNumber
+     * @param userId
+     * @param reviewPersonnelList
+     * @return
+     */
     public static int[] getmonth(int examAdminNumber,String userId,List<ReviewPersonnel> reviewPersonnelList){
         //num为该管理员的次序
         int num = 0;
