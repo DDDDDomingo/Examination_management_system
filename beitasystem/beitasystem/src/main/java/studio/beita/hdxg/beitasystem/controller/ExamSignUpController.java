@@ -115,7 +115,7 @@ public class ExamSignUpController {
     @GetMapping("/admin/administrator/get")
     @ControllerLog(description = "验证是否为审核该考试的管理员")
     public ResponseEntity<?> verifyAdministratorByAdmin(@RequestParam("examTypeId")String examTypeId,@RequestParam("detailsId")String detailsId){
-        if(examSignUpService.verifyAdministrator(examTypeId, detailsId)!=null) {
+        if(examSignUpService.verifyAdministrator(examTypeId, detailsId).isPresent()) {
             return ResponseEntity
                     .ok("审核通过");
         }else{
@@ -125,7 +125,7 @@ public class ExamSignUpController {
 
     @ApiOperation(value = "审核管理员审核考生", notes = "admin check user")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "typeId", value = "考试类别表id", dataType = "Integer", paramType = "query", required = true),
+            @ApiImplicitParam(name = "typeId", value = "考试类别表id", dataType = "String", paramType = "query", required = true),
             @ApiImplicitParam(name = "userId", value = "用户个人信息表id", dataType = "String", paramType = "query", required = true)
     })
     @PostMapping("/admin/authentication/get")

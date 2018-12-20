@@ -360,6 +360,9 @@
 				processData: false,
 			}).always(function(data, status, xhr) {
 				if(status == "success") {
+					if(data=="不是该考试的审核员"){
+						alert("您不是该考试的审核员，请更换考试！");
+					}
 					sessionStorage.setItem("examId", examTypeId[1]);
 					window.event.returnValue = false;
 					window.location.href = "reviewExamStudent.html";

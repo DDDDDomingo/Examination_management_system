@@ -143,7 +143,7 @@ public interface ExamSignUpDao {
      * @return
      */
     @Select("SELECT enter_p_id, exam_type_id, userinfo_id, enter_is_check, start_review, end_review, enter_type FROM review_personnel WHERE exam_type_id = #{typeId} AND enter_type = 0 ORDER BY userinfo_id ASC")
-    List<ReviewPersonnel> getExamAdminNumberByExamTypeId(String typeId);
+    List<ReviewPersonnel> getExamAdminNumberByExamTypeId(@Param("typeId") String typeId);
 
     /**
      * 未通过者，发邮件告知，删除其报名表

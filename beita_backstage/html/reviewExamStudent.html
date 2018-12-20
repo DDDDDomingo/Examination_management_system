@@ -321,7 +321,44 @@
 			</div>
 			<!-- page-body-wrapper ends -->
 		</div>
+		<!--用于审核-->
+		<!--<form id="useById">
+			<input type="hidden" class="form-control" id="typeId" name="typeId">
+			<input type="hidden" class="form-control" id="userId" name="userId">
+		</form>-->
 		<script src="../js/common.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function() {
+			//document.getElementById('typeId').value = JSON.parse(sessionStorage.getItem("examId"));
+			//document.getElementById('userId').value = JSON.parse(sessionStorage.getItem("id"));
+			var formData = new FormData();
+	       	formData.set("typeId", sessionStorage.getItem("examId"));
+       		formData.set("userId", sessionStorage.getItem("id"));
+			$.ajax({
+				type: "POST",
+				url: 'http://localhost:8080/admin/authentication/get',
+				data: formData,
+				async: false,
+				cache: false,
+				contentType: false,
+				processData: false,
+			}).always(function(data, status, xhr) {
+				if(status == "success") {
+					var examHtml = "";
+					for(var k=0;k<data.length;k++){
+						examHtml = examHtml + " <tr>"+
+													"<td>"+data[k].examId+"</td>"+
+													"<td>"+data[k].examName+"</td>"+
+													"<td>"+data[k].capacity+"</td>"+
+													"<td>"+data[k].auditedNum+"</td>"+
+													"<td><button type=\"button\" class=\"btn btn-gradient-danger btn-rounded btn-fw\" id=\"review-"+data[k].examId+"\" onclick=\"review(this)\">审核</button></td>"+
+												"</tr>";
+					}
+					$(".table-bordered tbody").append(examHtml);
+				}
+			});
+		});
+		</script>
 		<script src="../vendors/js/vendor.bundle.base.js"></script>
 		<script src="../vendors/js/vendor.bundle.addons.js"></script>
 		<!-- endinject -->
