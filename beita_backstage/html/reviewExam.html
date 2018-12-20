@@ -309,6 +309,11 @@
 				<!-- main-panel ends -->
 			</div>
 			<!-- page-body-wrapper ends -->
+			<!--用于审核-->
+			<form id="useById">
+				<input type="hidden" class="form-control" id="examTypeId" name="examTypeId">
+				<input type="hidden" class="form-control" id="detailsId" name="detailsId">
+			</form>
 		</div>
 		<script src="../js/common.js"></script>
 		<script type="text/javascript">
@@ -329,18 +334,40 @@
 													"<td>"+data[k].examName+"</td>"+
 													"<td>"+data[k].capacity+"</td>"+
 													"<td>"+data[k].auditedNum+"</td>"+
-													"<td><button type=\"button\" class=\"btn btn-gradient-danger btn-rounded btn-fw\" id=\"review-"+k+"\" onclick=\"review(this)\">审核</button></td>"+
+													"<td><button type=\"button\" class=\"btn btn-gradient-danger btn-rounded btn-fw\" id=\"review-"+data[k].examId+"\" onclick=\"review(this)\">审核</button></td>"+
 												"</tr>";
 					}
 					$(".table-bordered tbody").append(examHtml);
 				}
 			});
 		});
-			
+		//判断审核人是否是该考试的
 		review = function(obj) {
-				var id = obj.id.split('-');
-
-			}
+			var examTypeId = obj.id.split('-');
+			document.getElementById('examTypeId').value = JSON.parse(examTypeId[1]);
+			document.getElementById('detailsId').value = JSON.parse(sessionStorage.getItem("id"));
+//			var formData = new FormData();
+//       	formData.set("examTypeId", examTypeId[1]);
+//       	formData.set("detailsId", userId);
+			$.ajax({
+				type: "Get",
+				url: 'http://localhost:8080/admin/administrator/get',
+				data:$('#useById').serialize(),
+				//data: formData,
+				async: false,
+				cache: false,
+				contentType: false,
+				processData: false,
+			}).always(function(data, status, xhr) {
+				if(status == "success") {
+					sessionStorage.setItem("examId", examTypeId[1]);
+					window.event.returnValue = false;
+					window.location.href = "reviewExamStudent.html";
+				}else{
+					alert("系统出错！");
+				}
+			});
+		}
 		</script>
 		<script src="../vendors/js/vendor.bundle.base.js"></script>
 		<script src="../vendors/js/vendor.bundle.addons.js"></script>

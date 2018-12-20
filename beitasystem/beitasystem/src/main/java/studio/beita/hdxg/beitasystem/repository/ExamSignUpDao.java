@@ -75,8 +75,8 @@ public interface ExamSignUpDao {
      * @param userId
      * @return
      */
-    @Select("SELECT enter_p_id FROM review_personnel WHERE userinfo_id = #{userId} AND exam_type_id = #{typeId}")
-    String verifyAdministrator(String typeId,String userId);
+    @Select("SELECT enter_p_id FROM review_personnel WHERE enter_type = 0 AND userinfo_id = #{userId} AND exam_type_id = #{typeId}")
+    String verifyAdministrator(@Param("typeId")String typeId,@Param("userId")String userId);
 
     /**
      * 根据出生月份，选择对应未审核的考生

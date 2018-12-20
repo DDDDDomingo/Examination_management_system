@@ -68,6 +68,7 @@ public class ExamSignUpController {
             @ApiImplicitParam(name = "userId", value = "用户ID", dataType = "String", paramType = "query", required = true)
     })
     @GetMapping("/user/authentication/get")
+    @ControllerLog(description = "考生身份信息是否完善验证")
     public ResponseEntity<?> userAuthentication(@RequestParam("userId")String userId){
         return ResponseEntity
                 .ok(examSignUpService.userAuthentication(userId));
@@ -75,6 +76,7 @@ public class ExamSignUpController {
 
     @ApiOperation(value = "考生取出可以报名的考试类别表清单", notes = "user get ExamInfoList")
     @GetMapping("/user/examInfoList/get")
+    @ControllerLog(description = "考生取出可以报名的考试类别表清单")
     public ResponseEntity<?> getExamInfoList(){
         if(examSignUpService.getExamInfoList()!=null) {
             return ResponseEntity
@@ -91,6 +93,7 @@ public class ExamSignUpController {
             @ApiImplicitParam(name = "signUpPic", value = "缴费凭证", dataType = "String", paramType = "query", required = true)
     })
     @PostMapping("/user/examSignup/add")
+    @ControllerLog(description = "考生报名考试")
     public ResponseEntity<?> insertExamSignupListByUser(@RequestParam("examTypeId")String examTypeId, @RequestParam("detailsId")String detailsId, @RequestParam("signUpPic") MultipartFile file) {
         String idCard = personalInformationService.getUserDetailsById(detailsId).get().getIdCard();
         String fileName = UploadUtils.uploadPhoto(file, USER_SIGNUPPIC_FILE_REPOSITORY);
@@ -110,8 +113,9 @@ public class ExamSignUpController {
 
     })
     @GetMapping("/admin/administrator/get")
-    public ResponseEntity<?> verifyAdministratorByAdmin(@RequestParam("typeId")String typeId,@RequestParam("userId")String userId){
-        if(examSignUpService.verifyAdministrator(typeId, userId)!=null) {
+    @ControllerLog(description = "验证是否为审核该考试的管理员")
+    public ResponseEntity<?> verifyAdministratorByAdmin(@RequestParam("examTypeId")String examTypeId,@RequestParam("detailsId")String detailsId){
+        if(examSignUpService.verifyAdministrator(examTypeId, detailsId)!=null) {
             return ResponseEntity
                     .ok("审核通过");
         }else{
@@ -125,6 +129,7 @@ public class ExamSignUpController {
             @ApiImplicitParam(name = "userId", value = "用户个人信息表id", dataType = "String", paramType = "query", required = true)
     })
     @PostMapping("/admin/authentication/get")
+    @ControllerLog(description = "审核管理员审核考")
     public ResponseEntity<?> checkAuthenticationByAdmin(@RequestParam("typeId")String typeId,@RequestParam("userId")String userId) {
         List<ReviewPersonnel> reviewPersonnelList = examSignUpService.getExamAdminNumberByExamTypeId(typeId).get();
         int examAdminNumber = reviewPersonnelList.size();
@@ -138,6 +143,7 @@ public class ExamSignUpController {
             @ApiImplicitParam(name = "typeId", value = "考试类别id", dataType = "String", paramType = "query", required = true)
     })
     @PutMapping("/admin/authentication/updata")
+    @ControllerLog(description = "管理员点击通过审核")
     public ResponseEntity<?> changeExamSignupListByAdmin(@RequestParam("userId")String userId,@RequestParam("typeId")String typeId){
         if(examSignUpService.changeExamSignupList(userId,typeId)){
             examSignUpService.changeCandidateNum(typeId);
