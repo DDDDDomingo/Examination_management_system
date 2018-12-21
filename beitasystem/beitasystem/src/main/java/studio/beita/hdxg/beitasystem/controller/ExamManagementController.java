@@ -133,7 +133,6 @@ public class ExamManagementController {
                 .ok(examInfo.get());
     }
 
-    // TODO: 2018/10/28 移除考试管理模块 到 考试报名模块
     @ApiOperation(value = "考生获取可查询考试列表", notes = "admin get sign up exam list")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNumber", value = "页数", dataType = "int", paramType = "query", required = true),

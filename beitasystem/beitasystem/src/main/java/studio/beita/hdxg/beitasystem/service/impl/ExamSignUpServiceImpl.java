@@ -51,7 +51,11 @@ public class ExamSignUpServiceImpl implements ExamSignUpService {
 
     @Override
     public Optional<List<ReviewCandidate>> reviewCandidateInformation(String typeId, int[] month) {
-        return Optional.ofNullable(examSignUpDao.reviewCandidateInformation(typeId, month));
+        List<ReviewCandidate> rc = new ArrayList<>();
+        for(int i=0;i<month.length;i++){
+            rc.addAll(examSignUpDao.reviewCandidateInformation(typeId, month[i]));
+        }
+        return Optional.ofNullable(rc);
     }
 
     @Override

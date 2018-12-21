@@ -282,25 +282,16 @@
 									<table class="table table-bordered">
 										<thead>
 											<tr>
-												<th>考试名称</th>
+												<th>考试ID</th>
+												<th>报名ID</th>
 												<th>考生姓名</th>
 												<th>缴费凭证</th>
-												<th>身份凭证</th>
+												<th>正面身份凭证</th>
+												<th>反面身份凭证</th>
 												<th style="width: 33%;">操作</th>
 											</tr>
 										</thead>
-										<tbody>
-											<tr>
-												<td>1</td>
-												<td>Herman Beck</td>
-												<td>笃行楼</td>
-												<td>$ 77.99</td>
-												<td>
-									                <button type="button" class="btn btn-gradient-danger btn-rounded btn-fw">通过</button>
-									                <button type="button" class="btn btn-gradient-warning btn-rounded btn-fw">不通过</button>
-												</td>
-											</tr>
-										</tbody>
+										<tbody></tbody>
 									</table>
 								</div>
 							</div>
@@ -347,17 +338,38 @@
 					var examHtml = "";
 					for(var k=0;k<data.length;k++){
 						examHtml = examHtml + " <tr>"+
-													"<td>"+data[k].examId+"</td>"+
-													"<td>"+data[k].examName+"</td>"+
-													"<td>"+data[k].capacity+"</td>"+
-													"<td>"+data[k].auditedNum+"</td>"+
-													"<td><button type=\"button\" class=\"btn btn-gradient-danger btn-rounded btn-fw\" id=\"review-"+data[k].examId+"\" onclick=\"review(this)\">审核</button></td>"+
+													"<td>"+data[k].examTypeId+"</td>"+
+													"<td>"+data[k].signUpId+"</td>"+
+													"<td>"+data[k].name+"</td>"+
+													"<td><img id=\"signUpPic\" style=\"height: 50px;width: 50px;\" src=\""+data[k].signUpPic+"\"></td>"+
+													"<td><img id=\"signUpPic\" style=\"height: 50px;width: 50px;\" src=\""+data[k].frontPhotoUrl+"\"></td>"+
+													"<td><img id=\"signUpPic\" style=\"height: 50px;width: 50px;\" src=\""+data[k].reversePhotoUrl+"\"></td>"+
+													"<td><button type=\"button\" class=\"btn btn-gradient-danger btn-rounded btn-fw\">通过</button></a><button type=\"button\" class=\"btn btn-gradient-warning btn-rounded btn-fw\">不通过</button></td>"+
 												"</tr>";
 					}
 					$(".table-bordered tbody").append(examHtml);
+					img = document.getElementsByTagName('img')[0];//图片元素
+		            var flag = true,//状态true为正常的状态,false为放大的状态
+				    img.onclick =  function(){
+				        //图片点击事件
+				        imgH = img.height; //获取图片的高度
+				        imgW = img.width; //获取图片的宽度
+				        if(flag){
+				            //图片为正常状态,设置图片宽高为现在宽高的2倍
+				            flag = false;//把状态设为放大状态
+				            img.height = imgH*2;
+				            img.width = imgW*2;
+				        }else{
+				            //图片为放大状态,设置图片宽高为现在宽高的二分之一
+				            flag = true;//把状态设为正常状态
+				            img.height = imgH/2;
+				            img.width = imgW/2;
+				        }
+				    }
 				}
 			});
 		});
+	
 		</script>
 		<script src="../vendors/js/vendor.bundle.base.js"></script>
 		<script src="../vendors/js/vendor.bundle.addons.js"></script>

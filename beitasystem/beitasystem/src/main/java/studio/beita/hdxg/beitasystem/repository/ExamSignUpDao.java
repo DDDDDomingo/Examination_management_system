@@ -27,7 +27,7 @@ public interface ExamSignUpDao {
      * @return
      */
     @Select("SELECT idcard_reverse_photo_url FROM idcard_photo WHERE userinfo_id = #{userId}")
-    String userAuthentication(String userId);
+    String userAuthentication(@Param("userId")String userId);
 
     /**
      * 取出可以报名的考试类别表清单
@@ -85,18 +85,13 @@ public interface ExamSignUpDao {
      * @param month
      * @return
      */
-    @Select("<script>" +
+    @Select(
             "SELECT signup_id, exam_type_id, details_id, signup_pic, signup_time, signup_isconfirm, signup_birth_month " +
-            " FROM exam_signup_list WHERE signup_birth_month =" +
-            "<foreach item=\"id\" index=\"index\" collection=\"list\" open=\"(\" separator=\",\" close=\")\">" +
-            "#{item1.month} " +
-            "</foreach>" +
-            "AND exam_type_id = #{item1.typeId} AND signup_isconfirm = 0 ORDER BY details_id ASC" +
-            "</script>")
+            " FROM exam_signup_list WHERE signup_birth_month = #{month} AND exam_type_id = #{typeId} AND signup_isconfirm = 0 ORDER BY details_id ASC")
     @Results(
             id = "reviewCandidateInformation",
             value = {
-                    @Result(id = true, property = "signup_id", column = "signup_id"),
+                    @Result(id = true, property = "signUpId", column = "signup_id"),
                     @Result(property = "examTypeId", column = "exam_type_id"),
                     @Result(property = "name", column = "details_id",one = @One(select = "studio.beita.hdxg.beitasystem.repository.ExamSignUpDao.getUserNameByUserId")),
                     @Result(property = "signUpPic", column = "signup_pic"),
@@ -106,7 +101,7 @@ public interface ExamSignUpDao {
                     @Result(property = "isConfirm", column = "signup_isconfirm")
             }
     )
-    List<ReviewCandidate> reviewCandidateInformation(String typeId, int[] month);
+    List<ReviewCandidate> reviewCandidateInformation(@Param("typeId")String typeId,@Param("month") int month);
 
     /**
      * 通过userId获取用户名
@@ -114,8 +109,8 @@ public interface ExamSignUpDao {
      * @param userId
      * @return
      */
-    @Select("SELECT ticket_info_name FROM admission_ticket_info WHERE userinfo_id = #{userId} ")
-    String getUserNameByUserId(String userId);
+    @Select("SELECT details_realname FROM user_details WHERE details_id = #{userId} ")
+    String getUserNameByUserId(@Param("userId") String userId);
 
     /**
      * 通过userId获取身份证正面
@@ -124,7 +119,7 @@ public interface ExamSignUpDao {
      * @return
      */
     @Select("SELECT idcard_front_photo_url FROM idcard_photo WHERE userinfo_id = #{userId} ")
-    String getFrontPhotoUrlByUserId(String userId);
+    String getFrontPhotoUrlByUserId(@Param("userId") String userId);
 
     /**
      * 通过userId获取身份证反面
@@ -133,7 +128,7 @@ public interface ExamSignUpDao {
      * @return
      */
     @Select("SELECT idcard_reverse_photo_url FROM idcard_photo WHERE userinfo_id = #{userId} ")
-    String getReversePhotoUrlByUserId(String userId);
+    String getReversePhotoUrlByUserId(@Param("userId") String userId);
 
     // TODO: 2018/11/6 @Results 如果取出为空的话
     /**
@@ -152,7 +147,7 @@ public interface ExamSignUpDao {
      * @return
      */
     @Delete("DELETE FROM exam_signup_list WHERE userinfo_id = #{userId} AND exam_type_id = #{typeId}")
-    Integer deleteCandidateByUserId(String userId,String typeId);
+    Integer deleteCandidateByUserId( @Param("userId")String userId,@Param("typeId") String typeId);
 
     /**
      * 审核通过者，发邮件告知，更改审核状态为1
@@ -221,7 +216,7 @@ public interface ExamSignUpDao {
                     @Result(property = "photoPath", column = "details_savepath")
             }
     )
-    List<ExamSession> getExamSessionByTypeId(String examId);
+    List<ExamSession> getExamSessionByTypeId(@Param("examId")String examId);
 
     /**
      * 生成的准考证信息插入数据库
