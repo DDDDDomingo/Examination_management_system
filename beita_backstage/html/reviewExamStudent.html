@@ -288,7 +288,7 @@
 												<th>缴费凭证</th>
 												<th>正面身份凭证</th>
 												<th>反面身份凭证</th>
-												<th style="width: 33%;">操作</th>
+												<th style="width: 25%;">操作</th>
 											</tr>
 										</thead>
 										<tbody></tbody>
@@ -348,24 +348,6 @@
 												"</tr>";
 					}
 					$(".table-bordered tbody").append(examHtml);
-					img = document.getElementsByTagName('img')[0];//图片元素
-		            var flag = true,//状态true为正常的状态,false为放大的状态
-				    img.onclick =  function(){
-				        //图片点击事件
-				        imgH = img.height; //获取图片的高度
-				        imgW = img.width; //获取图片的宽度
-				        if(flag){
-				            //图片为正常状态,设置图片宽高为现在宽高的2倍
-				            flag = false;//把状态设为放大状态
-				            img.height = imgH*2;
-				            img.width = imgW*2;
-				        }else{
-				            //图片为放大状态,设置图片宽高为现在宽高的二分之一
-				            flag = true;//把状态设为正常状态
-				            img.height = imgH/2;
-				            img.width = imgW/2;
-				        }
-				    }
 				}
 			});
 		});

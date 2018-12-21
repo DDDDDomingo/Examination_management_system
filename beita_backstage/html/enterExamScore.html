@@ -13,6 +13,7 @@
 		<link rel="stylesheet" href="../css/style.css">
 		<!-- endinject -->
 		<link rel="shortcut icon" href="../images/favicon.png" />
+		<script src="../js/jquery.js"></script>
 	</head>
 
 	<body>
@@ -320,7 +321,88 @@
 			</div>
 			<!-- page-body-wrapper ends -->
 		</div>
-
+		<script src="../js/common.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$.ajax({
+					type: "Get",
+					url: 'http://localhost:8080/admin/examSessionList/get',
+					async: false,
+					cache: false,
+					contentType: false,
+					processData: false,
+				}).always(function(data, status, xhr) {
+					if(status == "success") {
+						copyData = data;
+						dataLength = copyData.length;
+						addBodyHtml(copyData,dataLength);
+					}
+				});
+			});
+			
+			//添加主体部分html
+			function addBodyHtml(data,length) {
+				for(var j=0;j<data[i].examNewsList.length;j++){
+					//对过长新闻标题的进行切割
+					if(data[i].examNewsList[j].title.length>5){
+						var examtitle = "<td>" + data[i].examNewsList[j].title.substring(0, 5) + "..</td>";
+					}else{
+						var examtitle = "<td>" + data[i].examNewsList[j].title + "..</td>";
+					}
+					//对过长新闻内容的进行切割
+					if(data[i].examNewsList[j].title.length>5){
+						var examcontent = "<td>" + data[i].examNewsList[j].content.substring(0, 5) + "..</td>";
+					}else{
+						var examcontent = "<td>" + data[i].examNewsList[j].content + "..</td>";
+					}
+					//是否为最新新闻
+					if(data[i].examNewsList[j].new=="true"){
+						isnew = "<td>是</td>";
+					}else{
+						isnew = "<td>否</td>";
+					}
+					trHtml[i] = trHtml[i] + "<tr><td>"+data[i].examNewsList[j].newsId+"</td>"+
+											examtitle +
+											examcontent +
+											"<td>"+data[i].examNewsList[j].time+"</td>"+
+											isnew +
+											"<td>"+data[i].examNewsList[j].visits+"</td>"+
+											"<td>"+
+												"<a href=\"newsManagement.html\">"+
+													"<button type=\"button\" class=\"btn btn-gradient-info btn-rounded btn-fw\">管理</button>"+
+												"</a>"+
+											"</td>"+
+											"<td>"+
+												"<button type=\"button\" id=\"update-"+data[i].examNewsList[j].newsId+"\" onclick=\"update(this)\" class=\"btn btn-gradient-success btn-rounded btn-fw\">更改</button>"+
+												"<button type=\"button\" id=\"delete-"+data[i].examNewsList[j].newsId+"\" onclick=\"delete1(this)\" class=\"btn btn-gradient-danger btn-rounded btn-fw\">删除</button>"+
+											"</td></tr>";
+				}
+		
+			var bodyHtml = "<div class=\"col-lg-12 grid-margin stretch-card\">"+
+							"<div class=\"card\">"+
+								"<div class=\"card-body\">"+
+									"<h4 class=\"card-title\">新闻类别："+title[i]+"</h4>"+
+									"<br />"+
+									"<table class=\"table table-bordered\">"+
+										"<thead>"+
+											"<tr>"+
+											"<th>新闻ID</th>"+
+											"<th>新闻标题</th>"+
+											"<th>新闻内容</th>"+
+											"<th>发布时间</th>"+
+											"<th>最新新闻</th>"+
+											"<th>访问次数</th>"+
+											"<th>新闻资源</th>"+
+											"<th>操作</th><tr>"+
+											trHtml[i]+
+									"</tbody>"+
+								"</table>"+
+							"</div>"+
+						"</div>"+
+					"</div>";
+			$(".content-wrapper").append(bodyHtml);
+		}
+		</script>
 		<script src="../vendors/js/vendor.bundle.base.js"></script>
 		<script src="../vendors/js/vendor.bundle.addons.js"></script>
 		<!-- endinject -->

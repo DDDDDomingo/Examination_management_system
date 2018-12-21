@@ -47,8 +47,6 @@ public class ExamScoreManagementController {
     @Autowired
     private ExamScoreManagementService examScoreManagementService;
 
-    // TODO: 2018/11/1   发成绩单邮件 调用系统通知接口发邮件给最高管理员
-
     @ApiOperation(value = "考试查询成绩", notes = "user get examScore")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "identifier", value = "准考证", dataType = "String", paramType = "query", required = true),
@@ -79,7 +77,6 @@ public class ExamScoreManagementController {
         }
     }
 
-    // TODO: 2018/11/1 管理员excel导出 未测试
     @ApiOperation(value = "管理员excel导出成绩", notes = "admin examScore excel")
     @GetMapping("/admin/outputExamScoreByExcel/get")
     @ControllerLog(description = "管理员excel导出成绩")
