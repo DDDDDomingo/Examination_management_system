@@ -63,8 +63,8 @@ a:hover { color:#2085e6; text-decoration:underline;}
 .tabbox .tab a{display:block; width:149px; height:auto; line-height:35px; float:left;text-decoration:none;color:#666; text-align:center; font-size:14px;}
 .tabbox .tab a:hover{background:#357dc3;color:#fff;text-decoration:none;}
 .tabbox .tab a.on{background:#357dc3;color:#fff;text-decoration:none;}
-.tabbox .content{padding:10px; border-top:1px solid #ccc; width:428px; height:auto; overflow:hidden;}
-.tabbox .content .tb { width:100%; height:auto;overflow:hidden;}
+.tabbox .content{padding:10px; border-top:1px solid #ccc; width:428px; height:204px; overflow:hidden;}
+.tabbox .content .tb { width:100%; height:204px;overflow:hidden;}
 .tabbox .content .tb li{ height:35px; padding-left:15px; background:url(../images/li_ii.png) left center no-repeat; line-height:35px; text-align:left; font-size:14px; border-bottom:1px dotted #ccc; position:relative;}
 .tabbox .content .tb li a { width:320px; height:35px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display:inline-block;}
 .tabbox .content .tb li span { position:absolute; top:0; right:0; color:#bbb; font-size:12px;}

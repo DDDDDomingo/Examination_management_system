@@ -85,22 +85,22 @@ public interface ExamScoreManagementService {
      * 验证准考证对应的考试成绩查询是否开放
      *
      * @param identifier
-     * @return
+     * @return boolean
      */
     boolean getIsQueryByIdentifier(String identifier);
 
     /**
      * 管理员获取考试场次列表
      *
-     * @return
+     * @return Optional<List<ExamSession>
      */
     Optional<List<ExamSession>> getExamSessionList();
 
     /**
      * 通过前台Excel成绩更改考试成绩
-     *
      * @param file
-     * @return
+     * @return List<ReturnScore>
+     * @throws IOException
      */
     List<ReturnScore> changeExamScoreByByExcel(MultipartFile file) throws IOException;
 
@@ -108,7 +108,7 @@ public interface ExamScoreManagementService {
      * 管理员excel导出成绩
      *
      * @param examScoreListOptional
-     * @return
+     * @return boolean
      * @throws IOException
      */
     boolean outputExamScoreListByExcel(Optional<List<ExamScore>> examScoreListOptional) throws IOException ;

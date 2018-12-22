@@ -14,6 +14,7 @@
 		<!-- endinject -->
 		<link rel="shortcut icon" href="../images/favicon.png" />
 		<script src="../js/jquery.js"></script>
+		
 	</head>
 
 	<body>
@@ -271,41 +272,23 @@
                 					<i class="mdi mdi-table-large"></i>                 
               					</span>
 				              	选择考场
-				           </h3>
+				          </h3>
 						</div>
-						<div class="col-lg-12 grid-margin stretch-card">
-							<div class="card">
-								<div class="card-body">
-									<h4 class="card-title">xx考试</h4>
-									<table class="table table-bordered">
-										<thead>
-											<tr>
-												<th>考试场次ID</th>
-												<th>考试类别</th>
-												<th>考试场次地点</th>
-												<th>考试时间</th>
-												<th>考试容量</th>
-												<th>操作</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td>1</td>
-												<td>Herman Beck</td>
-												<td>笃行楼</td>
-												<td>$ 77.99</td>
-												<td>May 15, 2015</td>
-												<td>
-													<a href="enterExamScoreList.html"><button type="button" class="btn btn-gradient-primary btn-fw">手动录入</button></a>
-													<button type="button" class="btn btn-gradient-danger btn-fw">Excel导入</button>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
+						<div class="col-12 grid-margin stretch-card">
+              				<div class="card">
+					            <div class="form-group">
+					            	<div class="card-body">
+					            		<form id="form" class="forms-sample" enctype="multipare/form-data">
+					            			<h4>Excel导入成绩：</h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					                        <input type="file" name="file"  accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+					                        <button type="submit" id="button1" onclick="excel(this)" class="btn btn-gradient-danger btn-fw">Excel导入</button>
+					                    </form>
+				                    </div>
+		                    	</div>
 							</div>
 						</div>
 					</div>
+					
 					<!-- content-wrapper ends -->
 					<!-- partial:partials/_footer.html -->
 					<footer class="footer">
@@ -342,66 +325,58 @@
 			
 			//添加主体部分html
 			function addBodyHtml(data,length) {
-				for(var j=0;j<data[i].examNewsList.length;j++){
-					//对过长新闻标题的进行切割
-					if(data[i].examNewsList[j].title.length>5){
-						var examtitle = "<td>" + data[i].examNewsList[j].title.substring(0, 5) + "..</td>";
-					}else{
-						var examtitle = "<td>" + data[i].examNewsList[j].title + "..</td>";
-					}
-					//对过长新闻内容的进行切割
-					if(data[i].examNewsList[j].title.length>5){
-						var examcontent = "<td>" + data[i].examNewsList[j].content.substring(0, 5) + "..</td>";
-					}else{
-						var examcontent = "<td>" + data[i].examNewsList[j].content + "..</td>";
-					}
-					//是否为最新新闻
-					if(data[i].examNewsList[j].new=="true"){
-						isnew = "<td>是</td>";
-					}else{
-						isnew = "<td>否</td>";
-					}
-					trHtml[i] = trHtml[i] + "<tr><td>"+data[i].examNewsList[j].newsId+"</td>"+
-											examtitle +
-											examcontent +
-											"<td>"+data[i].examNewsList[j].time+"</td>"+
-											isnew +
-											"<td>"+data[i].examNewsList[j].visits+"</td>"+
-											"<td>"+
-												"<a href=\"newsManagement.html\">"+
-													"<button type=\"button\" class=\"btn btn-gradient-info btn-rounded btn-fw\">管理</button>"+
-												"</a>"+
-											"</td>"+
-											"<td>"+
-												"<button type=\"button\" id=\"update-"+data[i].examNewsList[j].newsId+"\" onclick=\"update(this)\" class=\"btn btn-gradient-success btn-rounded btn-fw\">更改</button>"+
-												"<button type=\"button\" id=\"delete-"+data[i].examNewsList[j].newsId+"\" onclick=\"delete1(this)\" class=\"btn btn-gradient-danger btn-rounded btn-fw\">删除</button>"+
-											"</td></tr>";
+				var trHtml = new Array();
+				for(var i=0;i<data.length;i++){
+					trHtml[i] = "<tr><td>"+data[i].examTypeId+"</td>"+
+									"<td>"+data[i].sessionId+"</td>"+
+									"<td>"+data[i].sessionCapacity+"</td>"+
+									"<td>"+data[i].sessionPlace+"</td>"+
+									"<td>"+data[i].sessionTime+"</td>"+
+									"<td>"+
+										"<a href=\"newsManagement.html\">"+
+											"<a href=\"enterExamScoreList.html\"><button type=\"button\" class=\"btn btn-gradient-primary btn-fw\">手动录入</button></a>"+
+										"</a>"+
+									"</td></tr>";
+					var bodyHtml = "<div class=\"col-lg-12 grid-margin stretch-card\">"+
+										"<div class=\"card\">"+
+											"<div class=\"card-body\">"+
+												"<h4 class=\"card-title\">考试Id："+data[i].examTypeId+"</h4>"+
+												"<table class=\"table table-bordered\">"+
+													"<thead>"+
+														"<tr>"+
+														"<th>考试Id</th>"+
+														"<th>考试场次Id</th>"+
+														"<th>考试场次地点</th>"+
+														"<th>考试容量</th>"+
+														"<th>考试时间</th>"+
+														"<th>操作</th><tr></thead><tbody>"+
+														trHtml[i]+
+													"</tbody>"+
+												"</table>"+
+											"</div>"+
+										"</div>"+
+									"</div>";
+					$(".content-wrapper").append(bodyHtml);
 				}
-		
-			var bodyHtml = "<div class=\"col-lg-12 grid-margin stretch-card\">"+
-							"<div class=\"card\">"+
-								"<div class=\"card-body\">"+
-									"<h4 class=\"card-title\">新闻类别："+title[i]+"</h4>"+
-									"<br />"+
-									"<table class=\"table table-bordered\">"+
-										"<thead>"+
-											"<tr>"+
-											"<th>新闻ID</th>"+
-											"<th>新闻标题</th>"+
-											"<th>新闻内容</th>"+
-											"<th>发布时间</th>"+
-											"<th>最新新闻</th>"+
-											"<th>访问次数</th>"+
-											"<th>新闻资源</th>"+
-											"<th>操作</th><tr>"+
-											trHtml[i]+
-									"</tbody>"+
-								"</table>"+
-							"</div>"+
-						"</div>"+
-					"</div>";
-			$(".content-wrapper").append(bodyHtml);
-		}
+			}
+			excel = function(obj) {
+				var formData = new FormData(document.getElementById("form"));
+				$.ajax({
+					type: "Post",
+					url: 'http://localhost:8080/admin/inputExamScoreByExcel/get',
+					data:formData,
+					async: false,
+					cache: false,
+					contentType: false,
+					processData: false,
+				}).always(function(data, status, xhr) {
+					if(status == "success") {
+						alert("成绩导入成功！");
+					}else{
+						alert("对不起，服务器繁忙！");
+					}
+				});
+			}
 		</script>
 		<script src="../vendors/js/vendor.bundle.base.js"></script>
 		<script src="../vendors/js/vendor.bundle.addons.js"></script>
